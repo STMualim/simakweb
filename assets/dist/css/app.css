@@ -1,0 +1,60 @@
+.content-subtitle {
+  font-size: 0.9rem;
+}
+
+/* Step Custom */
+.step-nav {
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  padding-inline-start: 0px
+}
+
+.step-item {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.step-circle {
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -ms-flex-line-pack: center;
+  align-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 2em;
+  height: 2em;
+  padding: .5em 0;
+  margin: .25rem;
+  line-height: 1em;
+  color: #fff;
+  background-color: #A0A6AB;
+  border-radius: 1em;
+}
+
+.active .step-circle {
+  background-color: #0B6968;
+}
+
+.step-label {
+  display: inline-block;
+  margin: .25rem;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.step-line {
+  flex: 1 0 32px;
+  min-width: 1px;
+  min-height: 1px;
+  margin: auto;
+  background-color: rgba(0,0,0,.12);
+}
+
+.step-content {
+  display: none;
+}
+
+.active .step-content {
+  display: block !important;
+}
