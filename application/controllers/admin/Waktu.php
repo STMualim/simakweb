@@ -1,28 +1,27 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Ruangan extends CI_Controller {
+class Waktu extends CI_Controller {
 
 	function __construct()
 	{
 		parent::__construct();
 		tidak_login();
 		tidak_login_ta();
-		$this->load->model('admin/ruangan_m');
+		$this->load->model('admin/waktu_m');
 	}
 
 	public function index()
 	{
-		$data['judul'] = 'Ruangan';
-		$data['rombel'] = $this->ruangan_m->load_rombel()->result();
-		$this->load->view('admin/ruangan', $data);
+		$data['judul'] = 'Waktu Mengajar';
+		$this->load->view('admin/waktu', $data);
 	}
 
   public function load_data()
   {
 		$post = $this->input->post();
     header('Content-Type: application/json');
-    echo $this->ruangan_m->load_data($post);
+    echo $this->waktu_m->load_data($post);
   }
 
 	public function tambah()
@@ -30,15 +29,15 @@ class Ruangan extends CI_Controller {
     $post = $this->input->post();
 		$data = array ('sukses' => false, 'error' => array());
 
-    $this->form_validation->set_rules('nama', 'Nama', 'trim|required|callback_nama');
-    $this->form_validation->set_rules('rombel', 'Rombel', 'trim|required');
+    $this->form_validation->set_rules('jam', 'Jam', 'trim|required|numeric|callback_jam');
+    $this->form_validation->set_rules('waktu', 'Waktu', 'trim|required');
 		$this->form_validation->set_error_delimiters('<span class="text-danger invalid-message">', '</span>');
 
 		$this->form_validation->set_message('required', '{field} wajib diisi!');
 		$this->form_validation->set_message('numeric', '{field} diisi dengan angka!');
 
 		if ($this->form_validation->run()) {
-			$this->ruangan_m->tambah($post);
+			$this->waktu_m->tambah($post);
 			$data['sukses'] = true;
 		} else {
 			foreach ($post as $key => $value) {
@@ -53,15 +52,15 @@ class Ruangan extends CI_Controller {
     $post = $this->input->post();
 		$data = array ('sukses' => false, 'error' => array());
 
-    $this->form_validation->set_rules('nama', 'Nama', 'trim|required|callback_edit_nama');
-    $this->form_validation->set_rules('rombel', 'Rombel', 'trim|required');
+		$this->form_validation->set_rules('jam', 'Jam', 'trim|required|numeric|callback_edit_jam');
+    $this->form_validation->set_rules('waktu', 'Waktu', 'trim|required');
 		$this->form_validation->set_error_delimiters('<span class="text-danger invalid-message">', '</span>');
 
 		$this->form_validation->set_message('required', '{field} wajib diisi!');
 		$this->form_validation->set_message('numeric', '{field} diisi dengan angka!');
 
 		if ($this->form_validation->run()) {
-			$this->ruangan_m->edit($post);
+			$this->waktu_m->edit($post);
 			$data['sukses'] = true;
 		} else {
 			foreach ($post as $key => $value) {
@@ -74,30 +73,30 @@ class Ruangan extends CI_Controller {
 	public function hapus()
 	{
 		$id = $this->input->get('id');
-		$this->ruangan_m->hapus($id);
+		$this->waktu_m->hapus($id);
 	}
 
-	public function nama($nama)
+	public function jam($jam)
 	{
 		$ta = $this->fungsi->ta()->id_ta;
-		$where = array ('nama_ruangan' => $nama, 'id_ta_ruangan' => $ta);
-		$cek = $this->ruangan_m->cek_data($where, 1);
+		$where = array ('jam_waktu' => $jam, 'id_ta_waktu' => $ta);
+		$cek = $this->waktu_m->cek_data($where, 1);
 	  if ($cek){
-		  $this->form_validation->set_message('nama', '{field} sudah terdaftar!');
+		  $this->form_validation->set_message('jam', '{field} sudah terdaftar!');
 		  return FALSE;
 	  }else{
 		  return TRUE;
 	  }
   }
 
-	public function edit_nama($nama)
+	public function edit_jam($jam)
 	{
 		$ta = $this->fungsi->ta()->id_ta;
 		$id = $this->input->post('id');
-		$where = array ('nama_ruangan' => $nama, 'id_ta_ruangan' => $ta, 'id_ruangan !=' => $id);
-		$cek = $this->ruangan_m->cek_data($where, 1);
+		$where = array ('jam_waktu' => $jam, 'id_ta_waktu' => $ta, 'id_waktu !=' => $id);
+		$cek = $this->waktu_m->cek_data($where, 1);
 	  if ($cek){
-		  $this->form_validation->set_message('edit_nama', '{field} sudah terdaftar!');
+		  $this->form_validation->set_message('edit_jam', '{field} sudah terdaftar!');
 		  return FALSE;
 	  }else{
 		  return TRUE;

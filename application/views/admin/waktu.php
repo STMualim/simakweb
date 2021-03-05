@@ -42,7 +42,12 @@ $this->load->view('_part/header');
               <div class="row">
                 <div class="col-md-2">
                   <div class="form-group">
-                    <input type="text" class="form-control" id="namaFilter" placeholder="Nama">
+                    <input type="text" class="form-control" id="jamFilter" placeholder="Jam">
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="waktuFilter" placeholder="Waktu">
                   </div>
                 </div>
                 <div class="col-md-2">
@@ -57,7 +62,8 @@ $this->load->view('_part/header');
               <table id="tblData" class="table table-hover table-striped dt-responsive" style="width: 100%;">
                 <thead>
                   <tr>
-                    <th>Nama</th>
+                    <th>Jam</th>
+                    <th>Waktu</th>
                     <th>Dibuat</th>
                     <th></th>
                   </tr>
@@ -85,9 +91,13 @@ $this->load->view('_part/header');
                   <input type="hidden" name="id" id="id">
 
                   <div class="col-md-12">
-                    <div class="form-group form-nama">
-                      <label>Nama</label>
-                      <input type="text" name="nama" class="form-control" id="nama">
+                    <div class="form-group form-jam">
+                      <label>Jam</label>
+                      <input type="number" name="jam" class="form-control waktu" id="jam">
+                    </div>
+                    <div class="form-group form-waktu">
+                      <label>Waktu</label>
+                      <input type="text" name="waktu" class="form-control" id="waktu" placeholder="ex. 07:00 - 07:30">
                     </div>
                   </div>
                 </div>
@@ -132,9 +142,6 @@ $this->load->view('_part/header');
     var simpan;
     loadData();
 
-    // Select2
-    $('.select').select2();
-
     // Filter
     $('#btnFilter').click(function(){
       $('#tblData').DataTable().destroy();
@@ -143,7 +150,8 @@ $this->load->view('_part/header');
 
     // Reset Filter
     $('#resetFilter').click(function(){
-      $('#namaFilter').val("");
+      $('#jamFilter').val("");
+      $('#waktuFilter').val("");
       $('#tblData').DataTable().destroy();
       loadData();
     });
@@ -154,20 +162,21 @@ $this->load->view('_part/header');
       $('#mdlData').modal('show');
       $('.modal-title').text("Tambah Data");
       $('#formData').trigger('reset');
-      $('.select').val("").trigger('change.select2');
       $('.form-control').removeClass('is-invalid');
       $('.invalid-message').remove();
       $('#mdlData').on('shown.bs.modal', function(){
-        $('#nama').focus();
+        $('#kode').focus();
       });
     });
 
     // Edit Data
     $('#tblData').on('click', '.edit-data', function(){
       var id = $(this).data('id');
-      var nama = $(this).data('nama');
+      var jam = $(this).data('jam');
+      var waktu = $(this).data('waktu');
       $('#id').val(id);
-      $('#nama').val(nama);
+      $('#jam').val(jam);
+      $('#waktu').val(waktu);
 
       simpan = "edit";
       $('#mdlData').modal('show');
@@ -181,9 +190,9 @@ $this->load->view('_part/header');
       e.preventDefault();
       var url;
       if (simpan == "tambah") {
-        url = "<?= site_url('admin/kelas/tambah') ?>"
+        url = "<?= site_url('admin/waktu/tambah') ?>"
       } else {
-        url = "<?= site_url('admin/kelas/edit') ?>"
+        url = "<?= site_url('admin/waktu/edit') ?>"
       }
       $.ajax({
         url: url,
@@ -201,9 +210,8 @@ $this->load->view('_part/header');
             if(simpan == 'edit'){
               $('#mdlData').modal('hide');
             }
-            $('#nama').focus();
+            $('#kode').focus();
             $('#formData').trigger('reset');
-            $('.select').val("").trigger('change.select2');
             $('.form-control').removeClass('is-invalid');
             $('.invalid-message').remove();
           }else{
@@ -235,7 +243,7 @@ $this->load->view('_part/header');
     $('#mdlKonfirm').on('click','#btnKonfirmHapus',function(){
       var id = $('#idKonfirm').val();
       $.ajax({
-        url: '<?= site_url('admin/kelas/hapus') ?>',
+        url: '<?= site_url('admin/waktu/hapus') ?>',
         type: 'get',
         data: {id},
         beforeSend: function(){
@@ -255,33 +263,35 @@ $this->load->view('_part/header');
 
   function loadData()
   {
-    var nama = $('#namaFilter').val();
+    var jam = $('#jamFilter').val();
+    var waktu = $('#waktuFilter').val();
 
     $('#tblData').DataTable({
       ajax: {
-        url: '<?= site_url('admin/kelas/load_data') ?>',
+        url: '<?= site_url('admin/waktu/load_data') ?>',
         type: 'post',
-        data: {nama}
+        data: {jam, waktu}
       },
       columns:
       [
-        {data: 'nama_kelas'},
-        {data: 'buat_kelas', render: function(data) {
+        {data: 'jam_waktu'},
+        {data: 'nama_waktu'},
+        {data: 'buat_waktu', render: function(data) {
           return tglJam(data);
         }},
-        {data: "id_kelas", orderable: false, searchable: false, render: function(data, type, row) {
+        {data: "id_waktu", orderable: false, searchable: false, render: function(data, type, row) {
           return `<div class="text-center">
                     <button type="button" class="btn btn-rounded btn-teal btn-sm dropdown-toggle" data-toggle="dropdown">
                       <i class="fas fa-cog"></i>
                     </button>
                     <div class="dropdown-menu">
-                      <a class="dropdown-item edit-data" href="javascript:void(0)" data-id="`+row.id_kelas+`" data-nama="`+row.nama_kelas+`"><i class="bx bx-edit"></i> Edit</a>
-                      <a class="dropdown-item hapus-data" href="javascript:void(0)" data-id="`+row.id_kelas+`"><i class="bx bx-trash"></i> Hapus</a>
+                      <a class="dropdown-item edit-data" href="javascript:void(0)" data-id="`+row.id_waktu+`" data-jam="`+row.jam_waktu+`" data-waktu="`+row.nama_waktu+`"><i class="bx bx-edit"></i> Edit</a>
+                      <a class="dropdown-item hapus-data" href="javascript:void(0)" data-id="`+row.id_waktu+`"><i class="bx bx-trash"></i> Hapus</a>
                     </div>
                   </div>`;
         }},
       ],
-      order: [[0, 'asc']],
+      order: [[2, 'desc']],
       pageLength: 25,
       responsive: true,
       processing: true,

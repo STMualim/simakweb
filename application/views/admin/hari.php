@@ -181,9 +181,9 @@ $this->load->view('_part/header');
       e.preventDefault();
       var url;
       if (simpan == "tambah") {
-        url = "<?= site_url('admin/kelas/tambah') ?>"
+        url = "<?= site_url('admin/hari/tambah') ?>"
       } else {
-        url = "<?= site_url('admin/kelas/edit') ?>"
+        url = "<?= site_url('admin/hari/edit') ?>"
       }
       $.ajax({
         url: url,
@@ -235,7 +235,7 @@ $this->load->view('_part/header');
     $('#mdlKonfirm').on('click','#btnKonfirmHapus',function(){
       var id = $('#idKonfirm').val();
       $.ajax({
-        url: '<?= site_url('admin/kelas/hapus') ?>',
+        url: '<?= site_url('admin/hari/hapus') ?>',
         type: 'get',
         data: {id},
         beforeSend: function(){
@@ -259,29 +259,29 @@ $this->load->view('_part/header');
 
     $('#tblData').DataTable({
       ajax: {
-        url: '<?= site_url('admin/kelas/load_data') ?>',
+        url: '<?= site_url('admin/hari/load_data') ?>',
         type: 'post',
         data: {nama}
       },
       columns:
       [
-        {data: 'nama_kelas'},
-        {data: 'buat_kelas', render: function(data) {
+        {data: 'nama_hari'},
+        {data: 'buat_hari', render: function(data) {
           return tglJam(data);
         }},
-        {data: "id_kelas", orderable: false, searchable: false, render: function(data, type, row) {
+        {data: "id_hari", orderable: false, searchable: false, render: function(data, type, row) {
           return `<div class="text-center">
                     <button type="button" class="btn btn-rounded btn-teal btn-sm dropdown-toggle" data-toggle="dropdown">
                       <i class="fas fa-cog"></i>
                     </button>
                     <div class="dropdown-menu">
-                      <a class="dropdown-item edit-data" href="javascript:void(0)" data-id="`+row.id_kelas+`" data-nama="`+row.nama_kelas+`"><i class="bx bx-edit"></i> Edit</a>
-                      <a class="dropdown-item hapus-data" href="javascript:void(0)" data-id="`+row.id_kelas+`"><i class="bx bx-trash"></i> Hapus</a>
+                      <a class="dropdown-item edit-data" href="javascript:void(0)" data-id="`+row.id_hari+`" data-nama="`+row.nama_hari+`"><i class="bx bx-edit"></i> Edit</a>
+                      <a class="dropdown-item hapus-data" href="javascript:void(0)" data-id="`+row.id_hari+`"><i class="bx bx-trash"></i> Hapus</a>
                     </div>
                   </div>`;
         }},
       ],
-      order: [[0, 'asc']],
+      order: [[1, 'desc']],
       pageLength: 25,
       responsive: true,
       processing: true,

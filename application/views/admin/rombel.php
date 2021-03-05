@@ -46,6 +46,21 @@ $this->load->view('_part/header');
                   </div>
                 </div>
                 <div class="col-md-2">
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="pegawaiFilter" placeholder="Nama Walas">
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <select class="form-control select" id="kelasFilter">
+                      <option value="">Semua Kelas</option>
+                      <?php foreach ($kelas as $key => $row) { ?>
+                        <option value="<?= $row->id_kelas ?>"><?= $row->nama_kelas ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-2">
                   <button type="button" class="btn btn-teal btn-rounded" id="btnFilter"><i class="bx bx-filter-alt"></i> Filter</button>
                   <a href="javascript:void(0)" class="ml-2" id="resetFilter"><b>Reset</b></a>
                 </div>
@@ -58,6 +73,8 @@ $this->load->view('_part/header');
                 <thead>
                   <tr>
                     <th>Nama</th>
+                    <th>Kelas</th>
+                    <th>Walas</th>
                     <th>Dibuat</th>
                     <th></th>
                   </tr>
@@ -88,6 +105,24 @@ $this->load->view('_part/header');
                     <div class="form-group form-nama">
                       <label>Nama</label>
                       <input type="text" name="nama" class="form-control" id="nama">
+                    </div>
+                    <div class="form-group form-kelas">
+                      <label>Kelas</label>
+                      <select class="form-control select" name="kelas" id="kelas" style="width: 100%;">
+                        <option value="">Pilih Kelas</option>
+                        <?php foreach ($kelas as $key => $row) { ?>
+                          <option value="<?= $row->id_kelas ?>"><?= $row->nama_kelas ?></option>
+                        <?php } ?>
+                      </select>
+                    </div>
+                    <div class="form-group form-pegawai">
+                      <label>Wali Kelas</label>
+                      <select class="form-control select" name="pegawai" id="pegawai" style="width: 100%;">
+                        <option value="">Pilih Walas</option>
+                        <?php foreach ($pegawai as $key => $row) { ?>
+                          <option value="<?= $row->id_pegawai ?>"><?= "$row->kode_pegawai - $row->nama_pegawai" ?></option>
+                        <?php } ?>
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -144,6 +179,8 @@ $this->load->view('_part/header');
     // Reset Filter
     $('#resetFilter').click(function(){
       $('#namaFilter').val("");
+      $('#pegawaiFilter').val("");
+      $('#kelasFilter').val("");
       $('#tblData').DataTable().destroy();
       loadData();
     });
@@ -166,8 +203,12 @@ $this->load->view('_part/header');
     $('#tblData').on('click', '.edit-data', function(){
       var id = $(this).data('id');
       var nama = $(this).data('nama');
+      var pegawai = $(this).data('pegawai');
+      var kelas = $(this).data('kelas');
       $('#id').val(id);
       $('#nama').val(nama);
+      $('#pegawai').val(pegawai).trigger('change.select2');
+      $('#kelas').val(kelas).trigger('change.select2');
 
       simpan = "edit";
       $('#mdlData').modal('show');
@@ -181,9 +222,9 @@ $this->load->view('_part/header');
       e.preventDefault();
       var url;
       if (simpan == "tambah") {
-        url = "<?= site_url('admin/kelas/tambah') ?>"
+        url = "<?= site_url('admin/rombel/tambah') ?>"
       } else {
-        url = "<?= site_url('admin/kelas/edit') ?>"
+        url = "<?= site_url('admin/rombel/edit') ?>"
       }
       $.ajax({
         url: url,
@@ -235,7 +276,7 @@ $this->load->view('_part/header');
     $('#mdlKonfirm').on('click','#btnKonfirmHapus',function(){
       var id = $('#idKonfirm').val();
       $.ajax({
-        url: '<?= site_url('admin/kelas/hapus') ?>',
+        url: '<?= site_url('admin/rombel/hapus') ?>',
         type: 'get',
         data: {id},
         beforeSend: function(){
@@ -256,27 +297,33 @@ $this->load->view('_part/header');
   function loadData()
   {
     var nama = $('#namaFilter').val();
+    var pegawai = $('#pegawaiFilter').val();
+    var kelas = $('#kelasFilter').val();
 
     $('#tblData').DataTable({
       ajax: {
-        url: '<?= site_url('admin/kelas/load_data') ?>',
+        url: '<?= site_url('admin/rombel/load_data') ?>',
         type: 'post',
-        data: {nama}
+        data: {nama, pegawai, kelas}
       },
       columns:
       [
+        {data: 'nama_rombel'},
         {data: 'nama_kelas'},
-        {data: 'buat_kelas', render: function(data) {
+        {data: 'nama_pegawai', render: function(data, type, row) {
+          return (row.gelar_depan_pegawai == null ? "" : row.gelar_depan_pegawai+" ") + data + (row.gelar_belakang_pegawai == null ? "" : ", "+row.gelar_belakang_pegawai);
+        }},
+        {data: 'buat_rombel', render: function(data) {
           return tglJam(data);
         }},
-        {data: "id_kelas", orderable: false, searchable: false, render: function(data, type, row) {
+        {data: "id_rombel", orderable: false, searchable: false, render: function(data, type, row) {
           return `<div class="text-center">
                     <button type="button" class="btn btn-rounded btn-teal btn-sm dropdown-toggle" data-toggle="dropdown">
                       <i class="fas fa-cog"></i>
                     </button>
                     <div class="dropdown-menu">
-                      <a class="dropdown-item edit-data" href="javascript:void(0)" data-id="`+row.id_kelas+`" data-nama="`+row.nama_kelas+`"><i class="bx bx-edit"></i> Edit</a>
-                      <a class="dropdown-item hapus-data" href="javascript:void(0)" data-id="`+row.id_kelas+`"><i class="bx bx-trash"></i> Hapus</a>
+                      <a class="dropdown-item edit-data" href="javascript:void(0)" data-id="`+row.id_rombel+`" data-nama="`+row.nama_rombel+`" data-kelas="`+row.id_kelas_rombel+`" data-pegawai="`+row.id_pegawai_rombel+`"><i class="bx bx-edit"></i> Edit</a>
+                      <a class="dropdown-item hapus-data" href="javascript:void(0)" data-id="`+row.id_rombel+`"><i class="bx bx-trash"></i> Hapus</a>
                     </div>
                   </div>`;
         }},

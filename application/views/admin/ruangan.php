@@ -42,20 +42,15 @@ $this->load->view('_part/header');
               <div class="row">
                 <div class="col-md-2">
                   <div class="form-group">
-                    <input type="text" class="form-control" id="kodeFilter" placeholder="Kode">
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="form-group">
                     <input type="text" class="form-control" id="namaFilter" placeholder="Nama">
                   </div>
                 </div>
                 <div class="col-md-2">
                   <div class="form-group">
-                    <select class="form-control select" id="kelasFilter" style="width: 100%;">
-                      <option value="">Semua Kelas</option>
-                      <?php foreach ($kelas as $key => $row) { ?>
-                        <option value="<?= $row->id_kelas ?>"><?= $row->kode_kelas ?></option>
+                    <select class="form-control select" id="rombelFilter" style="width: 100%;">
+                      <option value="">Semua Rombel</option>
+                      <?php foreach ($rombel as $key => $row) { ?>
+                        <option value="<?= $row->id_rombel ?>"><?= $row->nama_rombel ?></option>
                       <?php } ?>
                     </select>
                   </div>
@@ -72,9 +67,8 @@ $this->load->view('_part/header');
               <table id="tblData" class="table table-hover table-striped dt-responsive" style="width: 100%;">
                 <thead>
                   <tr>
-                    <th>Kode</th>
                     <th>Nama</th>
-                    <th>Kelas</th>
+                    <th>Rombel</th>
                     <th>Dibuat</th>
                     <th></th>
                   </tr>
@@ -102,20 +96,16 @@ $this->load->view('_part/header');
                   <input type="hidden" name="id" id="id">
 
                   <div class="col-md-12">
-                    <div class="form-group form-kode">
-                      <label>Kode</label>
-                      <input type="text" name="kode" class="form-control" id="kode">
-                    </div>
                     <div class="form-group form-nama">
                       <label>Nama</label>
                       <input type="text" name="nama" class="form-control" id="nama">
                     </div>
-                    <div class="form-group form-kelas">
-                      <label>Kelas</label>
-                      <select class="form-control select" name="kelas" id="kelas">
-                        <option value="">Semua Kelas</option>
-                        <?php foreach ($kelas as $key => $row) { ?>
-                          <option value="<?= $row->id_kelas ?>"><?= $row->kode_kelas ?></option>
+                    <div class="form-group form-rombel">
+                      <label>Rombongan Belajar</label>
+                      <select class="form-control select" name="rombel" id="rombel">
+                        <option value="">Semua Rombel</option>
+                        <?php foreach ($rombel as $key => $row) { ?>
+                          <option value="<?= $row->id_rombel ?>"><?= $row->nama_rombel ?></option>
                         <?php } ?>
                       </select>
                     </div>
@@ -173,9 +163,8 @@ $this->load->view('_part/header');
 
     // Reset Filter
     $('#resetFilter').click(function(){
-      $('#kodeFilter').val("");
       $('#namaFilter').val("");
-      $('#kelasFilter').val("").trigger('change.select2');
+      $('#rombelFilter').val("").trigger('change.select2');
       $('#tblData').DataTable().destroy();
       loadData();
     });
@@ -190,20 +179,18 @@ $this->load->view('_part/header');
       $('.form-control').removeClass('is-invalid');
       $('.invalid-message').remove();
       $('#mdlData').on('shown.bs.modal', function(){
-        $('#kode').focus();
+        $('#nama').focus();
       });
     });
 
     // Edit Data
     $('#tblData').on('click', '.edit-data', function(){
       var id = $(this).data('id');
-      var kode = $(this).data('kode');
       var nama = $(this).data('nama');
-      var kelas = $(this).data('kelas');
+      var rombel = $(this).data('rombel');
       $('#id').val(id);
-      $('#kode').val(kode);
       $('#nama').val(nama);
-      $('#kelas').val(kelas).trigger('change.select2');
+      $('#rombel').val(rombel).trigger('change.select2');
 
       simpan = "edit";
       $('#mdlData').modal('show');
@@ -237,7 +224,7 @@ $this->load->view('_part/header');
             if(simpan == 'edit'){
               $('#mdlData').modal('hide');
             }
-            $('#kode').focus();
+            $('#nama').focus();
             $('#formData').trigger('reset');
             $('.select').val("").trigger('change.select2');
             $('.form-control').removeClass('is-invalid');
@@ -291,21 +278,19 @@ $this->load->view('_part/header');
 
   function loadData()
   {
-    var kode = $('#kodeFilter').val();
     var nama = $('#namaFilter').val();
-    var kelas = $('#kelasFilter').val();
+    var rombel = $('#rombelFilter').val();
 
     $('#tblData').DataTable({
       ajax: {
         url: '<?= site_url('admin/ruangan/load_data') ?>',
         type: 'post',
-        data: {kode, nama, kelas}
+        data: {nama, rombel}
       },
       columns:
       [
-        {data: 'kode_ruangan'},
         {data: 'nama_ruangan'},
-        {data: 'kode_kelas'},
+        {data: 'nama_rombel'},
         {data: 'buat_ruangan', render: function(data) {
           return tglJam(data);
         }},
@@ -315,13 +300,13 @@ $this->load->view('_part/header');
                       <i class="fas fa-cog"></i>
                     </button>
                     <div class="dropdown-menu">
-                      <a class="dropdown-item edit-data" href="javascript:void(0)" data-id="`+row.id_ruangan+`" data-kode="`+row.kode_ruangan+`" data-nama="`+row.nama_ruangan+`" data-kelas="`+row.id_kelas_ruangan+`"><i class="bx bx-edit"></i> Edit</a>
+                      <a class="dropdown-item edit-data" href="javascript:void(0)" data-id="`+row.id_ruangan+`" data-nama="`+row.nama_ruangan+`" data-rombel="`+row.id_rombel_ruangan+`"><i class="bx bx-edit"></i> Edit</a>
                       <a class="dropdown-item hapus-data" href="javascript:void(0)" data-id="`+row.id_ruangan+`"><i class="bx bx-trash"></i> Hapus</a>
                     </div>
                   </div>`;
         }},
       ],
-      order: [[3, 'desc']],
+      order: [[2, 'desc']],
       pageLength: 25,
       responsive: true,
       processing: true,

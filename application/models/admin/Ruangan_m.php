@@ -7,26 +7,23 @@ class Ruangan_m extends CI_Model {
   {
     $ta = $this->fungsi->ta()->id_ta;
     $this->datatables->from('ruangan');
-    $this->datatables->join('kelas', 'kelas.id_kelas = ruangan.id_kelas_ruangan', 'left');
+    $this->datatables->join('rombel', 'rombel.id_rombel = ruangan.id_rombel_ruangan', 'left');
     $this->datatables->where('id_ta_ruangan', $ta);
     // Filter
-    if ($post['kode'] != null) {
-      $this->datatables->like('kode_ruangan', $post['kode']);
-    }
     if ($post['nama'] != null) {
       $this->datatables->like('nama_ruangan', $post['nama']);
     }
-    if ($post['kelas'] != null) {
-      $this->datatables->where('id_kelas_ruangan', $post['kelas']);
+    if ($post['rombel'] != null) {
+      $this->datatables->where('id_rombel_ruangan', $post['rombel']);
     }
 
     return $this->datatables->generate();
   }
 
-  function load_kelas()
+  function load_rombel()
   {
     $ta = $this->fungsi->ta()->id_ta;
-    return $this->db->get_where('kelas', ['id_ta_kelas' => $ta]);
+    return $this->db->get_where('rombel', ['id_ta_rombel' => $ta]);
   }
 
   function tambah($post)
@@ -34,8 +31,7 @@ class Ruangan_m extends CI_Model {
     $ta = $this->fungsi->ta()->id_ta;
     $this->db->insert('ruangan', [
       'id_ta_ruangan' => $ta,
-      'id_kelas_ruangan' => $post['kelas'],
-      'kode_ruangan' => $post['kode'],
+      'id_rombel_ruangan' => $post['rombel'],
       'nama_ruangan' => $post['nama'],
     ]);
   }
@@ -44,8 +40,7 @@ class Ruangan_m extends CI_Model {
   {
     $this->db->where('id_ruangan', $post['id']);
     $this->db->update('ruangan', [
-      'id_kelas_ruangan' => $post['kelas'],
-      'kode_ruangan' => $post['kode'],
+      'id_rombel_ruangan' => $post['rombel'],
       'nama_ruangan' => $post['nama'],
     ]);
   }

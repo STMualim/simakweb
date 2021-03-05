@@ -14,7 +14,6 @@ class Kelas extends CI_Controller {
 	public function index()
 	{
 		$data['judul'] = 'Kelas';
-		$data['pegawai'] = $this->kelas_m->load_pegawai()->result();
 		$this->load->view('admin/kelas', $data);
 	}
 
@@ -30,9 +29,7 @@ class Kelas extends CI_Controller {
     $post = $this->input->post();
 		$data = array ('sukses' => false, 'error' => array());
 
-    $this->form_validation->set_rules('kode', 'Kode', 'trim|required|callback_kode');
-    $this->form_validation->set_rules('nama', 'Nama', 'trim|required');
-    $this->form_validation->set_rules('pegawai', 'Wali Kelas', 'trim|required');
+    $this->form_validation->set_rules('nama', 'Nama', 'trim|required|callback_nama');
 		$this->form_validation->set_error_delimiters('<span class="text-danger invalid-message">', '</span>');
 
 		$this->form_validation->set_message('required', '{field} wajib diisi!');
@@ -54,9 +51,7 @@ class Kelas extends CI_Controller {
     $post = $this->input->post();
 		$data = array ('sukses' => false, 'error' => array());
 
-    $this->form_validation->set_rules('kode', 'Kode', 'trim|required|callback_edit_kode');
-    $this->form_validation->set_rules('nama', 'Nama', 'trim|required');
-		$this->form_validation->set_rules('pegawai', 'Wali Kelas', 'trim|required');
+    $this->form_validation->set_rules('nama', 'Nama', 'trim|required|callback_edit_nama');
 		$this->form_validation->set_error_delimiters('<span class="text-danger invalid-message">', '</span>');
 
 		$this->form_validation->set_message('required', '{field} wajib diisi!');
@@ -79,27 +74,27 @@ class Kelas extends CI_Controller {
 		$this->kelas_m->hapus($id);
 	}
 
-	public function kode($kode)
+	public function nama($nama)
 	{
 		$ta = $this->fungsi->ta()->id_ta;
-		$where = array ('kode_kelas' => $kode, 'id_ta_kelas' => $ta);
+		$where = array ('nama_kelas' => $nama, 'id_ta_kelas' => $ta);
 		$cek = $this->kelas_m->cek_data($where, 1);
 	  if ($cek){
-		  $this->form_validation->set_message('kode', '{field} sudah terdaftar!');
+		  $this->form_validation->set_message('nama', '{field} sudah terdaftar!');
 		  return FALSE;
 	  }else{
 		  return TRUE;
 	  }
   }
 
-	public function edit_kode($kode)
+	public function edit_nama($nama)
 	{
 		$ta = $this->fungsi->ta()->id_ta;
 		$id = $this->input->post('id');
-		$where = array ('kode_kelas' => $kode, 'id_ta_kelas' => $ta, 'id_kelas !=' => $id);
+		$where = array ('nama_kelas' => $nama, 'id_ta_kelas' => $ta, 'id_kelas !=' => $id);
 		$cek = $this->kelas_m->cek_data($where, 1);
 	  if ($cek){
-		  $this->form_validation->set_message('edit_kode', '{field} sudah terdaftar!');
+		  $this->form_validation->set_message('edit_nama', '{field} sudah terdaftar!');
 		  return FALSE;
 	  }else{
 		  return TRUE;

@@ -71,10 +71,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         <!-- KELAS -->
         <li class="nav-item">
-          <a href="<?= site_url('admin/kelas') ?>" class="nav-link">
+          <a href="javascript:void(0)" class="nav-link">
             <i class="nav-icon bx bx-chair"></i>
-            <p>Kelas</p>
+            <p>Kelas<i class="right fas fa-angle-left"></i></p>
           </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="<?= site_url('admin/kelas') ?>" class="nav-link">
+                <i class="bx bx-radio-circle nav-icon"></i>
+                <p>Tingkat Kelas</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?= site_url('admin/rombel') ?>" class="nav-link">
+                <i class="bx bx-radio-circle nav-icon"></i>
+                <p>Rombongan Belajar</p>
+              </a>
+            </li>
+          </ul>
         </li>
 
         <!-- RUANGAN -->
@@ -82,14 +96,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <a href="<?= site_url('admin/ruangan') ?>" class="nav-link">
             <i class="nav-icon bx bx-door-open"></i>
             <p>Ruangan</p>
-          </a>
-        </li>
-
-        <!-- DATA SISWA -->
-        <li class="nav-item">
-          <a href="javascript:void(0)" class="nav-link">
-            <i class="nav-icon bx bx-user-circle"></i>
-            <p>Data Siswa</p>
           </a>
         </li>
 
@@ -101,18 +107,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="javascript:void(0)" class="nav-link">
+              <a href="<?= site_url('admin/hari') ?>" class="nav-link">
+                <i class="bx bx-radio-circle nav-icon"></i>
+                <p>Hari</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?= site_url('admin/waktu') ?>" class="nav-link">
                 <i class="bx bx-radio-circle nav-icon"></i>
                 <p>Waktu Mengajar</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="javascript:void(0)" class="nav-link">
+              <a href="<?= site_url('admin/jadwal') ?>" class="nav-link">
                 <i class="bx bx-radio-circle nav-icon"></i>
                 <p>Jadwal Pelajaran</p>
               </a>
             </li>
           </ul>
+        </li>
+
+        <!-- DATA SISWA -->
+        <li class="nav-item">
+          <a href="javascript:void(0)" class="nav-link">
+            <i class="nav-icon bx bx-user-circle"></i>
+            <p>Data Siswa</p>
+          </a>
         </li>
 
       </ul>

@@ -435,10 +435,9 @@ $this->load->view('_part/header');
     var s = 1;
 
     loadData();
-    // stepContentValidate(3, 1, simpan);
 
     // Tanggal Mask
-    $('.tgl').inputmask('dd-mm-yyyy', { 'placeholder': 'hh-bb-tttt' })
+    $('.tgl').inputmask('dd-mm-yyyy', { 'placeholder': 'hh-bb-tttt' });
 
     // Filter
     $('#btnFilter').click(function(){
