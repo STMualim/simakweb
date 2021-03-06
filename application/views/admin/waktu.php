@@ -165,7 +165,7 @@ $this->load->view('_part/header');
       $('.form-control').removeClass('is-invalid');
       $('.invalid-message').remove();
       $('#mdlData').on('shown.bs.modal', function(){
-        $('#kode').focus();
+        $('#jam').focus();
       });
     });
 
@@ -210,7 +210,7 @@ $this->load->view('_part/header');
             if(simpan == 'edit'){
               $('#mdlData').modal('hide');
             }
-            $('#kode').focus();
+            $('#jam').focus();
             $('#formData').trigger('reset');
             $('.form-control').removeClass('is-invalid');
             $('.invalid-message').remove();
@@ -291,7 +291,7 @@ $this->load->view('_part/header');
                   </div>`;
         }},
       ],
-      order: [[2, 'desc']],
+      order: [[0, 'asc']],
       pageLength: 25,
       responsive: true,
       processing: true,

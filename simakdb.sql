@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 04, 2021 at 04:50 PM
+-- Generation Time: Mar 06, 2021 at 01:57 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -21,6 +21,31 @@ SET time_zone = "+00:00";
 --
 -- Database: `simakdb`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hari`
+--
+
+CREATE TABLE `hari` (
+  `id_hari` bigint(20) UNSIGNED NOT NULL,
+  `id_ta_hari` int(11) NOT NULL,
+  `nama_hari` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `buat_hari` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `hari`
+--
+
+INSERT INTO `hari` (`id_hari`, `id_ta_hari`, `nama_hari`, `buat_hari`) VALUES
+(1, 13, 'Senin', '2021-03-05 15:01:47'),
+(2, 13, 'Selasa', '2021-03-05 15:01:50'),
+(3, 13, 'Rabu', '2021-03-05 15:01:52'),
+(4, 13, 'Kamis', '2021-03-05 15:01:54'),
+(5, 13, 'Jumat', '2021-03-05 15:01:57'),
+(6, 13, 'Sabtu', '2021-03-05 15:02:00');
 
 -- --------------------------------------------------------
 
@@ -59,8 +84,6 @@ INSERT INTO `jurusan` (`id_jurusan`, `id_ta_jurusan`, `kode_jurusan`, `nama_juru
 CREATE TABLE `kelas` (
   `id_kelas` bigint(20) UNSIGNED NOT NULL,
   `id_ta_kelas` int(11) NOT NULL,
-  `id_pegawai_kelas` int(11) DEFAULT NULL,
-  `kode_kelas` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nama_kelas` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `buat_kelas` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -69,10 +92,10 @@ CREATE TABLE `kelas` (
 -- Dumping data for table `kelas`
 --
 
-INSERT INTO `kelas` (`id_kelas`, `id_ta_kelas`, `id_pegawai_kelas`, `kode_kelas`, `nama_kelas`, `buat_kelas`) VALUES
-(4, 13, 31, 'X MM 1', 'X Multimedia 1', '2021-03-04 15:45:32'),
-(5, 13, 45, 'X MM 2', 'X Multimedia 2', '2021-03-04 15:47:33'),
-(6, 13, 46, 'X MM 3', 'X Multimedia 3', '2021-03-04 15:47:48');
+INSERT INTO `kelas` (`id_kelas`, `id_ta_kelas`, `nama_kelas`, `buat_kelas`) VALUES
+(4, 13, 'X ', '2021-03-04 15:45:32'),
+(5, 13, 'XI', '2021-03-04 15:47:33'),
+(6, 13, 'XII', '2021-03-04 15:47:48');
 
 -- --------------------------------------------------------
 
@@ -143,7 +166,32 @@ INSERT INTO `pegawai` (`id_pegawai`, `id_ta_pegawai`, `jenis_pegawai`, `kode_peg
 (44, 13, 2, NULL, 'Anton', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, '083813154408', NULL, NULL, NULL, NULL, '2021-03-03 00:01:50'),
 (45, 13, 1, '002', 'Koswara', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 3, 'Pendidikan Olahraga', NULL, 'S.Pd.', NULL, NULL, NULL, '083813154409', NULL, 568750, 2, NULL, '2021-03-03 12:32:24'),
 (46, 13, 1, '003', 'Ismail', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 3, 'Teknik Informatika', NULL, 'S.Kom.', NULL, NULL, NULL, '083813154401', 'ismail@gmail.com', 951383, 2, NULL, '2021-03-03 12:33:40'),
-(47, 13, 1, '004', 'Andre', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 'Multimedia', NULL, NULL, NULL, NULL, NULL, '083813154402', NULL, 553697, 2, NULL, '2021-03-03 12:34:29');
+(47, 13, 1, '004', 'Andre', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 3, 'Desain Komunikasi Visual', NULL, 'S.Sen.', NULL, NULL, NULL, '083813154402', NULL, 553697, 2, NULL, '2021-03-03 12:34:29');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `rombel`
+--
+
+CREATE TABLE `rombel` (
+  `id_rombel` bigint(20) UNSIGNED NOT NULL,
+  `id_ta_rombel` int(11) NOT NULL,
+  `id_kelas_rombel` int(11) NOT NULL,
+  `id_pegawai_rombel` int(11) DEFAULT NULL,
+  `nama_rombel` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `buat_rombel` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `rombel`
+--
+
+INSERT INTO `rombel` (`id_rombel`, `id_ta_rombel`, `id_kelas_rombel`, `id_pegawai_rombel`, `nama_rombel`, `buat_rombel`) VALUES
+(1, 13, 4, 31, 'X TMK 1', '2021-03-05 14:14:24'),
+(2, 13, 4, 45, 'X TMK 2', '2021-03-05 14:14:47'),
+(3, 13, 4, 46, 'X TMK 3', '2021-03-05 14:17:45'),
+(4, 13, 5, 47, 'XI TMK 1', '2021-03-05 14:17:58');
 
 -- --------------------------------------------------------
 
@@ -154,8 +202,7 @@ INSERT INTO `pegawai` (`id_pegawai`, `id_ta_pegawai`, `jenis_pegawai`, `kode_peg
 CREATE TABLE `ruangan` (
   `id_ruangan` bigint(20) UNSIGNED NOT NULL,
   `id_ta_ruangan` int(11) NOT NULL,
-  `id_kelas_ruangan` int(11) NOT NULL,
-  `kode_ruangan` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id_rombel_ruangan` int(11) NOT NULL,
   `nama_ruangan` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `buat_ruangan` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -164,10 +211,11 @@ CREATE TABLE `ruangan` (
 -- Dumping data for table `ruangan`
 --
 
-INSERT INTO `ruangan` (`id_ruangan`, `id_ta_ruangan`, `id_kelas_ruangan`, `kode_ruangan`, `nama_ruangan`, `buat_ruangan`) VALUES
-(3, 13, 4, '101', 'Ruang Kelas', '2021-03-04 15:48:33'),
-(4, 13, 5, '102', 'Ruang Kelas', '2021-03-04 15:48:44'),
-(5, 13, 6, '103', 'Ruang Kelas', '2021-03-04 15:48:54');
+INSERT INTO `ruangan` (`id_ruangan`, `id_ta_ruangan`, `id_rombel_ruangan`, `nama_ruangan`, `buat_ruangan`) VALUES
+(3, 13, 1, '101', '2021-03-04 15:48:33'),
+(4, 13, 2, '102', '2021-03-04 15:48:44'),
+(5, 13, 3, '103', '2021-03-04 15:48:54'),
+(6, 13, 4, '201', '2021-03-05 14:33:46');
 
 -- --------------------------------------------------------
 
@@ -212,9 +260,45 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`id_user`, `nama_user`, `username_user`, `pin_user`, `level_user`, `buat_user`) VALUES
 (1, 'Super Admin', '@superadmin', 'd6112f0e996da4acd2baab2729dfb183', 0, '2021-02-19 11:42:03');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `waktu`
+--
+
+CREATE TABLE `waktu` (
+  `id_waktu` bigint(20) UNSIGNED NOT NULL,
+  `id_ta_waktu` int(11) NOT NULL,
+  `jam_waktu` int(11) DEFAULT NULL,
+  `nama_waktu` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `buat_waktu` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `waktu`
+--
+
+INSERT INTO `waktu` (`id_waktu`, `id_ta_waktu`, `jam_waktu`, `nama_waktu`, `buat_waktu`) VALUES
+(1, 13, 1, '07:00 - 07:30', '2021-03-06 00:15:40'),
+(2, 13, 2, '07:30 - 08:00', '2021-03-06 00:52:13'),
+(3, 13, 3, '08:00 - 08:30', '2021-03-06 00:53:01'),
+(4, 13, 4, '08:30 - 09:00', '2021-03-06 00:53:13'),
+(5, 13, 5, '09:00 - 09:30', '2021-03-06 00:53:26'),
+(6, 13, 6, '09:30 - 10:00', '2021-03-06 00:53:42'),
+(7, 13, 7, '10:00 - 10:30', '2021-03-06 00:53:56'),
+(8, 13, 8, '10:30 - 11:00', '2021-03-06 00:54:09'),
+(9, 13, 9, '11:00 - 11:30', '2021-03-06 00:54:35'),
+(10, 13, 10, '11:30 - 12:00', '2021-03-06 00:54:45');
+
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `hari`
+--
+ALTER TABLE `hari`
+  ADD PRIMARY KEY (`id_hari`);
 
 --
 -- Indexes for table `jurusan`
@@ -241,6 +325,12 @@ ALTER TABLE `pegawai`
   ADD PRIMARY KEY (`id_pegawai`);
 
 --
+-- Indexes for table `rombel`
+--
+ALTER TABLE `rombel`
+  ADD PRIMARY KEY (`id_rombel`);
+
+--
 -- Indexes for table `ruangan`
 --
 ALTER TABLE `ruangan`
@@ -259,8 +349,20 @@ ALTER TABLE `user`
   ADD PRIMARY KEY (`id_user`);
 
 --
+-- Indexes for table `waktu`
+--
+ALTER TABLE `waktu`
+  ADD PRIMARY KEY (`id_waktu`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `hari`
+--
+ALTER TABLE `hari`
+  MODIFY `id_hari` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `jurusan`
@@ -272,7 +374,7 @@ ALTER TABLE `jurusan`
 -- AUTO_INCREMENT for table `kelas`
 --
 ALTER TABLE `kelas`
-  MODIFY `id_kelas` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_kelas` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `mapel`
@@ -287,10 +389,16 @@ ALTER TABLE `pegawai`
   MODIFY `id_pegawai` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
+-- AUTO_INCREMENT for table `rombel`
+--
+ALTER TABLE `rombel`
+  MODIFY `id_rombel` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `ruangan`
 --
 ALTER TABLE `ruangan`
-  MODIFY `id_ruangan` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_ruangan` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `ta`
@@ -303,6 +411,12 @@ ALTER TABLE `ta`
 --
 ALTER TABLE `user`
   MODIFY `id_user` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `waktu`
+--
+ALTER TABLE `waktu`
+  MODIFY `id_waktu` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
