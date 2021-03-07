@@ -892,7 +892,7 @@ $this->load->view('_part/header');
                   </div>`;
         }},
       ],
-      order: [[3, 'desc']],
+      order: [[1, 'asc']],
       pageLength: 25,
       responsive: true,
       processing: true,
