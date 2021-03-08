@@ -13,18 +13,23 @@ class Jadwal extends CI_Controller {
 
 	public function index()
 	{
-		$data['judul'] = 'jadwal Pelajaran';
-		$data['waktu'] = $this->jadwal_m->load_waktu()->result();
+		$data['judul'] = 'Jadwal Pelajaran';
 		$data['rombel'] = $this->jadwal_m->load_rombel()->result();
+		$data['hari'] = $this->jadwal_m->load_hari()->result();
+		$data['kelas'] = $this->jadwal_m->load_kelas()->result();
 		$this->load->view('admin/jadwal', $data);
 	}
 
-  public function load_data()
-  {
+	public function load_data()
+	{
 		$post = $this->input->post();
-    header('Content-Type: application/json');
-    echo $this->jadwal_m->load_data($post);
-  }
+		$data['jadwal'] = $this->jadwal_m->load_jadwal($post)->result();
+		$data['waktu'] = $this->jadwal_m->load_waktu()->result();
+		$data['rombel'] = $this->jadwal_m->load_rombel()->result();
+		$data['hari'] = $this->jadwal_m->load_hari()->result();
+		$data['kelas'] = $this->jadwal_m->load_kelas()->result();
+		echo json_encode($data);
+	}
 
 	public function tambah()
   {

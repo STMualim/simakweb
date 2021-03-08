@@ -7,6 +7,9 @@ function reloadTable(table)
   }).ajax.reload(null, false);
 }
 
+// Tooltip
+$('[data-toggle="tooltip"]').tooltip();
+
 // On Loading Screen
 function loadingScreenOn()
 {

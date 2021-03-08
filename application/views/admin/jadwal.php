@@ -42,7 +42,22 @@ $this->load->view('_part/header');
               <div class="row">
                 <div class="col-md-2">
                   <div class="form-group">
-                    <input type="text" class="form-control" id="namaFilter" placeholder="Nama">
+                    <select class="form-control select" id="hariFilter" style="width: 100%;">
+                      <option value="">Pilih Hari</option>
+                      <?php foreach ($hari as $key => $row) { ?>
+                        <option value="<?= $row->id_hari ?>"><?= $row->nama_hari ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <select class="form-control select" id="kelasFilter" style="width: 100%;">
+                      <option value="">Pilih Kelas</option>
+                      <?php foreach ($kelas as $key => $row) { ?>
+                        <option value="<?= $row->id_kelas ?>"><?= $row->nama_kelas ?></option>
+                      <?php } ?>
+                    </select>
                   </div>
                 </div>
                 <div class="col-md-2">
@@ -54,7 +69,7 @@ $this->load->view('_part/header');
 
             <!-- Table List -->
             <div class="card-body table-responsive p-0">
-              <table id="tblData" class="table  table-hover table-striped table-sm text-nowrap text-center" style="width: 100%;">
+              <table id="tblData" class="table table-bordered table-hover table-striped table-sm text-nowrap text-center" style="width: 100%;">
                 <thead>
                   <tr>
                     <th class="text-center" style="width: 50px;">Jam</th>
@@ -64,16 +79,22 @@ $this->load->view('_part/header');
                     <?php } ?>
                   </tr>
                 </thead>
-                <tbody>
-                  <?php foreach ($waktu as $key => $row) { ?>
+                <tbody id="loadJadwal">
+                  <!-- <?php foreach ($waktu as $key => $row) { ?>
                     <tr>
                       <td class="text-center"><b><?= $row->jam_waktu ?></b></td>
                       <td><b><?= $row->nama_waktu ?></b></td>
                       <?php foreach ($rombel as $key => $col) { ?>
-                        <td><a href="javascript:void(0)" data-waktu="<?= $row->id_waktu ?>" data-rombel="<?= $col->id_rombel ?>">...</a></td>
+                        <?php foreach ($jadwal as $key => $jdl) { ?>
+                          <?php if ($jdl->id_rombel_jadwal == $col->id_rombel && $jdl->id_waktu_jadwal == $row->id_waktu) { ?>
+                            <td><a href="javascript:void(0)" data-waktu="<?= $row->id_waktu ?>" data-rombel="<?= $col->id_rombel ?>" data-toggle="tooltip" data-placement="top" title="<?= "$jdl->nama_mapel-$jdl->nama_pegawai" ?>"><?= "$jdl->kode_mapel-$jdl->kode_pegawai" ?></a></td>
+                          <?php } else { ?>
+                            <td><a href="javascript:void(0)" data-waktu="<?= $row->id_waktu ?>" data-rombel="<?= $col->id_rombel ?>">...</a></td>
+                          <?php } ?>
+                        <?php } ?>
                       <?php } ?>
                     </tr>
-                  <?php } ?>
+                  <?php } ?> -->
                 </tbody>
               </table>
             </div>
@@ -143,7 +164,7 @@ $this->load->view('_part/header');
   $(document).ready(function(){
 
     var simpan;
-    // loadData();
+    loadData();
 
     // Select2
     $('.select').select2();
@@ -266,7 +287,64 @@ $this->load->view('_part/header');
 
   });
 
+  // LOAD LOG
+  function loadData()
+  {
+    var hari = $('#hariFilter').val();
+    var kelas = $('#kelasFilter').val();
 
+    $.ajax({
+      url: "<?= site_url('admin/jadwal/load_data') ?>",
+      type: "post",
+      data: {hari, kelas},
+      async : false,
+      dataType: "json",
+      success: function(data){
+        var jadwal = "";
+
+        if (data.jadwal.length > 0) {
+          $.each(data.waktu, function(i, wkt) {
+            jadwal += `<tr>
+                        <td><b>`+wkt.jam_waktu+`</b></td>
+                        <td><b>`+wkt.nama_waktu+`</b></td>`+
+                        $.each(data.rombel, function(i, rom) {
+                          $.each(data.jadwal, function(i, jdl) {
+                            if (jdl.id_rombel_jadwal == rom.id_rombel && jdl.id_waktu_jadwal == rom.id_waktu && jdl.id_hari_jadwal == hari) {
+                              jadwal = `<td><a href="javascript:void(0)" data-id="`+jdl.id_jadwal+`" data-toggle="tooltip" data-placement="top" title="`+jdl.nama_mapel+`-`+jdl.nama_pegawai+`"></a></td>`
+                            } else {
+                              jadwal = `<td><a href="javascript:void(0)" data-hari="`+hari+`" data-waktu="`+wkt.id_waktu+`" data-rombel="`+rom.id_rombel+`">...</a></td>`
+                            }
+                          })
+                        })
+                      +`</tr>`
+          });
+          // for (var i = 0; i < data.length; i++) {
+          //   log += `<li class="event-list">
+          //             <div class="event-timeline-dot text-primary">
+          //               <i class="bx bx-right-arrow-circle"></i>
+          //             </div>
+          //             <div class="media">
+          //               <div class="mr-3">
+          //                 <i class="bx bx-copy-alt h2 text-primary"></i>
+          //               </div>
+          //               <div class="media-body">
+          //                 <div>
+          //                   <h5 class="font-size-14">`+tglIndo(data[i].tgl_log)+` (`+data[i].nama_user+`)</h5>
+          //                   <p class="text-muted">`+data[i].ket_log+`</p>
+          //                 </div>
+          //               </div>
+          //             </div>
+          //           </li>`;
+          // }
+          $('#loadJadwal').html(jadwal);
+        } else {
+          jadwal = `oke`;
+
+          $('#loadJadwal').html(jadwal);
+        }
+      }
+    });
+  }
 
 </script>
 </body>
