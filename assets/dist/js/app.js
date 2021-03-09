@@ -10,6 +10,20 @@ function reloadTable(table)
 // Tooltip
 $('[data-toggle="tooltip"]').tooltip();
 
+// On Loading Element
+function loadingElementOn(el)
+{
+  $(el).LoadingOverlay("show", {
+    background  : "rgba(0, 0, 0, 0.05)",
+    image: "",
+    imageAnimation: "2s rotate_right",
+    fontawesome: "fas fa-circle-notch fa-spin",
+    fontawesomeColor: "#FE6033",
+    fontawesomeAutoResize: false,
+    fontawesomeResizeFactor: 0.5,
+  });
+}
+
 // On Loading Screen
 function loadingScreenOn()
 {
@@ -28,6 +42,12 @@ function loadingScreenOn()
 function loadingScreenOff()
 {
   $.LoadingOverlay("hide");
+}
+
+// Off Loading Element
+function loadingElementOff(el)
+{
+  $(el).LoadingOverlay("hide", true);
 }
 
 // On Loading Tombol Simpan

@@ -180,7 +180,7 @@ $this->load->view('_part/header');
     $('#resetFilter').click(function(){
       $('#namaFilter').val("");
       $('#pegawaiFilter').val("");
-      $('#kelasFilter').val("");
+      $('#kelasFilter').val("").trigger('change.select2');
       $('#tblData').DataTable().destroy();
       loadData();
     });
@@ -191,7 +191,7 @@ $this->load->view('_part/header');
       $('#mdlData').modal('show');
       $('.modal-title').text("Tambah Data");
       $('#formData').trigger('reset');
-      $('.select').val("").trigger('change.select2');
+      $('#kelas, #pegawai').val("").trigger('change.select2');
       $('.form-control').removeClass('is-invalid');
       $('.invalid-message').remove();
       $('#mdlData').on('shown.bs.modal', function(){

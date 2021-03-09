@@ -14,9 +14,10 @@ class Jadwal extends CI_Controller {
 	public function index()
 	{
 		$data['judul'] = 'Jadwal Pelajaran';
-		$data['rombel'] = $this->jadwal_m->load_rombel()->result();
 		$data['hari'] = $this->jadwal_m->load_hari()->result();
 		$data['kelas'] = $this->jadwal_m->load_kelas()->result();
+		$data['mapel'] = $this->jadwal_m->load_mapel()->result();
+		$data['pegawai'] = $this->jadwal_m->load_pegawai()->result();
 		$this->load->view('admin/jadwal', $data);
 	}
 
@@ -25,9 +26,14 @@ class Jadwal extends CI_Controller {
 		$post = $this->input->post();
 		$data['jadwal'] = $this->jadwal_m->load_jadwal($post)->result();
 		$data['waktu'] = $this->jadwal_m->load_waktu()->result();
-		$data['rombel'] = $this->jadwal_m->load_rombel()->result();
-		$data['hari'] = $this->jadwal_m->load_hari()->result();
-		$data['kelas'] = $this->jadwal_m->load_kelas()->result();
+		$data['rombel'] = $this->jadwal_m->load_rombel($post)->result();
+		echo json_encode($data);
+	}
+
+	public function load_jadwal()
+	{
+		$post = $this->input->post();
+		$data = $this->jadwal_m->load_jadwal($post)->result();
 		echo json_encode($data);
 	}
 
@@ -36,7 +42,8 @@ class Jadwal extends CI_Controller {
     $post = $this->input->post();
 		$data = array ('sukses' => false, 'error' => array());
 
-    $this->form_validation->set_rules('nama', 'Nama', 'trim|required|callback_nama');
+    $this->form_validation->set_rules('mapel', 'Mata Pelajaran', 'trim|required');
+    $this->form_validation->set_rules('pegawai', 'Guru', 'trim|required|callback_pegawai');
 		$this->form_validation->set_error_delimiters('<span class="text-danger invalid-message">', '</span>');
 
 		$this->form_validation->set_message('required', '{field} wajib diisi!');
@@ -58,7 +65,8 @@ class Jadwal extends CI_Controller {
     $post = $this->input->post();
 		$data = array ('sukses' => false, 'error' => array());
 
-    $this->form_validation->set_rules('nama', 'Nama', 'trim|required|callback_edit_nama');
+		$this->form_validation->set_rules('mapel', 'Mata Pelajaran', 'trim|required');
+    $this->form_validation->set_rules('pegawai', 'Guru', 'trim|required|callback_edit_pegawai');
 		$this->form_validation->set_error_delimiters('<span class="text-danger invalid-message">', '</span>');
 
 		$this->form_validation->set_message('required', '{field} wajib diisi!');
@@ -81,27 +89,33 @@ class Jadwal extends CI_Controller {
 		$this->jadwal_m->hapus($id);
 	}
 
-	public function nama($nama)
+	public function pegawai($pegawai)
 	{
 		$ta = $this->fungsi->ta()->id_ta;
-		$where = array ('nama_jadwal' => $nama, 'id_ta_jadwal' => $ta);
+		$hari = $this->input->post('hari');
+		$waktu = $this->input->post('waktu');
+
+		$where = array ('id_pegawai_jadwal' => $pegawai, 'id_hari_jadwal' => $hari, 'id_waktu_jadwal' => $waktu, 'id_ta_jadwal' => $ta);
 		$cek = $this->jadwal_m->cek_data($where, 1);
 	  if ($cek){
-		  $this->form_validation->set_message('nama', '{field} sudah terdaftar!');
+		  $this->form_validation->set_message('pegawai', '{field} sudah terdaftar di jam ini!');
 		  return FALSE;
 	  }else{
 		  return TRUE;
 	  }
   }
 
-	public function edit_nama($nama)
+	public function edit_pegawai($pegawai)
 	{
 		$ta = $this->fungsi->ta()->id_ta;
 		$id = $this->input->post('id');
-		$where = array ('nama_jadwal' => $nama, 'id_ta_jadwal' => $ta, 'id_jadwal !=' => $id);
+		$hari = $this->input->post('hari');
+		$waktu = $this->input->post('waktu');
+
+		$where = array ('id_pegawai_jadwal' => $pegawai, 'id_hari_jadwal' => $hari, 'id_waktu_jadwal' => $waktu, 'id_ta_jadwal' => $ta, 'id_jadwal !=' => $id);
 		$cek = $this->jadwal_m->cek_data($where, 1);
 	  if ($cek){
-		  $this->form_validation->set_message('edit_nama', '{field} sudah terdaftar!');
+		  $this->form_validation->set_message('edit_pegawai', '{field} sudah terdaftar!');
 		  return FALSE;
 	  }else{
 		  return TRUE;

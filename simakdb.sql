@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 06, 2021 at 01:57 AM
+-- Generation Time: Mar 10, 2021 at 12:43 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -46,6 +46,37 @@ INSERT INTO `hari` (`id_hari`, `id_ta_hari`, `nama_hari`, `buat_hari`) VALUES
 (4, 13, 'Kamis', '2021-03-05 15:01:54'),
 (5, 13, 'Jumat', '2021-03-05 15:01:57'),
 (6, 13, 'Sabtu', '2021-03-05 15:02:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jadwal`
+--
+
+CREATE TABLE `jadwal` (
+  `id_jadwal` bigint(20) UNSIGNED NOT NULL,
+  `id_ta_jadwal` int(11) NOT NULL,
+  `id_hari_jadwal` int(11) NOT NULL,
+  `id_rombel_jadwal` int(11) NOT NULL,
+  `id_waktu_jadwal` int(11) NOT NULL,
+  `id_mapel_jadwal` int(11) NOT NULL,
+  `id_pegawai_jadwal` int(11) NOT NULL,
+  `buat_jadwal` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `jadwal`
+--
+
+INSERT INTO `jadwal` (`id_jadwal`, `id_ta_jadwal`, `id_hari_jadwal`, `id_rombel_jadwal`, `id_waktu_jadwal`, `id_mapel_jadwal`, `id_pegawai_jadwal`, `buat_jadwal`) VALUES
+(1, 13, 2, 2, 3, 1, 31, '2021-03-07 09:27:45'),
+(2, 13, 2, 2, 5, 1, 31, '2021-03-09 06:13:18'),
+(3, 13, 2, 1, 6, 3, 46, '2021-03-09 08:01:45'),
+(4, 13, 2, 2, 4, 1, 31, '2021-03-09 11:59:17'),
+(5, 13, 1, 1, 1, 1, 45, '2021-03-09 13:35:18'),
+(6, 13, 1, 1, 2, 1, 45, '2021-03-09 13:35:23'),
+(8, 13, 1, 1, 4, 2, 31, '2021-03-09 13:35:36'),
+(10, 13, 1, 1, 3, 2, 31, '2021-03-09 13:44:29');
 
 -- --------------------------------------------------------
 
@@ -166,7 +197,8 @@ INSERT INTO `pegawai` (`id_pegawai`, `id_ta_pegawai`, `jenis_pegawai`, `kode_peg
 (44, 13, 2, NULL, 'Anton', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, '083813154408', NULL, NULL, NULL, NULL, '2021-03-03 00:01:50'),
 (45, 13, 1, '002', 'Koswara', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 3, 'Pendidikan Olahraga', NULL, 'S.Pd.', NULL, NULL, NULL, '083813154409', NULL, 568750, 2, NULL, '2021-03-03 12:32:24'),
 (46, 13, 1, '003', 'Ismail', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 3, 'Teknik Informatika', NULL, 'S.Kom.', NULL, NULL, NULL, '083813154401', 'ismail@gmail.com', 951383, 2, NULL, '2021-03-03 12:33:40'),
-(47, 13, 1, '004', 'Andre', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 3, 'Desain Komunikasi Visual', NULL, 'S.Sen.', NULL, NULL, NULL, '083813154402', NULL, 553697, 2, NULL, '2021-03-03 12:34:29');
+(47, 13, 1, '004', 'Andre', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 3, 'Desain Komunikasi Visual', NULL, 'S.Sen.', NULL, NULL, NULL, '083813154402', NULL, 553697, 2, NULL, '2021-03-03 12:34:29'),
+(48, 13, 1, '005', 'Temon', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 2, 3, 'Teknik Informatika', NULL, 'S.Kom.', NULL, NULL, NULL, '083813154403', NULL, 173983, 2, NULL, '2021-03-06 14:42:34');
 
 -- --------------------------------------------------------
 
@@ -191,7 +223,8 @@ INSERT INTO `rombel` (`id_rombel`, `id_ta_rombel`, `id_kelas_rombel`, `id_pegawa
 (1, 13, 4, 31, 'X TMK 1', '2021-03-05 14:14:24'),
 (2, 13, 4, 45, 'X TMK 2', '2021-03-05 14:14:47'),
 (3, 13, 4, 46, 'X TMK 3', '2021-03-05 14:17:45'),
-(4, 13, 5, 47, 'XI TMK 1', '2021-03-05 14:17:58');
+(4, 13, 5, 47, 'XI TMK 1', '2021-03-05 14:17:58'),
+(5, 13, 5, 48, 'XI TMK 2', '2021-03-06 14:43:10');
 
 -- --------------------------------------------------------
 
@@ -301,6 +334,12 @@ ALTER TABLE `hari`
   ADD PRIMARY KEY (`id_hari`);
 
 --
+-- Indexes for table `jadwal`
+--
+ALTER TABLE `jadwal`
+  ADD PRIMARY KEY (`id_jadwal`);
+
+--
 -- Indexes for table `jurusan`
 --
 ALTER TABLE `jurusan`
@@ -365,6 +404,12 @@ ALTER TABLE `hari`
   MODIFY `id_hari` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `jadwal`
+--
+ALTER TABLE `jadwal`
+  MODIFY `id_jadwal` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
 -- AUTO_INCREMENT for table `jurusan`
 --
 ALTER TABLE `jurusan`
@@ -386,13 +431,13 @@ ALTER TABLE `mapel`
 -- AUTO_INCREMENT for table `pegawai`
 --
 ALTER TABLE `pegawai`
-  MODIFY `id_pegawai` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id_pegawai` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `rombel`
 --
 ALTER TABLE `rombel`
-  MODIFY `id_rombel` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_rombel` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `ruangan`

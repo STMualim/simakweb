@@ -12,7 +12,13 @@ class Jadwal_m extends CI_Model {
     $this->db->join('waktu', 'waktu.id_waktu = jadwal.id_waktu_jadwal', 'left');
     $this->db->join('mapel', 'mapel.id_mapel = jadwal.id_mapel_jadwal', 'left');
     $this->db->join('pegawai', 'pegawai.id_pegawai = jadwal.id_pegawai_jadwal', 'left');
-    $this->db->where('id_ta_jadwal', $ta)->where('id_hari_jadwal', $post['hari']);
+    $this->db->where('id_ta_jadwal', $ta);
+    if ($post['hari'] != null) {
+      $this->db->where('id_hari_jadwal', $post['hari']);
+    }
+    if ($post['kelas'] != null) {
+      $this->db->where('id_kelas_rombel', $post['kelas']);
+    }
     return $this->db->get();
   }
 
@@ -22,10 +28,10 @@ class Jadwal_m extends CI_Model {
     return $this->db->get_where('waktu', ['id_ta_waktu' => $ta]);
   }
 
-  function load_rombel()
+  function load_rombel($post)
   {
     $ta = $this->fungsi->ta()->id_ta;
-    return $this->db->get_where('rombel', ['id_ta_rombel' => $ta]);
+    return $this->db->get_where('rombel', ['id_ta_rombel' => $ta, 'id_kelas_rombel' => $post['kelas']]);
   }
 
   function load_hari()
@@ -40,12 +46,28 @@ class Jadwal_m extends CI_Model {
     return $this->db->get_where('kelas', ['id_ta_kelas' => $ta]);
   }
 
+  function load_mapel()
+  {
+    $ta = $this->fungsi->ta()->id_ta;
+    return $this->db->get_where('mapel', ['id_ta_mapel' => $ta]);
+  }
+
+  function load_pegawai()
+  {
+    $ta = $this->fungsi->ta()->id_ta;
+    return $this->db->get_where('pegawai', ['id_ta_pegawai' => $ta, 'level_pegawai' => 2]);
+  }
+
   function tambah($post)
   {
     $ta = $this->fungsi->ta()->id_ta;
     $this->db->insert('jadwal', [
       'id_ta_jadwal' => $ta,
-      'nama_jadwal' => $post['nama'],
+      'id_hari_jadwal' => $post['hari'],
+      'id_rombel_jadwal' => $post['rombel'],
+      'id_waktu_jadwal' => $post['waktu'],
+      'id_mapel_jadwal' => $post['mapel'],
+      'id_pegawai_jadwal' => $post['pegawai'],
     ]);
   }
 
@@ -53,7 +75,8 @@ class Jadwal_m extends CI_Model {
   {
     $this->db->where('id_jadwal', $post['id']);
     $this->db->update('jadwal', [
-      'nama_jadwal' => $post['nama'],
+      'id_mapel_jadwal' => $post['mapel'],
+      'id_pegawai_jadwal' => $post['pegawai'],
     ]);
   }
 

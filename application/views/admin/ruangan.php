@@ -175,7 +175,7 @@ $this->load->view('_part/header');
       $('#mdlData').modal('show');
       $('.modal-title').text("Tambah Data");
       $('#formData').trigger('reset');
-      $('.select').val("").trigger('change.select2');
+      $('#rombel').val("").trigger('change.select2');
       $('.form-control').removeClass('is-invalid');
       $('.invalid-message').remove();
       $('#mdlData').on('shown.bs.modal', function(){

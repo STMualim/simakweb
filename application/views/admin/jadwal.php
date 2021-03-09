@@ -12,19 +12,7 @@ $this->load->view('_part/header');
           <p class="text-muted content-subtitle"><?= $this->fungsi->ta()->tahun_ta ?></p>
         </div>
         <div class="col-6 text-right">
-          <!-- Tombol -->
-          <button type="button" class="btn btn-rounded btn-teal d-none d-sm-inline btn-tambah">
-            <i class="fas fa-plus"></i> Tambah Data
-          </button>
-          <!--  -->
-          <button type="button" class="btn btn-rounded btn-teal d-inline d-sm-none dropdown-toggle" data-toggle="dropdown">
-            <i class="fas fa-plus"></i>
-          </button>
-          <div class="dropdown-menu">
-            <a class="dropdown-item btn-tambah" href="javascript:void(0)">Tambah Data</a>
-            <!-- <div class="dropdown-divider"></div> -->
-          </div>
-          <!-- /Tombol -->
+
         </div>
       </div>
     </div>
@@ -68,35 +56,8 @@ $this->load->view('_part/header');
             </div>
 
             <!-- Table List -->
-            <div class="card-body table-responsive p-0">
-              <table id="tblData" class="table table-bordered table-hover table-striped table-sm text-nowrap text-center" style="width: 100%;">
-                <thead>
-                  <tr>
-                    <th class="text-center" style="width: 50px;">Jam</th>
-                    <th style="width: 150px;">Waktu</th>
-                    <?php foreach ($rombel as $key => $row) { ?>
-                      <th style="width: 10px;"><?= $row->nama_rombel ?></th>
-                    <?php } ?>
-                  </tr>
-                </thead>
-                <tbody id="loadJadwal">
-                  <!-- <?php foreach ($waktu as $key => $row) { ?>
-                    <tr>
-                      <td class="text-center"><b><?= $row->jam_waktu ?></b></td>
-                      <td><b><?= $row->nama_waktu ?></b></td>
-                      <?php foreach ($rombel as $key => $col) { ?>
-                        <?php foreach ($jadwal as $key => $jdl) { ?>
-                          <?php if ($jdl->id_rombel_jadwal == $col->id_rombel && $jdl->id_waktu_jadwal == $row->id_waktu) { ?>
-                            <td><a href="javascript:void(0)" data-waktu="<?= $row->id_waktu ?>" data-rombel="<?= $col->id_rombel ?>" data-toggle="tooltip" data-placement="top" title="<?= "$jdl->nama_mapel-$jdl->nama_pegawai" ?>"><?= "$jdl->kode_mapel-$jdl->kode_pegawai" ?></a></td>
-                          <?php } else { ?>
-                            <td><a href="javascript:void(0)" data-waktu="<?= $row->id_waktu ?>" data-rombel="<?= $col->id_rombel ?>">...</a></td>
-                          <?php } ?>
-                        <?php } ?>
-                      <?php } ?>
-                    </tr>
-                  <?php } ?> -->
-                </tbody>
-              </table>
+            <div class="card-body table-responsive p-0" id="loadJadwal">
+            <!-- Load Jadwal -->
             </div>
           </div>
         </div>
@@ -104,7 +65,7 @@ $this->load->view('_part/header');
 
       <!-- Modal -->
       <div class="modal fade" id="mdlData">
-        <div class="modal-dialog modal-sm">
+        <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title text-muted"></h5>
@@ -117,17 +78,53 @@ $this->load->view('_part/header');
               <div class="modal-body">
                 <div class="row">
                   <input type="hidden" name="id" id="id">
+                  <input type="hidden" name="hari" id="idHari">
+                  <input type="hidden" name="rombel" id="idRombel">
+                  <input type="hidden" name="waktu" id="idWaktu">
 
                   <div class="col-md-12">
-                    <div class="form-group form-nama">
-                      <label>Nama</label>
-                      <input type="text" name="nama" class="form-control" id="nama">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">
+                            <i class="bx bx-group"></i>
+                          </div>
+                        </div>
+                        <input type="text" class="form-control" id="rombel" readonly>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">
+                            <i class="bx bx-time"></i>
+                          </div>
+                        </div>
+                        <input type="text" class="form-control" id="waktu" readonly>
+                      </div>
+                    </div>
+                    <div class="form-group form-mapel">
+                      <select class="form-control select" name="mapel" id="mapel">
+                        <option value="">Pilih Mapel</option>
+                        <?php foreach ($mapel as $key => $row) { ?>
+                          <option value="<?= $row->id_mapel ?>"><?= "$row->kode_mapel-$row->nama_mapel" ?></option>
+                        <?php } ?>
+                      </select>
+                    </div>
+                    <div class="form-group form-pegawai">
+                      <select class="form-control select" name="pegawai" id="pegawai">
+                        <option value="">Pilih Guru</option>
+                        <?php foreach ($pegawai as $key => $row) { ?>
+                          <option value="<?= $row->id_pegawai ?>"><?= "$row->kode_pegawai-$row->nama_pegawai" ?></option>
+                        <?php } ?>
+                      </select>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="modal-footer justify-content-between">
                 <a href="javascript:void(0)" data-dismiss="modal"><b>Batal</b></a>
+                <button type="button" class="btn btn-outline-danger btn-rounded" id="btnHapus"> Hapus</button>
                 <button type="submit" class="btn btn-teal btn-rounded btn-loading" id="btnSimpan"> Simpan</button>
               </div>
             </form>
@@ -171,41 +168,61 @@ $this->load->view('_part/header');
 
     // Filter
     $('#btnFilter').click(function(){
-      $('#tblData').DataTable().destroy();
+      loadingElementOn('#loadJadwal');
       loadData();
     });
 
     // Reset Filter
     $('#resetFilter').click(function(){
-      $('#namaFilter').val("");
-      $('#tblData').DataTable().destroy();
+      $('#hariFilter').val("").trigger('change.select2');
+      $('#kelasFilter').val("").trigger('change.select2');
       loadData();
     });
 
     // Tambah Data
-    $('.btn-tambah').click(function(){
+    $('#loadJadwal').on('click', '.tambah-jadwal', function(){
+      var idHari = $('#hariFilter').val();
+      var idRombel = $(this).data('idrombel');
+      var idWaktu = $(this).data('idwaktu');
+      var namaRombel = $(this).data('namarombel');
+      var namaWaktu = $(this).data('namawaktu');
+      $('#mdlData').on('shown.bs.modal', function(){
+        $('#idHari').val(idHari);
+        $('#idRombel').val(idRombel);
+        $('#idWaktu').val(idWaktu);
+        $('#rombel').val(namaRombel);
+        $('#waktu').val(namaWaktu);
+        $('#mapel, #pegawai').val("").trigger('change.select2');
+      });
+
       simpan = "tambah";
       $('#mdlData').modal('show');
-      $('.modal-title').text("Tambah Data");
+      $('#btnHapus').prop('hidden', true);
+      $('.modal-title').text("Tambah Jadwal");
       $('#formData').trigger('reset');
-      $('.select').val("").trigger('change.select2');
       $('.form-control').removeClass('is-invalid');
       $('.invalid-message').remove();
-      $('#mdlData').on('shown.bs.modal', function(){
-        $('#nama').focus();
-      });
     });
 
     // Edit Data
-    $('#tblData').on('click', '.edit-data', function(){
+    $('#loadJadwal').on('click', '.edit-jadwal', function(){
       var id = $(this).data('id');
-      var nama = $(this).data('nama');
-      $('#id').val(id);
-      $('#nama').val(nama);
+      var idMapel = $(this).data('idmapel');
+      var idPegawai = $(this).data('idpegawai');
+      var namaRombel = $(this).data('namarombel');
+      var namaWaktu = $(this).data('namawaktu');
+      $('#mdlData').on('shown.bs.modal', function(){
+        $('#id').val(id);
+        $('#mapel').val(idMapel).trigger('change.select2');
+        $('#pegawai').val(idPegawai).trigger('change.select2');
+        $('#rombel').val(namaRombel);
+        $('#waktu').val(namaWaktu);
+      });
 
       simpan = "edit";
       $('#mdlData').modal('show');
-      $('.modal-title').text("Edit Data");
+      $('#btnHapus').prop('hidden', false);
+      $('.modal-title').text("Edit Jadwal");
       $('.form-control').removeClass('is-invalid');
       $('.invalid-message').remove();
     });
@@ -215,9 +232,9 @@ $this->load->view('_part/header');
       e.preventDefault();
       var url;
       if (simpan == "tambah") {
-        url = "<?= site_url('admin/kelas/tambah') ?>"
+        url = "<?= site_url('admin/jadwal/tambah') ?>"
       } else {
-        url = "<?= site_url('admin/kelas/edit') ?>"
+        url = "<?= site_url('admin/jadwal/edit') ?>"
       }
       $.ajax({
         url: url,
@@ -231,13 +248,10 @@ $this->load->view('_part/header');
           loadingBtnOff();
           if(data.sukses == true){
             alertSukses("Berhasil disimpan");
-            reloadTable('#tblData');
-            if(simpan == 'edit'){
-              $('#mdlData').modal('hide');
-            }
-            $('#nama').focus();
+            loadData();
+            $('#mdlData').modal('hide');
             $('#formData').trigger('reset');
-            $('.select').val("").trigger('change.select2');
+            $('#mapel, #pegawai').val("").trigger('change.select2');
             $('.form-control').removeClass('is-invalid');
             $('.invalid-message').remove();
           }else{
@@ -259,17 +273,10 @@ $this->load->view('_part/header');
     });
 
     // Hapus Data
-    $('#tblData').on('click', '.hapus-data', function(){
-      var id = $(this).data('id');
-      $('#idKonfirm').val(id);
-      $('#mdlKonfirm').modal('show');
-      $('#titleKonfirm').text('INGIN MENGHAPUS DATA?');
-      $('#btnKonfirm').html('<button type="button" class="btn btn-danger btn-rounded btn-loading" id="btnKonfirmHapus"> Hapus</button>');
-    });
-    $('#mdlKonfirm').on('click','#btnKonfirmHapus',function(){
-      var id = $('#idKonfirm').val();
+    $('#mdlData').on('click','#btnHapus',function(){
+      var id = $('#id').val();
       $.ajax({
-        url: '<?= site_url('admin/kelas/hapus') ?>',
+        url: '<?= site_url('admin/jadwal/hapus') ?>',
         type: 'get',
         data: {id},
         beforeSend: function(){
@@ -277,9 +284,9 @@ $this->load->view('_part/header');
         },
         success: function(){
           loadingBtnOff();
-          reloadTable('#tblData');
+          loadData();
           alertSukses("Berhasil dihapus");
-          $('#mdlKonfirm').modal('hide');
+          $('#mdlData').modal('hide');
         }
       });
     });
@@ -300,48 +307,74 @@ $this->load->view('_part/header');
       async : false,
       dataType: "json",
       success: function(data){
+        var rombel = "";
+        var waktu = "";
         var jadwal = "";
 
-        if (data.jadwal.length > 0) {
-          $.each(data.waktu, function(i, wkt) {
-            jadwal += `<tr>
-                        <td><b>`+wkt.jam_waktu+`</b></td>
-                        <td><b>`+wkt.nama_waktu+`</b></td>`+
-                        $.each(data.rombel, function(i, rom) {
-                          $.each(data.jadwal, function(i, jdl) {
-                            if (jdl.id_rombel_jadwal == rom.id_rombel && jdl.id_waktu_jadwal == rom.id_waktu && jdl.id_hari_jadwal == hari) {
-                              jadwal = `<td><a href="javascript:void(0)" data-id="`+jdl.id_jadwal+`" data-toggle="tooltip" data-placement="top" title="`+jdl.nama_mapel+`-`+jdl.nama_pegawai+`"></a></td>`
-                            } else {
-                              jadwal = `<td><a href="javascript:void(0)" data-hari="`+hari+`" data-waktu="`+wkt.id_waktu+`" data-rombel="`+rom.id_rombel+`">...</a></td>`
-                            }
-                          })
-                        })
-                      +`</tr>`
+        if (hari != "") {
+          $.each(data.rombel, function(i, rmb) {
+            rombel += `<th>`+rmb.nama_rombel+`</th>`;
           });
-          // for (var i = 0; i < data.length; i++) {
-          //   log += `<li class="event-list">
-          //             <div class="event-timeline-dot text-primary">
-          //               <i class="bx bx-right-arrow-circle"></i>
-          //             </div>
-          //             <div class="media">
-          //               <div class="mr-3">
-          //                 <i class="bx bx-copy-alt h2 text-primary"></i>
-          //               </div>
-          //               <div class="media-body">
-          //                 <div>
-          //                   <h5 class="font-size-14">`+tglIndo(data[i].tgl_log)+` (`+data[i].nama_user+`)</h5>
-          //                   <p class="text-muted">`+data[i].ket_log+`</p>
-          //                 </div>
-          //               </div>
-          //             </div>
-          //           </li>`;
-          // }
-          $('#loadJadwal').html(jadwal);
-        } else {
-          jadwal = `oke`;
+
+          $.each(data.waktu, function(i, wkt) {
+            waktu += `<tr>
+                        <td class="text-center"><b>`+wkt.jam_waktu+`</b></td>
+                        <td><b>`+wkt.nama_waktu+`</b></td>`;
+                        if (data.jadwal.length > 0) {
+                          $.each(data.rombel, function(i, rmb) {
+                            waktu += `<td id="jdl`+wkt.id_waktu+rmb.id_rombel+hari+`"><a href="javascript:void(0)" class="tambah-jadwal" data-idwaktu="`+wkt.id_waktu+`" data-namawaktu="`+wkt.nama_waktu+`" data-idrombel="`+rmb.id_rombel+`" data-namarombel="`+rmb.nama_rombel+`">...</a></td>`;
+                          });
+                        } else {
+                          $.each(data.rombel, function(i, rmb) {
+                            waktu += `<td><a href="javascript:void(0)" class="tambah-jadwal" data-idwaktu="`+wkt.id_waktu+`" data-namawaktu="`+wkt.nama_waktu+`" data-idrombel="`+rmb.id_rombel+`" data-namarombel="`+rmb.nama_rombel+`">...</a></td>`;
+                          })
+                        }
+            waktu += `</tr>`;
+          });
+
+          jadwal = `<table id="tblData" class="table table-bordered table-hover table-striped table-sm text-nowrap text-center" style="width: 100%;">
+                      <thead>
+                        <tr>
+                          <th class="text-center" style="width: 10px;">Jam</th>
+                          <th>Waktu</th>
+                          `+rombel+`
+                        </tr>
+                      </thead>
+                      <tbody>
+                        `+waktu+`
+                      </tbody>
+                    </table>`;
 
           $('#loadJadwal').html(jadwal);
+          loadJadwal();
+        } else {
+          jadwal = `<div class="text-center">
+                      <i class="text-soft-teal bx bx-table" style="font-size: 150px;"></i>
+                      <p class="text-muted mt-0">Filter hari dan kelas untuk menampilkan jadwal</p>
+                    </div>`;
+          $('#loadJadwal').html(jadwal);
+          loadingElementOff('#loadJadwal');
         }
+      }
+    });
+  }
+
+  function loadJadwal()
+  {
+    var hari = $('#hariFilter').val();
+    var kelas = $('#kelasFilter').val();
+
+    $.ajax({
+      url: "<?= site_url('admin/jadwal/load_jadwal') ?>",
+      type : "post",
+      data : {hari, kelas},
+      dataType : "json",
+      success: function(data){
+        loadingElementOff('#loadJadwal');
+        $.each(data, function(i, jdl) {
+          $('#jdl'+jdl.id_waktu_jadwal+jdl.id_rombel_jadwal+jdl.id_hari_jadwal).html(`<a href="javascript:void(0)" class="edit-jadwal" data-id="`+jdl.id_jadwal+`" data-idmapel="`+jdl.id_mapel_jadwal+`" data-idpegawai="`+jdl.id_pegawai_jadwal+`" data-namawaktu="`+jdl.nama_waktu+`" data-namarombel="`+jdl.nama_rombel+`" data-toggle="tooltip" data-placement="top" title="`+jdl.nama_mapel+`-`+jdl.nama_pegawai+`">`+jdl.kode_mapel+`-`+jdl.kode_pegawai+`</a>`);
+        });
+        $('[data-toggle="tooltip"]').tooltip();
       }
     });
   }
