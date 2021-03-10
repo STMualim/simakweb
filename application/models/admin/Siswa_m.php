@@ -1,25 +1,49 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Pegawai_m extends CI_Model {
+class Siswa_m extends CI_Model {
 
   function load_data($post)
   {
     $ta = $this->fungsi->ta()->id_ta;
-    $this->datatables->from('pegawai');
-    $this->datatables->where('id_ta_pegawai', $ta);
+    $this->datatables->from('siswa');
+    $this->datatables->join('jurusan', 'jurusan.id_jurusan = siswa.id_jurusan_siswa', 'left');
+    $this->datatables->join('rombel', 'rombel.id_rombel = siswa.id_rombel_siswa', 'left');
+    $this->datatables->join('ruangan', 'ruangan.id_ruangan = siswa.id_ruangan_siswa', 'left');
+    $this->datatables->where('id_ta_siswa', $ta);
     // Filter
-    if ($post['kode'] != null) {
-      $this->datatables->like('kode_pegawai', $post['kode']);
-    }
     if ($post['nama'] != null) {
-      $this->datatables->like('nama_pegawai', $post['nama']);
+      $this->datatables->like('nama_siswa', $post['nama']);
     }
-    if ($post['jenis'] != null) {
-      $this->datatables->where('jenis_pegawai', $post['jenis']);
+    if ($post['jurusan'] != null) {
+      $this->datatables->where('id_jurusan_siswa', $post['jurusan']);
+    }
+    if ($post['rombel'] != null) {
+      $this->datatables->where('id_rombel_siswa', $post['rombel']);
+    }
+    if ($post['ruangan'] != null) {
+      $this->datatables->where('id_ruangan_siswa', $post['ruangan']);
     }
 
     return $this->datatables->generate();
+  }
+
+  function load_jurusan()
+  {
+    $ta = $this->fungsi->ta()->id_ta;
+    return $this->db->get_where('jurusan', ['id_ta_jurusan' => $ta]);
+  }
+
+  function load_rombel()
+  {
+    $ta = $this->fungsi->ta()->id_ta;
+    return $this->db->get_where('rombel', ['id_ta_rombel' => $ta]);
+  }
+
+  function load_ruangan()
+  {
+    $ta = $this->fungsi->ta()->id_ta;
+    return $this->db->get_where('ruangan', ['id_ta_ruangan' => $ta]);
   }
 
   function tambah($post)
@@ -52,15 +76,7 @@ class Pegawai_m extends CI_Model {
       'level_pegawai' => empty($post['pin']) ? null : $post['pin'],
     ];
 
-    if ($post['jenis'] == 2 && $post['pin'] != null) {
-      $col['level_pegawai'] = 1;
-    } else if ($post['jenis'] == 1) {
-      $col['level_pegawai'] = 2;
-    } else if ($post['jenis'] == 2 && $post['pin'] == null) {
-      $col['level_pegawai'] = null;
-    }
-
-    $this->db->insert('pegawai', $col);
+    $this->db->insert('siswa', $col);
   }
 
   function edit($post)

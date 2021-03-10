@@ -42,20 +42,36 @@ $this->load->view('_part/header');
               <div class="row">
                 <div class="col-md-2">
                   <div class="form-group">
-                    <input type="text" class="form-control" id="kodeFilter" placeholder="Kode">
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="form-group">
                     <input type="text" class="form-control" id="namaFilter" placeholder="Nama">
                   </div>
                 </div>
                 <div class="col-md-2">
                   <div class="form-group">
-                    <select class="form-control" id="jenisFilter">
-                      <option value="">Semua Jenis</option>
-                      <option value="1">Guru</option>
-                      <option value="2">Staf</option>
+                    <select class="form-control select" id="jurusanFilter">
+                      <option value="">Semua Jurusan</option>
+                      <?php foreach ($jurusan as $key => $row) { ?>
+                        <option value="<?= $row->id_jurusan ?>"><?= $row->kode_jurusan ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <select class="form-control select" id="rombelFilter">
+                      <option value="">Semua Rombel</option>
+                      <?php foreach ($rombel as $key => $row) { ?>
+                        <option value="<?= $row->id_rombel ?>"><?= $row->nama_rombel ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <select class="form-control select" id="ruanganFilter">
+                      <option value="">Semua Ruangan</option>
+                      <?php foreach ($ruangan as $key => $row) { ?>
+                        <option value="<?= $row->id_ruangan ?>"><?= $row->nama_ruangan ?></option>
+                      <?php } ?>
                     </select>
                   </div>
                 </div>
@@ -71,10 +87,11 @@ $this->load->view('_part/header');
               <table id="tblData" class="table table-hover table-striped dt-responsive" style="width: 100%;">
                 <thead>
                   <tr>
-                    <th>Kode</th>
+                    <th>NIS</th>
                     <th>Nama</th>
-                    <th>Jenis</th>
-                    <th>Dibuat</th>
+                    <th>L/P</th>
+                    <th>Jurusan</th>
+                    <th>Rombel</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -104,17 +121,17 @@ $this->load->view('_part/header');
                 <ul class="step-nav justify-content-center">
                   <li class="step-item active" id="stepItem1">
                     <span class="step-circle">1</span>
-                    <span class="step-label text-muted d-none d-lg-inline">Identitas Pegawai</span>
+                    <span class="step-label text-muted d-none d-lg-inline">Data Siswa</span>
                   </li>
                   <div class="step-line"></div>
                   <li class="step-item" id="stepItem2">
                     <span class="step-circle">2</span>
-                    <span class="step-label text-muted d-none d-lg-inline">Pend. Pegawai</span>
+                    <span class="step-label text-muted d-none d-lg-inline">Data Ortu</span>
                   </li>
                   <div class="step-line"></div>
                   <li class="step-item" id="stepItem3">
                     <span class="step-circle">3</span>
-                    <span class="step-label text-muted d-none d-lg-inline">Akun Pegawai</span>
+                    <span class="step-label text-muted d-none d-lg-inline">Akun Siswa</span>
                   </li>
                 </ul>
                 <!--  -->
@@ -123,42 +140,54 @@ $this->load->view('_part/header');
                 <div class="step-content-wrapper active" id="stepContent1">
                   <div class="step-content">
                     <div class="form-group row">
-                      <label class="col-sm-4 col-form-label">Jenis Pegawai</label>
+                      <label class="col-sm-4 col-form-label">Jurusan</label>
                       <div class="col-sm-8">
-                        <select class="form-control" name="jenis" id="jenis">
-                          <option value="1">Guru</option>
-                          <option value="2">Staf</option>
+                        <select class="form-control select" name="jurusan" id="jurusan">
+                          <option value="">Pilih Jurusan</option>
+                          <?php foreach ($jurusan as $key => $row) { ?>
+                            <option value="<?= $row->id_jurusan ?>"><?= "$row->kode_jurusan-$row->nama_jurusan" ?></option>
+                          <?php } ?>
                         </select>
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label class="col-sm-4 col-form-label">Kode</label>
-                      <div class="col-sm-8 form-kode">
-                        <input type="text" name="kode" class="form-control" id="kode">
+                      <label class="col-sm-4 col-form-label">Rombel</label>
+                      <div class="col-sm-8">
+                        <select class="form-control select" name="rombel" id="rombel">
+                          <option value="">Pilih Rombel</option>
+                          <?php foreach ($rombel as $key => $row) { ?>
+                            <option value="<?= $row->id_rombel ?>"><?= $row->nama_rombel ?></option>
+                          <?php } ?>
+                        </select>
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label class="col-sm-4 col-form-label">Nama Pegawai (tanpa gelar)</label>
+                      <label class="col-sm-4 col-form-label">Ruangan</label>
+                      <div class="col-sm-8">
+                        <select class="form-control select" name="ruangan" id="ruangan">
+                          <option value="">Pilih Ruangan</option>
+                          <?php foreach ($ruangan as $key => $row) { ?>
+                            <option value="<?= $row->id_ruangan ?>"><?= $row->nama_ruangan ?></option>
+                          <?php } ?>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-4 col-form-label">Nama Lengkap Siswa</label>
                       <div class="col-sm-8 form-nama">
                         <input type="text" name="nama" class="form-control" id="nama">
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label class="col-sm-4 col-form-label">NIP</label>
+                      <label class="col-sm-4 col-form-label">NISN</label>
                       <div class="col-sm-8">
-                        <input type="text" name="nip" class="form-control" id="nip">
+                        <input type="text" name="nisn" class="form-control" id="nisn">
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label class="col-sm-4 col-form-label">No. KTP</label>
+                      <label class="col-sm-4 col-form-label">NIS</label>
                       <div class="col-sm-8">
-                        <input type="text" name="ktp" class="form-control" id="ktp">
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label class="col-sm-4 col-form-label">NPWP</label>
-                      <div class="col-sm-8">
-                        <input type="text" name="npwp" class="form-control" id="npwp">
+                        <input type="text" name="nis" class="form-control" id="nis">
                       </div>
                     </div>
                     <div class="form-group row">
@@ -171,12 +200,6 @@ $this->load->view('_part/header');
                       <label class="col-sm-4 col-form-label">Tgl. Lahir</label>
                       <div class="col-sm-8">
                         <input type="text" name="tgl_lahir" class="form-control tgl" id="tglLahir" data-inputmask-alias="datetime" data-inputmask-inputformat="dd-mm-yyyy" data-mask>
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label class="col-sm-4 col-form-label">Alamat</label>
-                      <div class="col-sm-8">
-                        <textarea class="form-control" name="alamat" id="alamat" rows="3" maxlength="200" placeholder="(max. 200)"></textarea>
                       </div>
                     </div>
                     <div class="form-group row">
@@ -202,12 +225,76 @@ $this->load->view('_part/header');
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label class="col-sm-4 col-form-label">Status Perkawinan</label>
+                      <label class="col-sm-4 col-form-label">Alamat</label>
                       <div class="col-sm-8">
-                        <select class="form-control" name="status_kawin" id="statusKawin">
-                          <option value="1">Belum Kawin</option>
-                          <option value="2">Kawin</option>
-                          <option value="3">Janda/Duda</option>
+                        <textarea class="form-control" name="alamat" id="alamat" rows="3" maxlength="200" placeholder="(max. 200)"></textarea>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-4 col-form-label"></label>
+                      <div class="col-sm-2 mb-2">
+                        <input type="text" name="rt" class="form-control" id="rt" placeholder="RT">
+                      </div>
+                      <div class="col-sm-2 mb-2">
+                        <input type="text" name="rw" class="form-control" id="rw" placeholder="RW">
+                      </div>
+                      <div class="col-sm-4">
+                        <input type="text" name="kode_pos" class="form-control" id="kodePos" placeholder="Kode Pos">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-4 col-form-label"></label>
+                      <div class="col-sm-4 mb-2">
+                        <input type="text" name="kel" class="form-control" id="kel" placeholder="Kelurahan">
+                      </div>
+                      <div class="col-sm-4">
+                        <input type="text" name="kec" class="form-control" id="kec" placeholder="Kecamatan">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-4 col-form-label"></label>
+                      <div class="col-sm-4 mb-2">
+                        <input type="text" name="kota" class="form-control" id="kota" placeholder="Kota/Kab.">
+                      </div>
+                      <div class="col-sm-4">
+                        <input type="text" name="provinsi" class="form-control" id="provinsi" placeholder="Provinsi">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-4 col-form-label">Asal Sekolah</label>
+                      <div class="col-sm-8">
+                        <input type="text" name="asal_sekolah" class="form-control" id="asalSekolah">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-4 col-form-label">Status Tempat Tinggal</label>
+                      <div class="col-sm-8">
+                        <select class="form-control" name="tmp_tinggal" id="tmpTinggal">
+                          <option value="1">Milik Sendiri</option>
+                          <option value="2">Sewa</option>
+                          <option value="3">Bersama Orang Tua</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-4 col-form-label">Jumlah Saudara</label>
+                      <div class="col-sm-8">
+                        <input type="text" name="jml_saudara" class="form-control" id="jmlSaudara">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-4 col-form-label">Anak Ke-</label>
+                      <div class="col-sm-8">
+                        <input type="text" name="anak_ke" class="form-control" id="anakKe">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-4 col-form-label">Status Anak</label>
+                      <div class="col-sm-8">
+                        <select class="form-control" name="status_anak" id="statusAnak">
+                          <option value="1">Milik Sendiri</option>
+                          <option value="2">Sewa</option>
+                          <option value="3">Bersama Orang Tua</option>
                         </select>
                       </div>
                     </div>
@@ -436,6 +523,9 @@ $this->load->view('_part/header');
 
     loadData();
 
+    // Select2
+    $('.select').select2();
+
     // Tanggal Mask
     $('.tgl').inputmask('dd-mm-yyyy', { 'placeholder': 'hh-bb-tttt' });
 
@@ -495,7 +585,6 @@ $this->load->view('_part/header');
       $('#mdlData').modal({backdrop:'static'});
       $('.modal-title').text("Tambah Data");
       $('#formData').trigger('reset');
-      $('#jenis').val(1).trigger('change');
       $('.form-control').removeClass('is-invalid');
       $('.invalid-message').remove();
 
@@ -509,7 +598,6 @@ $this->load->view('_part/header');
       $('#step').val(1);
 
       $('#mdlData').on('shown.bs.modal', function(){
-        $('#kode').focus();
       });
     });
 
@@ -641,9 +729,9 @@ $this->load->view('_part/header');
     $('#btnSimpan').click(function(){
       var url;
       if (simpan == "tambah") {
-        url = "<?= site_url('admin/pegawai/tambah') ?>"
+        url = "<?= site_url('admin/siswa/tambah') ?>"
       } else {
-        url = "<?= site_url('admin/pegawai/edit') ?>"
+        url = "<?= site_url('admin/siswa/edit') ?>"
       }
       $.ajax({
         url: url,
@@ -704,7 +792,7 @@ $this->load->view('_part/header');
     $('#mdlKonfirm').on('click','#btnKonfirmHapus',function(){
       var id = $('#idKonfirm').val();
       $.ajax({
-        url: '<?= site_url('admin/pegawai/hapus') ?>',
+        url: '<?= site_url('admin/siswa/hapus') ?>',
         type: 'get',
         data: {id},
         beforeSend: function(){
@@ -723,9 +811,9 @@ $this->load->view('_part/header');
     $('#btnStepNext').click(function(){
       var url;
       if (simpan == "tambah") {
-        url = "<?= site_url('admin/pegawai/tambah') ?>"
+        url = "<?= site_url('admin/siswa/tambah') ?>"
       } else {
-        url = "<?= site_url('admin/pegawai/edit') ?>"
+        url = "<?= site_url('admin/siswa/edit') ?>"
       }
       $.ajax({
         url: url,
@@ -805,89 +893,39 @@ $this->load->view('_part/header');
   // Load DataTables
   function loadData()
   {
-    var kode = $('#kodeFilter').val();
     var nama = $('#namaFilter').val();
-    var jenis = $('#jenisFilter').val();
+    var jurusan = $('#jurusanFilter').val();
+    var rombel = $('#rombelFilter').val();
+    var ruangan = $('#ruanganFilter').val();
 
     $('#tblData').DataTable({
       ajax: {
-        url: '<?= site_url('admin/pegawai/load_data') ?>',
+        url: '<?= site_url('admin/siswa/load_data') ?>',
         type: 'post',
-        data: {kode, nama, jenis}
+        data: {nama, jurusan, rombel, ruangan}
       },
       columns:
       [
-        {data: 'kode_pegawai', render: function(data) {
+        {data: 'nis_siswa', render: function(data) {
           return data == null ? "-" : data;
         }},
-        {data: 'nama_pegawai', render: function(data, type, row) {
-          return (row.gelar_depan_pegawai == null ? "" : row.gelar_depan_pegawai+" ") + data + (row.gelar_belakang_pegawai == null ? "" : ", "+row.gelar_belakang_pegawai);
+        {data: 'nama_siswa'},
+        {data: 'jenkel_siswa', render: function(data) {
+          return data == 1 ? "L" : "P";
         }},
-        {data: 'jenis_pegawai', render: function(data) {
-          return data == 1 ? "Guru" : "Staf";
-        }},
-        {data: 'buat_pegawai', render: function(data) {
-          return tglJam(data);
-        }},
-        {data: "id_pegawai", orderable: false, searchable: false, render: function(data, type, row) {
+        {data: 'nama_jurusan'},
+        {data: 'nama_rombel'},
+        {data: "id_siswa", orderable: false, searchable: false, render: function(data, type, row) {
           return `<div class="text-center">
                     <button type="button" class="btn btn-rounded btn-teal btn-sm dropdown-toggle" data-toggle="dropdown">
                       <i class="fas fa-cog"></i>
                     </button>
                     <div class="dropdown-menu">
-                      <a class="dropdown-item edit-data" href="javascript:void(0)"
-                      data-id="`+row.id_pegawai+`"
-                      data-jenis="`+row.jenis_pegawai+`"
-                      data-kode="`+row.kode_pegawai+`"
-                      data-nama="`+row.nama_pegawai+`"
-                      data-nip="`+row.nip_pegawai+`"
-                      data-ktp="`+row.ktp_pegawai+`"
-                      data-npwp="`+row.npwp_pegawai+`"
-                      data-tmp-lahir="`+row.tmp_lahir_pegawai+`"
-                      data-tgl-lahir="`+row.tgl_lahir_pegawai+`"
-                      data-alamat="`+row.alamat_pegawai+`"
-                      data-jenkel="`+row.jenkel_pegawai+`"
-                      data-agama="`+row.agama_pegawai+`"
-                      data-status-kawin="`+row.status_kawin_pegawai+`"
-                      data-pend-akhir="`+row.pend_akhir_pegawai+`"
-                      data-jurusan-pend="`+row.jurusan_pend_pegawai+`"
-                      data-gelar-depan="`+row.gelar_depan_pegawai+`"
-                      data-gelar-belakang="`+row.gelar_belakang_pegawai+`"
-                      data-mulai-tugas="`+row.mulai_tugas_pegawai+`"
-                      data-bp="`+row.bp_pegawai+`"
-                      data-admin="`+row.admin_pegawai+`"
-                      data-tlp="`+row.tlp_pegawai+`"
-                      data-email="`+row.email_pegawai+`"
-                      data-pin="`+row.pin_pegawai+`">
-                      <i class="bx bx-edit"></i> Edit</a>
+                      <a class="dropdown-item edit-data" href="javascript:void(0)"><i class="bx bx-edit"></i> Edit</a>
 
-                      <a class="dropdown-item detail-data" href="javascript:void(0)"
-                      data-id="`+row.id_pegawai+`"
-                      data-jenis="`+row.jenis_pegawai+`"
-                      data-kode="`+row.kode_pegawai+`"
-                      data-nama="`+row.nama_pegawai+`"
-                      data-nip="`+row.nip_pegawai+`"
-                      data-ktp="`+row.ktp_pegawai+`"
-                      data-npwp="`+row.npwp_pegawai+`"
-                      data-tmp-lahir="`+row.tmp_lahir_pegawai+`"
-                      data-tgl-lahir="`+row.tgl_lahir_pegawai+`"
-                      data-alamat="`+row.alamat_pegawai+`"
-                      data-jenkel="`+row.jenkel_pegawai+`"
-                      data-agama="`+row.agama_pegawai+`"
-                      data-status-kawin="`+row.status_kawin_pegawai+`"
-                      data-pend-akhir="`+row.pend_akhir_pegawai+`"
-                      data-jurusan-pend="`+row.jurusan_pend_pegawai+`"
-                      data-gelar-depan="`+row.gelar_depan_pegawai+`"
-                      data-gelar-belakang="`+row.gelar_belakang_pegawai+`"
-                      data-mulai-tugas="`+row.mulai_tugas_pegawai+`"
-                      data-bp="`+row.bp_pegawai+`"
-                      data-admin="`+row.admin_pegawai+`"
-                      data-tlp="`+row.tlp_pegawai+`"
-                      data-email="`+row.email_pegawai+`"
-                      data-pin="`+row.pin_pegawai+`">
-                      <i class="bx bx-search"></i> Detail</a>
+                      <a class="dropdown-item detail-data" href="javascript:void(0)"><i class="bx bx-search"></i> Detail</a>
 
-                      <a class="dropdown-item hapus-data" href="javascript:void(0)" data-id="`+row.id_pegawai+`"><i class="bx bx-trash"></i> Hapus</a>
+                      <a class="dropdown-item hapus-data" href="javascript:void(0)" data-id="`+row.id_siswa+`"><i class="bx bx-trash"></i> Hapus</a>
                     </div>
                   </div>`;
         }},

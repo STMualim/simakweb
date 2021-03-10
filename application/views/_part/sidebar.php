@@ -129,7 +129,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         <!-- DATA SISWA -->
         <li class="nav-item">
-          <a href="javascript:void(0)" class="nav-link">
+          <a href="<?= site_url('admin/siswa') ?>" class="nav-link">
             <i class="nav-icon bx bx-user-circle"></i>
             <p>Data Siswa</p>
           </a>
