@@ -168,8 +168,15 @@ $this->load->view('_part/header');
 
     // Filter
     $('#btnFilter').click(function(){
-      loadingElementOn('#loadJadwal');
-      loadData();
+      var hari = $('#hariFilter').val();
+      var kelas = $('#kelasFilter').val();
+
+      if (hari == "" || kelas == "") {
+        alertError("Filter Belum Lengkap");
+      } else {
+        loadingElementOn('#loadJadwal');
+        loadData();
+      }
     });
 
     // Reset Filter

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 10, 2021 at 12:43 AM
+-- Generation Time: Mar 10, 2021 at 10:02 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -253,6 +253,55 @@ INSERT INTO `ruangan` (`id_ruangan`, `id_ta_ruangan`, `id_rombel_ruangan`, `nama
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `siswa`
+--
+
+CREATE TABLE `siswa` (
+  `id_siswa` bigint(20) UNSIGNED NOT NULL,
+  `id_ta_siswa` int(11) NOT NULL,
+  `id_jurusan_siswa` int(11) DEFAULT NULL,
+  `id_rombel_siswa` int(11) DEFAULT NULL,
+  `id_ruangan_siswa` int(11) DEFAULT NULL,
+  `nisn_siswa` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nis_siswa` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nama_siswa` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tmp_lahir_siswa` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tgl_lahir_siswa` date DEFAULT NULL,
+  `jenkel_siswa` int(11) NOT NULL,
+  `agama_siswa` int(11) NOT NULL,
+  `alamat_siswa` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `rt_siswa` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `rw_siswa` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `kode_pos_siswa` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `kel_siswa` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `kec_siswa` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `kota_siswa` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `provinsi_siswa` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `asal_sekolah_siswa` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tmp_tinggal_siswa` int(11) NOT NULL,
+  `jml_sdr_siswa` int(20) DEFAULT NULL,
+  `anak_ke_siswa` int(20) DEFAULT NULL,
+  `status_anak_siswa` int(11) NOT NULL,
+  `ayah_siswa` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pekerjaan_ayah_siswa` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `penghasilan_ayah_siswa` int(11) DEFAULT NULL,
+  `tlp_ayah_siswa` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nik_ayah_siswa` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ibu_siswa` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pekerjaan_ibu_siswa` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `penghasilan_ibu_siswa` int(11) DEFAULT NULL,
+  `tlp_ibu_siswa` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nik_ibu_siswa` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tlp_siswa` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email_siswa` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pin_siswa` int(6) NOT NULL,
+  `foto_siswa` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `buat_siswa` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `ta`
 --
 
@@ -376,6 +425,12 @@ ALTER TABLE `ruangan`
   ADD PRIMARY KEY (`id_ruangan`);
 
 --
+-- Indexes for table `siswa`
+--
+ALTER TABLE `siswa`
+  ADD PRIMARY KEY (`id_siswa`);
+
+--
 -- Indexes for table `ta`
 --
 ALTER TABLE `ta`
@@ -444,6 +499,12 @@ ALTER TABLE `rombel`
 --
 ALTER TABLE `ruangan`
   MODIFY `id_ruangan` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `siswa`
+--
+ALTER TABLE `siswa`
+  MODIFY `id_siswa` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `ta`

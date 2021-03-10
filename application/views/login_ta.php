@@ -168,9 +168,9 @@
       var html;
       if (data.length != 0) {
         html = $.map(data, function(data, i) {
-          return `<div class="callout callout-teal shadow-sm list-ta" style="cursor: pointer;" data-id="`+data.id_ta+`">
-                    <h5 class="text-teal"><b>`+data.tahun_ta+`</b></h5>
-                    <p class="text-muted">`+(data.status_ta == 1 ? '<span class="badge bg-teal">Aktif</span>' : '<span class="badge bg-orange">Tidak Aktif</span>')+`</p>
+          return (data.status_ta == 1 ? '<div class="callout callout-teal shadow-sm list-ta" style="cursor: pointer;" data-id="'+data.id_ta+'">' : '<div class="callout callout-gray shadow-sm list-ta" style="cursor: pointer;" data-id="'+data.id_ta+'">')+
+                    `<h5 class="text-teal"><b>`+data.tahun_ta+`</b></h5>
+                    <p class="text-muted">`+(data.status_ta == 1 ? '<span class="badge bg-teal">Aktif</span>' : '<span class="badge bg-gray">Tidak Aktif</span>')+`</p>
                   </div>`;
         });
         $('#daftarTahun').html(html);
