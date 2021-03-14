@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 12, 2021 at 01:07 AM
+-- Generation Time: Mar 14, 2021 at 06:30 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -209,6 +209,7 @@ INSERT INTO `pegawai` (`id_pegawai`, `id_ta_pegawai`, `jenis_pegawai`, `kode_peg
 CREATE TABLE `rombel` (
   `id_rombel` bigint(20) UNSIGNED NOT NULL,
   `id_ta_rombel` int(11) NOT NULL,
+  `id_jurusan_rombel` int(11) NOT NULL,
   `id_kelas_rombel` int(11) NOT NULL,
   `id_pegawai_rombel` int(11) DEFAULT NULL,
   `nama_rombel` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -219,12 +220,12 @@ CREATE TABLE `rombel` (
 -- Dumping data for table `rombel`
 --
 
-INSERT INTO `rombel` (`id_rombel`, `id_ta_rombel`, `id_kelas_rombel`, `id_pegawai_rombel`, `nama_rombel`, `buat_rombel`) VALUES
-(1, 13, 4, 31, 'X TMK 1', '2021-03-05 14:14:24'),
-(2, 13, 4, 45, 'X TMK 2', '2021-03-05 14:14:47'),
-(3, 13, 4, 46, 'X TMK 3', '2021-03-05 14:17:45'),
-(4, 13, 5, 47, 'XI TMK 1', '2021-03-05 14:17:58'),
-(5, 13, 5, 48, 'XI TMK 2', '2021-03-06 14:43:10');
+INSERT INTO `rombel` (`id_rombel`, `id_ta_rombel`, `id_jurusan_rombel`, `id_kelas_rombel`, `id_pegawai_rombel`, `nama_rombel`, `buat_rombel`) VALUES
+(1, 13, 1007116, 4, 31, 'X TMK 1', '2021-03-05 14:14:24'),
+(2, 13, 1007116, 4, 45, 'X TMK 2', '2021-03-05 14:14:47'),
+(3, 13, 1007116, 4, 46, 'X TMK 3', '2021-03-05 14:17:45'),
+(4, 13, 1007116, 5, 47, 'XI TMK 1', '2021-03-05 14:17:58'),
+(5, 13, 1007116, 5, 48, 'XI TMK 2', '2021-03-06 14:43:10');
 
 -- --------------------------------------------------------
 
@@ -261,7 +262,6 @@ CREATE TABLE `siswa` (
   `id_ta_siswa` int(11) NOT NULL,
   `id_jurusan_siswa` int(11) DEFAULT NULL,
   `id_rombel_siswa` int(11) DEFAULT NULL,
-  `id_ruangan_siswa` int(11) DEFAULT NULL,
   `nisn_siswa` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `nis_siswa` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `nama_siswa` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -281,7 +281,7 @@ CREATE TABLE `siswa` (
   `tmp_tinggal_siswa` int(11) NOT NULL,
   `jml_sdr_siswa` int(20) DEFAULT NULL,
   `anak_ke_siswa` int(20) DEFAULT NULL,
-  `status_anak_siswa` int(11) NOT NULL,
+  `status_kel_siswa` int(11) NOT NULL,
   `ayah_siswa` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `pekerjaan_ayah_siswa` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `penghasilan_ayah_siswa` int(11) DEFAULT NULL,
@@ -298,6 +298,13 @@ CREATE TABLE `siswa` (
   `foto_siswa` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `buat_siswa` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `siswa`
+--
+
+INSERT INTO `siswa` (`id_siswa`, `id_ta_siswa`, `id_jurusan_siswa`, `id_rombel_siswa`, `nisn_siswa`, `nis_siswa`, `nama_siswa`, `tmp_lahir_siswa`, `tgl_lahir_siswa`, `jenkel_siswa`, `agama_siswa`, `alamat_siswa`, `rt_siswa`, `rw_siswa`, `kode_pos_siswa`, `kel_siswa`, `kec_siswa`, `kota_siswa`, `provinsi_siswa`, `asal_sekolah_siswa`, `tmp_tinggal_siswa`, `jml_sdr_siswa`, `anak_ke_siswa`, `status_kel_siswa`, `ayah_siswa`, `pekerjaan_ayah_siswa`, `penghasilan_ayah_siswa`, `tlp_ayah_siswa`, `nik_ayah_siswa`, `ibu_siswa`, `pekerjaan_ibu_siswa`, `penghasilan_ibu_siswa`, `tlp_ibu_siswa`, `nik_ibu_siswa`, `tlp_siswa`, `email_siswa`, `pin_siswa`, `foto_siswa`, `buat_siswa`) VALUES
+(5, 13, 1007116, 1, NULL, NULL, 'Andi Suhandi', NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, 1, 'Martono', NULL, NULL, NULL, NULL, 'Sukiyah', NULL, NULL, NULL, NULL, '083812345678', 'andi.su@gmail.com', 966834, NULL, '2021-03-14 17:28:36');
 
 -- --------------------------------------------------------
 
@@ -504,7 +511,7 @@ ALTER TABLE `ruangan`
 -- AUTO_INCREMENT for table `siswa`
 --
 ALTER TABLE `siswa`
-  MODIFY `id_siswa` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_siswa` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `ta`

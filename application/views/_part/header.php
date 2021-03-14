@@ -15,7 +15,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <!-- <link rel="shortcut icon" href=""> -->
 
   <!-- CSS File -->
-  <link rel="preconnect" href="https://fonts.gstatic.com">
   <!-- Google Font: Poppins -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
   <!-- Google Font: Source Sans Pro -->

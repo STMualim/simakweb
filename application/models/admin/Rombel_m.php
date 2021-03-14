@@ -7,6 +7,7 @@ class Rombel_m extends CI_Model {
   {
     $ta = $this->fungsi->ta()->id_ta;
     $this->datatables->from('rombel');
+    $this->datatables->join('jurusan', 'jurusan.id_jurusan = rombel.id_jurusan_rombel', 'left');
     $this->datatables->join('kelas', 'kelas.id_kelas = rombel.id_kelas_rombel', 'left');
     $this->datatables->join('pegawai', 'pegawai.id_pegawai = rombel.id_pegawai_rombel', 'left');
     $this->datatables->where('id_ta_rombel', $ta);
@@ -17,11 +18,20 @@ class Rombel_m extends CI_Model {
     if ($post['pegawai'] != null) {
       $this->datatables->like('nama_pegawai', $post['pegawai']);
     }
+    if ($post['jurusan'] != null) {
+      $this->datatables->where('id_jurusan_rombel', $post['jurusan']);
+    }
     if ($post['kelas'] != null) {
       $this->datatables->where('id_kelas_rombel', $post['kelas']);
     }
 
     return $this->datatables->generate();
+  }
+
+  function load_jurusan()
+  {
+    $ta = $this->fungsi->ta()->id_ta;
+    return $this->db->get_where('jurusan', ['id_ta_jurusan' => $ta]);
   }
 
   function load_kelas()
@@ -41,6 +51,7 @@ class Rombel_m extends CI_Model {
     $ta = $this->fungsi->ta()->id_ta;
     $this->db->insert('rombel', [
       'id_ta_rombel' => $ta,
+      'id_jurusan_rombel' => $post['jurusan'],
       'id_kelas_rombel' => $post['kelas'],
       'id_pegawai_rombel' => $post['pegawai'],
       'nama_rombel' => $post['nama'],
@@ -51,6 +62,7 @@ class Rombel_m extends CI_Model {
   {
     $this->db->where('id_rombel', $post['id']);
     $this->db->update('rombel', [
+      'id_jurusan_rombel' => $post['jurusan'],
       'id_kelas_rombel' => $post['kelas'],
       'id_pegawai_rombel' => $post['pegawai'],
       'nama_rombel' => $post['nama'],

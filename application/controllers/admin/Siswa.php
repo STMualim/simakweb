@@ -16,7 +16,6 @@ class Siswa extends CI_Controller {
 		$data['judul'] = 'Siswa';
 		$data['jurusan'] = $this->siswa_m->load_jurusan()->result();
 		$data['rombel'] = $this->siswa_m->load_rombel()->result();
-		$data['ruangan'] = $this->siswa_m->load_ruangan()->result();
 		$this->load->view('admin/siswa', $data);
 	}
 
@@ -27,58 +26,66 @@ class Siswa extends CI_Controller {
     echo $this->siswa_m->load_data($post);
   }
 
+	public function get_rombel()
+  {
+    $jurusan = $this->input->get('jurusan');
+    $data = $this->siswa_m->get_rombel($jurusan)->result();
+    echo json_encode($data);
+  }
+
 	public function tambah()
   {
     $post = $this->input->post();
 		$data = array ('sukses' => false, 'error' => array());
 
-		if ($post['step'] == 1) {
-			$this->form_validation->set_rules('jurusan', 'Jurusan', 'trim|required');
-	    $this->form_validation->set_rules('rombel', 'Rombel', 'trim|required');
-	    $this->form_validation->set_rules('ruangan', 'Ruangan', 'trim|required');
-	    $this->form_validation->set_rules('nama', 'Nama Siswa', 'trim|required');
+		if (isset($post['step'])) {
+			if ($post['step'] == 1) {
+				$this->form_validation->set_rules('jurusan', 'Jurusan', 'trim|required');
+				$this->form_validation->set_rules('rombel', 'Rombel', 'trim|required');
+				$this->form_validation->set_rules('nama', 'Nama Siswa', 'trim|required');
 
-			$this->form_validation->set_error_delimiters('<span class="text-danger invalid-message">', '</span>');
-			$this->form_validation->set_message('required', '{field} wajib diisi!');
+				$this->form_validation->set_error_delimiters('<span class="text-danger invalid-message">', '</span>');
+				$this->form_validation->set_message('required', '{field} wajib diisi!');
 
-			if ($this->form_validation->run()) {
-				$data['sukses'] = true;
-			} else {
-				foreach ($post as $key => $value) {
-				 	$data['error'][$key] = form_error($key);
+				if ($this->form_validation->run()) {
+					$data['sukses'] = true;
+				} else {
+					foreach ($post as $key => $value) {
+						$data['error'][$key] = form_error($key);
+					}
 				}
-			}
-		} else if ($post['step'] == 2) {
-			$this->form_validation->set_rules('nama_ayah', 'Nama Ayah', 'trim|required');
-	    $this->form_validation->set_rules('nama_ibu', 'Nama Ibu', 'trim|required');
-			$this->form_validation->set_rules('tlp_ayah', 'No. Tlp./HP.', 'trim|numeric');
-			$this->form_validation->set_rules('tlp_ibu', 'No. Tlp./HP.', 'trim|numeric');
+			} else if ($post['step'] == 2) {
+				$this->form_validation->set_rules('nama_ayah', 'Nama Ayah', 'trim|required');
+				$this->form_validation->set_rules('nama_ibu', 'Nama Ibu', 'trim|required');
+				$this->form_validation->set_rules('tlp_ayah', 'No. Tlp./HP', 'trim|numeric');
+				$this->form_validation->set_rules('tlp_ibu', 'No. Tlp./HP', 'trim|numeric');
 
-			$this->form_validation->set_error_delimiters('<span class="text-danger invalid-message">', '</span>');
-			$this->form_validation->set_message('required', '{field} wajib diisi!');
+				$this->form_validation->set_error_delimiters('<span class="text-danger invalid-message">', '</span>');
+				$this->form_validation->set_message('required', '{field} wajib diisi!');
 
-			if ($this->form_validation->run()) {
-				$data['sukses'] = true;
-			} else {
-				foreach ($post as $key => $value) {
-				 	$data['error'][$key] = form_error($key);
+				if ($this->form_validation->run()) {
+					$data['sukses'] = true;
+				} else {
+					foreach ($post as $key => $value) {
+						$data['error'][$key] = form_error($key);
+					}
 				}
-			}
-		} else {
-			$this->form_validation->set_rules('pin', 'PIN', 'trim|required|numeric|min_length[6]');
-			$this->form_validation->set_rules('tlp_siswa', 'No. Tlp./HP.', 'trim|required|numeric|callback_tlp');
-
-			$this->form_validation->set_error_delimiters('<span class="text-danger invalid-message">', '</span>');
-			$this->form_validation->set_message('required', '{field} wajib diisi!');
-			$this->form_validation->set_message('numeric', '{field} diisi dengan angka!');
-			$this->form_validation->set_message('min_length', '{field} maksimal {param}!');
-
-			if ($this->form_validation->run()) {
-				$this->siswa_m->tambah($post);
-				$data['sukses'] = true;
 			} else {
-				foreach ($post as $key => $value) {
-					$data['error'][$key] = form_error($key);
+				$this->form_validation->set_rules('pin', 'PIN', 'trim|required|numeric|min_length[6]');
+				$this->form_validation->set_rules('tlp', 'No. Tlp./HP', 'trim|required|numeric|callback_tlp');
+
+				$this->form_validation->set_error_delimiters('<span class="text-danger invalid-message">', '</span>');
+				$this->form_validation->set_message('required', '{field} wajib diisi!');
+				$this->form_validation->set_message('numeric', '{field} diisi dengan angka!');
+				$this->form_validation->set_message('min_length', '{field} maksimal {param}!');
+
+				if ($this->form_validation->run()) {
+					$this->siswa_m->tambah($post);
+					$data['sukses'] = true;
+				} else {
+					foreach ($post as $key => $value) {
+						$data['error'][$key] = form_error($key);
+					}
 				}
 			}
 		}
@@ -93,7 +100,6 @@ class Siswa extends CI_Controller {
 		if ($post['step'] == 1) {
 			$this->form_validation->set_rules('jurusan', 'Jurusan', 'trim|required');
 	    $this->form_validation->set_rules('rombel', 'Rombel', 'trim|required');
-	    $this->form_validation->set_rules('ruangan', 'Ruangan', 'trim|required');
 	    $this->form_validation->set_rules('nama', 'Nama Siswa', 'trim|required');
 
 			$this->form_validation->set_error_delimiters('<span class="text-danger invalid-message">', '</span>');
@@ -109,8 +115,8 @@ class Siswa extends CI_Controller {
 		} else if ($post['step'] == 2) {
 			$this->form_validation->set_rules('nama_ayah', 'Nama Ayah', 'trim|required');
 	    $this->form_validation->set_rules('nama_ibu', 'Nama Ibu', 'trim|required');
-			$this->form_validation->set_rules('tlp_ayah_siswa', 'No. Tlp./HP.', 'trim|numeric');
-			$this->form_validation->set_rules('tlp_ibu_siswa', 'No. Tlp./HP.', 'trim|numeric');
+			$this->form_validation->set_rules('tlp_ayah', 'No. Tlp./HP', 'trim|numeric');
+			$this->form_validation->set_rules('tlp_ibu', 'No. Tlp./HP', 'trim|numeric');
 
 			$this->form_validation->set_error_delimiters('<span class="text-danger invalid-message">', '</span>');
 			$this->form_validation->set_message('required', '{field} wajib diisi!');
@@ -124,7 +130,7 @@ class Siswa extends CI_Controller {
 			}
 		} else {
 			$this->form_validation->set_rules('pin', 'PIN', 'trim|required|numeric|min_length[6]');
-			$this->form_validation->set_rules('tlp_siswa', 'No. Tlp./HP.', 'trim|required|numeric|callback_edit_tlp');
+			$this->form_validation->set_rules('tlp', 'No. Tlp./HP', 'trim|required|numeric|callback_edit_tlp');
 
 			$this->form_validation->set_error_delimiters('<span class="text-danger invalid-message">', '</span>');
 			$this->form_validation->set_message('required', '{field} wajib diisi!');

@@ -66,16 +66,6 @@ $this->load->view('_part/header');
                   </div>
                 </div>
                 <div class="col-md-2">
-                  <div class="form-group">
-                    <select class="form-control select" id="ruanganFilter">
-                      <option value="">Semua Ruangan</option>
-                      <?php foreach ($ruangan as $key => $row) { ?>
-                        <option value="<?= $row->id_ruangan ?>"><?= $row->nama_ruangan ?></option>
-                      <?php } ?>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-md-2">
                   <button type="button" class="btn btn-teal btn-rounded" id="btnFilter"><i class="bx bx-filter-alt"></i> Filter</button>
                   <a href="javascript:void(0)" class="ml-2" id="resetFilter"><b>Reset</b></a>
                 </div>
@@ -141,7 +131,7 @@ $this->load->view('_part/header');
                   <div class="step-content">
                     <div class="form-group row">
                       <label class="col-sm-4 col-form-label">Jurusan</label>
-                      <div class="col-sm-8">
+                      <div class="col-sm-8 form-jurusan">
                         <select class="form-control select" name="jurusan" id="jurusan">
                           <option value="">Pilih Jurusan</option>
                           <?php foreach ($jurusan as $key => $row) { ?>
@@ -152,23 +142,8 @@ $this->load->view('_part/header');
                     </div>
                     <div class="form-group row">
                       <label class="col-sm-4 col-form-label">Rombel</label>
-                      <div class="col-sm-8">
+                      <div class="col-sm-8 form-rombel">
                         <select class="form-control select" name="rombel" id="rombel">
-                          <option value="">Pilih Rombel</option>
-                          <?php foreach ($rombel as $key => $row) { ?>
-                            <option value="<?= $row->id_rombel ?>"><?= $row->nama_rombel ?></option>
-                          <?php } ?>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label class="col-sm-4 col-form-label">Ruangan</label>
-                      <div class="col-sm-8">
-                        <select class="form-control select" name="ruangan" id="ruangan">
-                          <option value="">Pilih Ruangan</option>
-                          <?php foreach ($ruangan as $key => $row) { ?>
-                            <option value="<?= $row->id_ruangan ?>"><?= $row->nama_ruangan ?></option>
-                          <?php } ?>
                         </select>
                       </div>
                     </div>
@@ -279,22 +254,22 @@ $this->load->view('_part/header');
                     <div class="form-group row">
                       <label class="col-sm-4 col-form-label">Jumlah Saudara</label>
                       <div class="col-sm-8">
-                        <input type="text" name="jml_saudara" class="form-control" id="jmlSaudara">
+                        <input type="number" name="jml_saudara" class="form-control" id="jmlSaudara">
                       </div>
                     </div>
                     <div class="form-group row">
                       <label class="col-sm-4 col-form-label">Anak Ke-</label>
                       <div class="col-sm-8">
-                        <input type="text" name="anak_ke" class="form-control" id="anakKe">
+                        <input type="number" name="anak_ke" class="form-control" id="anakKe">
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label class="col-sm-4 col-form-label">Status Anak</label>
+                      <label class="col-sm-4 col-form-label">Status Dalam Keluarga</label>
                       <div class="col-sm-8">
-                        <select class="form-control" name="status_anak" id="statusAnak">
-                          <option value="1">Milik Sendiri</option>
-                          <option value="2">Sewa</option>
-                          <option value="3">Bersama Orang Tua</option>
+                        <select class="form-control" name="status_kel" id="statusKel">
+                          <option value="1">Anak Kandung</option>
+                          <option value="2">Anak Tiri</option>
+                          <option value="3">Anak Angkat</option>
                         </select>
                       </div>
                     </div>
@@ -304,33 +279,75 @@ $this->load->view('_part/header');
                 <div class="step-content-wrapper" id="stepContent2">
                   <div class="step-content">
                     <div class="form-group row">
-                      <label class="col-sm-4 col-form-label">Pendidikan Terakhir</label>
+                      <label class="col-sm-4 col-form-label">Nama Ayah</label>
+                      <div class="col-sm-8 form-nama_ayah">
+                        <input type="text" name="nama_ayah" class="form-control" id="namaAyah">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-4 col-form-label">Pekerjaan Ayah</label>
                       <div class="col-sm-8">
-                        <select class="form-control" name="pend_akhir" id="pendAkhir">
-                          <option value="1">SMA/SMK</option>
-                          <option value="2">D3</option>
-                          <option value="3">S1/D4</option>
-                          <option value="4">S2</option>
-                          <option value="5">S3</option>
+                        <input type="text" name="pekerjaan_ayah" class="form-control" id="pekerjaanAyah">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-4 col-form-label">Penghasilan Ayah</label>
+                      <div class="col-sm-8">
+                        <select class="form-control" name="penghasilan_ayah" id="penghasilanAyah">
+                          <option value="">Tidak Ada</option>
+                          <option value="1">&plusmn; 1 Juta</option>
+                          <option value="2">1-3 Juta</option>
+                          <option value="3">4-6 Juta</option>
+                          <option value="4">Lebih Dari 7 Juta</option>
                         </select>
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label class="col-sm-4 col-form-label">Jurusan Pendidikan</label>
+                      <label class="col-sm-4 col-form-label">NIK Ayah</label>
                       <div class="col-sm-8">
-                        <input type="text" name="jurusan_pend" class="form-control" id="jurusanPend">
+                        <input type="text" name="nik_ayah" class="form-control" id="nikAyah">
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label class="col-sm-4 col-form-label">Gelar Depan</label>
-                      <div class="col-sm-8">
-                        <input type="text" name="gelar_depan" class="form-control" id="gelarDepan">
+                      <label class="col-sm-4 col-form-label">No.Tlp./HP Ayah</label>
+                      <div class="col-sm-8 form-tlp_ayah">
+                        <input type="text" name="tlp_ayah" class="form-control" id="tlpAyah">
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label class="col-sm-4 col-form-label">Gelar Belakang</label>
+                      <label class="col-sm-4 col-form-label">Nama Ibu</label>
+                      <div class="col-sm-8 form-nama_ibu">
+                        <input type="text" name="nama_ibu" class="form-control" id="namaIbu">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-4 col-form-label">Pekerjaan Ibu</label>
                       <div class="col-sm-8">
-                        <input type="text" name="gelar_belakang" class="form-control" id="gelarBelakang">
+                        <input type="text" name="pekerjaan_ibu" class="form-control" id="pekerjaanIbu">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-4 col-form-label">Penghasilan Ibu</label>
+                      <div class="col-sm-8">
+                        <select class="form-control" name="penghasilan_ibu" id="penghasilanIbu">
+                          <option value="">Tidak Ada</option>
+                          <option value="1">&plusmn; 1 Juta</option>
+                          <option value="2">1-3 Juta</option>
+                          <option value="3">4-6 Juta</option>
+                          <option value="4">Lebih Dari 7 Juta</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-4 col-form-label">NIK Ibu</label>
+                      <div class="col-sm-8">
+                        <input type="text" name="nik_ibu" class="form-control" id="nikIbu">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-4 col-form-label">No.Tlp./HP Ibu</label>
+                      <div class="col-sm-8 form-tlp_ibu">
+                        <input type="text" name="tlp_ibu" class="form-control" id="tlpIbu">
                       </div>
                     </div>
                   </div>
@@ -339,39 +356,15 @@ $this->load->view('_part/header');
                 <div class="step-content-wrapper" id="stepContent3">
                   <div class="step-content">
                     <div class="form-group row">
-                      <label class="col-sm-4 col-form-label">Mulai Tugas</label>
-                      <div class="col-sm-8">
-                        <input type="text" name="mulai_tugas" class="form-control tgl" id="mulaiTugas" data-inputmask-alias="datetime" data-inputmask-inputformat="dd-mm-yyyy" data-mask>
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label class="col-sm-4 col-form-label">Sebagai Guru BP/BK</label>
-                      <div class="col-sm-8">
-                        <div class="icheck-teal">
-                          <input type="checkbox" name="bp" value="1" id="bp">
-                          <label for="bp"></label>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label class="col-sm-4 col-form-label">Jadikan Sebagai Admin</label>
-                      <div class="col-sm-8">
-                        <div class="icheck-teal">
-                          <input type="checkbox" name="admin" value="1" id="admin">
-                          <label for="admin"></label>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label class="col-sm-4 col-form-label">No. Tlp/Hp</label>
+                      <label class="col-sm-4 col-form-label">No. Tlp./HP Siswa</label>
                       <div class="col-sm-8 form-tlp">
-                        <input type="number" name="tlp" class="form-control" id="tlp">
+                        <input type="text" name="tlp" class="form-control" id="tlpSiswa">
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label class="col-sm-4 col-form-label">Email</label>
+                      <label class="col-sm-4 col-form-label">Email Siswa</label>
                       <div class="col-sm-8">
-                        <input type="email" name="email" class="form-control" id="email">
+                        <input type="email" name="email" class="form-control" id="emailSiswa">
                       </div>
                     </div>
                     <div class="form-group row">
@@ -549,34 +542,10 @@ $this->load->view('_part/header');
       $('#pin').val(randNumb(111111, 999999));
     });
 
-    // Pilih Jenis
-    $('#jenis').change(function(){
-      var jenis = $(this).val();
-      if (jenis == 2) {
-        $('#pin').val("");
-        $('#btnRandom').prop('disabled', true);
-
-        if ($('#admin').is(':checked') && jenis == 2) {
-          $('#btnRandom').prop('disabled', false);
-        }
-      } else {
-        $('#btnRandom').prop('disabled', false);
-      }
-    });
-
-    // Admin Cek
-    $('#admin').change(function(){
-      var jenis = $('#jenis').val();
-      if ($(this).is(':checked') && jenis == 2) {
-        $('#btnRandom').prop('disabled', false);
-      } else if ($(this).is(':checked') && jenis == 1) {
-        $('#btnRandom').prop('disabled', false);
-      } else if (jenis == 2) {
-        $('#pin').val("");
-        $('#btnRandom').prop('disabled', true);
-      } else {
-        $('#btnRandom').prop('disabled', false);
-      }
+    // Pilih Jurusan
+    $('#jurusan').change(function(){
+      var jurusan = $(this).val();
+      getRombel(jurusan);
     });
 
     // Tambah Data
@@ -585,6 +554,7 @@ $this->load->view('_part/header');
       $('#mdlData').modal({backdrop:'static'});
       $('.modal-title').text("Tambah Data");
       $('#formData').trigger('reset');
+      $('#jurusan').val("").trigger('change');
       $('.form-control').removeClass('is-invalid');
       $('.invalid-message').remove();
 
@@ -743,6 +713,7 @@ $this->load->view('_part/header');
         },
         success: function(data){
           loadingBtnOff();
+          console.log(data.sukses);
           if(data.sukses == true){
             s = 1;
             alertSukses("Berhasil disimpan");
@@ -890,19 +861,38 @@ $this->load->view('_part/header');
 
   });
 
+  function getRombel(jurusan)
+  {
+    $.ajax({
+        url : "<?= site_url('admin/siswa/get_rombel') ?>",
+        method : "get",
+        data : {jurusan},
+        async : false,
+        dataType : "json",
+        success: function(data){
+          console.log(data);
+          var i;
+          var html = `<option selected="selected" value="">Pilih Rombel</option>`;
+          for(i=0; i < data.length; i++){
+            html += `<option value="`+data[i].id_rombel+`">`+data[i].nama_rombel+`</option>`;
+          }
+          $('#rombel').html(html);
+        }
+    });
+  }
+
   // Load DataTables
   function loadData()
   {
     var nama = $('#namaFilter').val();
     var jurusan = $('#jurusanFilter').val();
     var rombel = $('#rombelFilter').val();
-    var ruangan = $('#ruanganFilter').val();
 
     $('#tblData').DataTable({
       ajax: {
         url: '<?= site_url('admin/siswa/load_data') ?>',
         type: 'post',
-        data: {nama, jurusan, rombel, ruangan}
+        data: {nama, jurusan, rombel}
       },
       columns:
       [

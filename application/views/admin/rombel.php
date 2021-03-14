@@ -52,6 +52,16 @@ $this->load->view('_part/header');
                 </div>
                 <div class="col-md-2">
                   <div class="form-group">
+                    <select class="form-control select" id="jurusanFilter">
+                      <option value="">Semua Jurusan</option>
+                      <?php foreach ($jurusan as $key => $row) { ?>
+                        <option value="<?= $row->id_jurusan ?>"><?= $row->kode_jurusan ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
                     <select class="form-control select" id="kelasFilter">
                       <option value="">Semua Kelas</option>
                       <?php foreach ($kelas as $key => $row) { ?>
@@ -73,6 +83,7 @@ $this->load->view('_part/header');
                 <thead>
                   <tr>
                     <th>Nama</th>
+                    <th>Jurusan</th>
                     <th>Kelas</th>
                     <th>Walas</th>
                     <th>Dibuat</th>
@@ -105,6 +116,15 @@ $this->load->view('_part/header');
                     <div class="form-group form-nama">
                       <label>Nama</label>
                       <input type="text" name="nama" class="form-control" id="nama">
+                    </div>
+                    <div class="form-group form-jurusan">
+                      <label>Jurusan</label>
+                      <select class="form-control select" name="jurusan" id="jurusan" style="width: 100%;">
+                        <option value="">Pilih Jurusan</option>
+                        <?php foreach ($jurusan as $key => $row) { ?>
+                          <option value="<?= $row->id_jurusan ?>"><?= $row->nama_jurusan ?></option>
+                        <?php } ?>
+                      </select>
                     </div>
                     <div class="form-group form-kelas">
                       <label>Kelas</label>
@@ -180,6 +200,7 @@ $this->load->view('_part/header');
     $('#resetFilter').click(function(){
       $('#namaFilter').val("");
       $('#pegawaiFilter').val("");
+      $('#jurusanFilter').val("").trigger('change.select2');
       $('#kelasFilter').val("").trigger('change.select2');
       $('#tblData').DataTable().destroy();
       loadData();
@@ -204,10 +225,12 @@ $this->load->view('_part/header');
       var id = $(this).data('id');
       var nama = $(this).data('nama');
       var pegawai = $(this).data('pegawai');
+      var jurusan = $(this).data('jurusan');
       var kelas = $(this).data('kelas');
       $('#id').val(id);
       $('#nama').val(nama);
       $('#pegawai').val(pegawai).trigger('change.select2');
+      $('#jurusan').val(jurusan).trigger('change.select2');
       $('#kelas').val(kelas).trigger('change.select2');
 
       simpan = "edit";
@@ -298,17 +321,19 @@ $this->load->view('_part/header');
   {
     var nama = $('#namaFilter').val();
     var pegawai = $('#pegawaiFilter').val();
+    var jurusan = $('#jurusanFilter').val();
     var kelas = $('#kelasFilter').val();
 
     $('#tblData').DataTable({
       ajax: {
         url: '<?= site_url('admin/rombel/load_data') ?>',
         type: 'post',
-        data: {nama, pegawai, kelas}
+        data: {nama, pegawai, jurusan, kelas}
       },
       columns:
       [
         {data: 'nama_rombel'},
+        {data: 'kode_jurusan'},
         {data: 'nama_kelas'},
         {data: 'nama_pegawai', render: function(data, type, row) {
           return (row.gelar_depan_pegawai == null ? "" : row.gelar_depan_pegawai+" ") + data + (row.gelar_belakang_pegawai == null ? "" : ", "+row.gelar_belakang_pegawai);
@@ -322,7 +347,7 @@ $this->load->view('_part/header');
                       <i class="fas fa-cog"></i>
                     </button>
                     <div class="dropdown-menu">
-                      <a class="dropdown-item edit-data" href="javascript:void(0)" data-id="`+row.id_rombel+`" data-nama="`+row.nama_rombel+`" data-kelas="`+row.id_kelas_rombel+`" data-pegawai="`+row.id_pegawai_rombel+`"><i class="bx bx-edit"></i> Edit</a>
+                      <a class="dropdown-item edit-data" href="javascript:void(0)" data-id="`+row.id_rombel+`" data-nama="`+row.nama_rombel+`" data-jurusan="`+row.id_jurusan_rombel+`" data-kelas="`+row.id_kelas_rombel+`" data-pegawai="`+row.id_pegawai_rombel+`"><i class="bx bx-edit"></i> Edit</a>
                       <a class="dropdown-item hapus-data" href="javascript:void(0)" data-id="`+row.id_rombel+`"><i class="bx bx-trash"></i> Hapus</a>
                     </div>
                   </div>`;

@@ -14,6 +14,7 @@ class Rombel extends CI_Controller {
 	public function index()
 	{
 		$data['judul'] = 'Rombongan Belajar';
+		$data['jurusan'] = $this->rombel_m->load_jurusan()->result();
 		$data['kelas'] = $this->rombel_m->load_kelas()->result();
 		$data['pegawai'] = $this->rombel_m->load_pegawai()->result();
 		$this->load->view('admin/rombel', $data);
@@ -32,6 +33,7 @@ class Rombel extends CI_Controller {
 		$data = array ('sukses' => false, 'error' => array());
 
     $this->form_validation->set_rules('nama', 'Nama', 'trim|required|callback_nama');
+    $this->form_validation->set_rules('jurusan', 'Jurusan', 'trim|required');
     $this->form_validation->set_rules('kelas', 'Tingkat Kelas', 'trim|required');
     $this->form_validation->set_rules('pegawai', 'Wali Kelas', 'trim|required|callback_pegawai');
 		$this->form_validation->set_error_delimiters('<span class="text-danger invalid-message">', '</span>');
@@ -56,6 +58,7 @@ class Rombel extends CI_Controller {
 		$data = array ('sukses' => false, 'error' => array());
 
     $this->form_validation->set_rules('nama', 'Nama', 'trim|required|callback_edit_nama');
+		$this->form_validation->set_rules('jurusan', 'Jurusan', 'trim|required');
 		$this->form_validation->set_rules('kelas', 'Tingkat Kelas', 'trim|required');
 		$this->form_validation->set_rules('pegawai', 'Wali Kelas', 'trim|required|callback_edit_pegawai');
 		$this->form_validation->set_error_delimiters('<span class="text-danger invalid-message">', '</span>');
