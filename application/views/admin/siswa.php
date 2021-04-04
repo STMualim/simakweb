@@ -574,59 +574,77 @@ $this->load->view('_part/header');
     // Edit Data
     $('#tblData').on('click', '.edit-data', function(){
       var id = $(this).data('id');
-      var jenis = $(this).data('jenis');
-      var kode = $(this).data('kode');
+      var jurusan = $(this).data('jurusan');
+      var rombel = $(this).data('rombel');
       var nama = $(this).data('nama');
-      var nip = $(this).data('nip');
-      var ktp = $(this).data('ktp');
-      var npwp = $(this).data('npwp');
+      var nisn = $(this).data('nisn');
+      var nis = $(this).data('nis');
       var tmpLahir = $(this).data('tmp-lahir');
       var tglLahir = $(this).data('tgl-lahir');
-      var alamat = $(this).data('alamat');
       var jenkel = $(this).data('jenkel');
       var agama = $(this).data('agama');
-      var statusKawin = $(this).data('status-kawin');
-      var pendAkhir = $(this).data('pend-akhir');
-      var jurusanPend = $(this).data('jurusan-pend');
-      var gelarDepan = $(this).data('gelar-depan');
-      var gelarBelakang = $(this).data('gelar-belakang');
-      var mulaiTugas = $(this).data('mulai-tugas');
-      var bp = $(this).data('bp');
-      var admin = $(this).data('admin');
+      var alamat = $(this).data('alamat');
+      var rt = $(this).data('rt');
+      var rw = $(this).data('rw');
+      var kodePos = $(this).data('kode-pos');
+      var kel = $(this).data('kel');
+      var kec = $(this).data('kec');
+      var kota = $(this).data('kota');
+      var provinsi = $(this).data('provinsi');
+      var asalSekolah = $(this).data('asal-sekolah');
+      var tmpTinggal = $(this).data('tmp-tinggal');
+      var jmlSdr = $(this).data('jml-sdr');
+      var anakKe = $(this).data('anak-ke');
+      var statusKel = $(this).data('status-kel');
+      var namaAyah = $(this).data('nama-ayah');
+      var pekerjaanAyah = $(this).data('pekerjaan-aya');
+      var penghasilanAyah = $(this).data('penghasilan-ayah');
+      var nikAyah = $(this).data('nik-ayah');
+      var tlpAyah = $(this).data('tlp-ayah');
+      var namaIbu = $(this).data('nama-ibu');
+      var pekerjaanIbu = $(this).data('pekerjaan-ibu');
+      var penghasilanIbu = $(this).data('penghasilan-ib');
+      var nikIbu = $(this).data('nik-ibu');
+      var tlpIbu = $(this).data('tlp-ibu');
       var tlp = $(this).data('tlp');
       var email = $(this).data('email');
       var pin = $(this).data('pin');
 
       $('#id').val(id);
-      $('#jenis').val(jenis).trigger('change');
-      $('#kode').val(kode);
+      $('#jurusan').val(jurusan).trigger('change');
+      $('#rombel').val(rombel);
       $('#nama').val(nama);
-      $('#nip').val(nip);
-      $('#ktp').val(ktp);
-      $('#npwp').val(npwp);
+      $('#nisn').val(nisn);
+      $('#nis').val(nis);
       $('#tmpLahir').val(tmpLahir);
-      $('#tglLahir').val(tglLahir);
-      $('#alamat').val(alamat);
+      $('#tglLahir').val(tglLahir == null ? "" : tgl(tglLahir));
       $('#jenkel').val(jenkel);
       $('#agama').val(agama);
-      $('#statusKawin').val(statusKawin);
-      $('#pendAkhir').val(pendAkhir);
-      $('#jurusanPend').val(jurusanPend);
-      $('#gelarDepan').val(gelarDepan);
-      $('#gelarBelakang').val(gelarBelakang);
-      $('#mulaiTugas').val(mulaiTugas);
-      if (bp == 1) {
-        $('#bp').prop('checked', true);
-      } else {
-        $('#bp').prop('checked', false);
-      }
-      if (admin == 1) {
-        $('#admin').prop('checked', true);
-      } else {
-        $('#admin').prop('checked', false);
-      }
-      $('#tlp').val(tlp);
-      $('#email').val(email);
+      $('#alamat').val(alamat);
+      $('#rt').val(rt);
+      $('#rw').val(rw);
+      $('#kodePos').val(kodePos);
+      $('#kel').val(kel);
+      $('#kec').val(kec);
+      $('#kota').val(kota);
+      $('#provinsi').val(provinsi);
+      $('#asalSekolah').val(asalSekolah);
+      $('#tmpTinggal').val(tmpTinggal);
+      $('#jmlSaudara').val(jmlSaudara);
+      $('#anakKe').val(anakKe);
+      $('#statusKel').val(statusKel);
+      $('#namaAyah').val(namaAyah);
+      $('#pekerjaanAyah').val(pekerjaanAyah);
+      $('#penghasilanAyah').val(penghasilanAyah);
+      $('#nikAyah').val(nikAyah);
+      $('#tlpAyah').val(tlpAyah);
+      $('#namaIbu').val(namaIbu);
+      $('#pekerjaanIbu').val(pekerjaanIbu);
+      $('#penghasilanIbu').val(penghasilanIbu);
+      $('#nikIbu').val(nikIbu);
+      $('#tlpIbu').val(tlpIbu);
+      $('#tlpSiswa').val(tlp);
+      $('#emailSiswa').val(email);
       $('#pin').val(pin);
 
       simpan = "edit";
@@ -647,25 +665,38 @@ $this->load->view('_part/header');
 
     // Detail Data
     $('#tblData').on('click', '.detail-data', function(){
-      var jenis = $(this).data('jenis');
-      var kode = $(this).data('kode');
+      var jurusan = $(this).data('jurusan');
+      var rombel = $(this).data('rombel');
       var nama = $(this).data('nama');
-      var nip = $(this).data('nip');
-      var ktp = $(this).data('ktp');
-      var npwp = $(this).data('npwp');
+      var nisn = $(this).data('nisn');
+      var nis = $(this).data('nis');
       var tmpLahir = $(this).data('tmp-lahir');
       var tglLahir = $(this).data('tgl-lahir');
-      var alamat = $(this).data('alamat');
       var jenkel = $(this).data('jenkel');
       var agama = $(this).data('agama');
-      var statusKawin = $(this).data('status-kawin');
-      var pendAkhir = $(this).data('pend-akhir');
-      var jurusanPend = $(this).data('jurusan-pend');
-      var gelarDepan = $(this).data('gelar-depan');
-      var gelarBelakang = $(this).data('gelar-belakang');
-      var mulaiTugas = $(this).data('mulai-tugas');
-      var bp = $(this).data('bp');
-      var admin = $(this).data('admin');
+      var alamat = $(this).data('alamat');
+      var rt = $(this).data('rt');
+      var rw = $(this).data('rw');
+      var kodePos = $(this).data('kode-pos');
+      var kel = $(this).data('kel');
+      var kec = $(this).data('kec');
+      var kota = $(this).data('kota');
+      var provinsi = $(this).data('provinsi');
+      var asalSekolah = $(this).data('asal-sekolah');
+      var tmpTinggal = $(this).data('tmp-tinggal');
+      var jmlSdr = $(this).data('jml-sdr');
+      var anakKe = $(this).data('anak-ke');
+      var statusKel = $(this).data('status-kel');
+      var namaAyah = $(this).data('nama-ayah');
+      var pekerjaanAyah = $(this).data('pekerjaan-aya');
+      var penghasilanAyah = $(this).data('penghasilan-ayah');
+      var nikAyah = $(this).data('nik-ayah');
+      var tlpAyah = $(this).data('tlp-ayah');
+      var namaIbu = $(this).data('nama-ibu');
+      var pekerjaanIbu = $(this).data('pekerjaan-ibu');
+      var penghasilanIbu = $(this).data('penghasilan-ib');
+      var nikIbu = $(this).data('nik-ibu');
+      var tlpIbu = $(this).data('tlp-ibu');
       var tlp = $(this).data('tlp');
       var email = $(this).data('email');
       var pin = $(this).data('pin');
@@ -713,7 +744,6 @@ $this->load->view('_part/header');
         },
         success: function(data){
           loadingBtnOff();
-          console.log(data.sukses);
           if(data.sukses == true){
             s = 1;
             alertSukses("Berhasil disimpan");
@@ -870,7 +900,6 @@ $this->load->view('_part/header');
         async : false,
         dataType : "json",
         success: function(data){
-          console.log(data);
           var i;
           var html = `<option selected="selected" value="">Pilih Rombel</option>`;
           for(i=0; i < data.length; i++){
@@ -911,9 +940,82 @@ $this->load->view('_part/header');
                       <i class="fas fa-cog"></i>
                     </button>
                     <div class="dropdown-menu">
-                      <a class="dropdown-item edit-data" href="javascript:void(0)"><i class="bx bx-edit"></i> Edit</a>
+                      <a class="dropdown-item edit-data" href="javascript:void(0)"
+                      data-id="`+data+`"
+                      data-jurusan="`+row.id_jurusan_siswa+`"
+                      data-rombel="`+row.id_rombel_siswa+`"
+                      data-nama="`+row.nama_siswa+`"
+                      data-nisn="`+row.nisn_siswa+`"
+                      data-nis="`+row.nis_siswa+`"
+                      data-tmp-lahir="`+row.tmp_lahir_siswa+`"
+                      data-tgl-lahir="`+row.tgl_lahir_siswa+`"
+                      data-jenkel="`+row.jenkel_siswa+`"
+                      data-agama="`+row.agama_siswa+`"
+                      data-alamat="`+row.alamat_siswa+`"
+                      data-rt="`+row.rt_siswa+`"
+                      data-rw="`+row.rw_siswa+`"
+                      data-kode-pos="`+row.kode_pos_siswa+`"
+                      data-kel="`+row.kel_siswa+`"
+                      data-kec="`+row.kec_siswa+`"
+                      data-kota="`+row.kota_siswa+`"
+                      data-provinsi="`+row.provinsi_siswa+`"
+                      data-asal-sekolah="`+row.asal_sekolah_siswa+`"
+                      data-tmp-tinggal="`+row.tmp_tinggal_siswa+`"
+                      data-jml-sdr="`+row.jml_sdr_siswa+`"
+                      data-anak-ke="`+row.anak_ke_siswa+`"
+                      data-status-kel="`+row.status_kel_siswa+`"
+                      data-nama-ayah="`+row.ayah_siswa+`"
+                      data-pekerjaan-ayah="`+row.pekerjaan_ayah_siswa+`"
+                      data-penghasilan-ayah="`+row.penghasilan_ayah_siswa+`"
+                      data-nik-ayah="`+row.nik_ayah_siswa+`"
+                      data-tlp-ayah="`+row.tlp_ayah_siswa+`"
+                      data-nama-ibu="`+row.ibu_siswa+`"
+                      data-pekerjaan-ibu="`+row.pekerjaan_ibu_siswa+`"
+                      data-penghasilan-ibu="`+row.penghasilan_ibu_siswa+`"
+                      data-nik-ibu="`+row.nik_ibu_siswa+`"
+                      data-tlp-ibu="`+row.tlp_ibu_siswa+`"
+                      data-tlp="`+row.tlp_siswa+`"
+                      data-email="`+row.email_siswa+`"
+                      data-pin="`+row.pin_siswa+`">
+                      <i class="bx bx-edit"></i> Edit</a>
 
-                      <a class="dropdown-item detail-data" href="javascript:void(0)"><i class="bx bx-search"></i> Detail</a>
+                      <a class="dropdown-item detail-data" href="javascript:void(0)"
+                      data-jurusan="`+row.id_jurusan_siswa+`"
+                      data-rombel="`+row.id_rombel_siswa+`"
+                      data-nama="`+row.nama_siswa+`"
+                      data-nisn="`+row.nisn_siswa+`"
+                      data-nis="`+row.nis_siswa+`"
+                      data-tmp-lahir="`+row.tmp_lahir_siswa+`"
+                      data-tgl-lahir="`+row.tgl_lahir_siswa+`"
+                      data-jenkel="`+row.jenkel_siswa+`"
+                      data-agama="`+row.agama_siswa+`"
+                      data-alamat="`+row.alamat_siswa+`"
+                      data-rt="`+row.rt_siswa+`"
+                      data-rw="`+row.rw_siswa+`"
+                      data-kode-pos="`+row.kode_pos_siswa+`"
+                      data-kel="`+row.kel_siswa+`"
+                      data-kec="`+row.kec_siswa+`"
+                      data-kota="`+row.kota_siswa+`"
+                      data-provinsi="`+row.provinsi_siswa+`"
+                      data-asal-sekolah="`+row.asal_sekolah_siswa+`"
+                      data-tmp-tinggal="`+row.tmp_tinggal_siswa+`"
+                      data-jml-sdr="`+row.jml_sdr_siswa+`"
+                      data-anak-ke="`+row.anak_ke_siswa+`"
+                      data-status-kel="`+row.status_kel_siswa+`"
+                      data-nama-ayah="`+row.ayah_siswa+`"
+                      data-pekerjaan-ayah="`+row.pekerjaan_ayah_siswa+`"
+                      data-penghasilan-ayah="`+row.penghasilan_ayah_siswa+`"
+                      data-nik-ayah="`+row.nik_ayah_siswa+`"
+                      data-tlp-ayah="`+row.tlp_ayah_siswa+`"
+                      data-nama-ibu="`+row.ibu_siswa+`"
+                      data-pekerjaan-ibu="`+row.pekerjaan_ibu_siswa+`"
+                      data-penghasilan-ibu="`+row.penghasilan_ibu_siswa+`"
+                      data-nik-ibu="`+row.nik_ibu_siswa+`"
+                      data-tlp-ibu="`+row.tlp_ibu_siswa+`"
+                      data-tlp="`+row.tlp_siswa+`"
+                      data-email="`+row.email_siswa+`"
+                      data-pin="`+row.pin_siswa+`">
+                      <i class="bx bx-search"></i> Detail</a>
 
                       <a class="dropdown-item hapus-data" href="javascript:void(0)" data-id="`+row.id_siswa+`"><i class="bx bx-trash"></i> Hapus</a>
                     </div>

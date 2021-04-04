@@ -319,41 +319,50 @@ $this->load->view('_part/header');
         var jadwal = "";
 
         if (hari != "") {
-          $.each(data.rombel, function(i, rmb) {
-            rombel += `<th>`+rmb.nama_rombel+`</th>`;
-          });
+          if (data.rombel.length != 0 && data.waktu.length != 0) {
+            $.each(data.rombel, function(i, rmb) {
+              rombel += `<th>`+rmb.nama_rombel+`</th>`;
+            });
 
-          $.each(data.waktu, function(i, wkt) {
-            waktu += `<tr>
-                        <td class="text-center"><b>`+wkt.jam_waktu+`</b></td>
-                        <td><b>`+wkt.nama_waktu+`</b></td>`;
-                        if (data.jadwal.length > 0) {
-                          $.each(data.rombel, function(i, rmb) {
-                            waktu += `<td id="jdl`+wkt.id_waktu+rmb.id_rombel+hari+`"><a href="javascript:void(0)" class="tambah-jadwal" data-idwaktu="`+wkt.id_waktu+`" data-namawaktu="`+wkt.nama_waktu+`" data-idrombel="`+rmb.id_rombel+`" data-namarombel="`+rmb.nama_rombel+`">...</a></td>`;
-                          });
-                        } else {
-                          $.each(data.rombel, function(i, rmb) {
-                            waktu += `<td><a href="javascript:void(0)" class="tambah-jadwal" data-idwaktu="`+wkt.id_waktu+`" data-namawaktu="`+wkt.nama_waktu+`" data-idrombel="`+rmb.id_rombel+`" data-namarombel="`+rmb.nama_rombel+`">...</a></td>`;
-                          })
-                        }
-            waktu += `</tr>`;
-          });
+            $.each(data.waktu, function(i, wkt) {
+              waktu += `<tr>
+                          <td class="text-center"><b>`+wkt.jam_waktu+`</b></td>
+                          <td><b>`+wkt.nama_waktu+`</b></td>`;
+                          if (data.jadwal.length > 0) {
+                            $.each(data.rombel, function(i, rmb) {
+                              waktu += `<td id="jdl`+wkt.id_waktu+rmb.id_rombel+hari+`"><a href="javascript:void(0)" class="tambah-jadwal" data-idwaktu="`+wkt.id_waktu+`" data-namawaktu="`+wkt.nama_waktu+`" data-idrombel="`+rmb.id_rombel+`" data-namarombel="`+rmb.nama_rombel+`">...</a></td>`;
+                            });
+                          } else {
+                            $.each(data.rombel, function(i, rmb) {
+                              waktu += `<td><a href="javascript:void(0)" class="tambah-jadwal" data-idwaktu="`+wkt.id_waktu+`" data-namawaktu="`+wkt.nama_waktu+`" data-idrombel="`+rmb.id_rombel+`" data-namarombel="`+rmb.nama_rombel+`">...</a></td>`;
+                            })
+                          }
+              waktu += `</tr>`;
+            });
 
-          jadwal = `<table id="tblData" class="table table-bordered table-hover table-striped table-sm text-nowrap text-center" style="width: 100%;">
-                      <thead>
-                        <tr>
-                          <th class="text-center" style="width: 10px;">Jam</th>
-                          <th>Waktu</th>
-                          `+rombel+`
-                        </tr>
-                      </thead>
-                      <tbody>
-                        `+waktu+`
-                      </tbody>
-                    </table>`;
+            jadwal = `<table id="tblData" class="table table-bordered table-hover table-striped table-sm text-nowrap text-center" style="width: 100%;">
+                        <thead>
+                          <tr>
+                            <th class="text-center" style="width: 10px;">Jam</th>
+                            <th>Waktu</th>
+                            `+rombel+`
+                          </tr>
+                        </thead>
+                        <tbody>
+                          `+waktu+`
+                        </tbody>
+                      </table>`;
 
-          $('#loadJadwal').html(jadwal);
-          loadJadwal();
+            $('#loadJadwal').html(jadwal);
+            loadJadwal();
+          } else {
+            jadwal = `<div class="text-center">
+                        <i class="text-soft-teal bx bx-table" style="font-size: 150px;"></i>
+                        <p class="text-muted mt-0">Waktu atau rombel tidak tersedia</p>
+                      </div>`;
+            $('#loadJadwal').html(jadwal);
+            loadingElementOff('#loadJadwal')
+          }
         } else {
           jadwal = `<div class="text-center">
                       <i class="text-soft-teal bx bx-table" style="font-size: 150px;"></i>

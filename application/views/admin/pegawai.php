@@ -547,7 +547,7 @@ $this->load->view('_part/header');
       $('#ktp').val(ktp);
       $('#npwp').val(npwp);
       $('#tmpLahir').val(tmpLahir);
-      $('#tglLahir').val(tglLahir);
+      $('#tglLahir').val(tglLahir == null ? "" : tgl(tglLahir));
       $('#alamat').val(alamat);
       $('#jenkel').val(jenkel);
       $('#agama').val(agama);
@@ -556,7 +556,7 @@ $this->load->view('_part/header');
       $('#jurusanPend').val(jurusanPend);
       $('#gelarDepan').val(gelarDepan);
       $('#gelarBelakang').val(gelarBelakang);
-      $('#mulaiTugas').val(mulaiTugas);
+      $('#mulaiTugas').val(mulaiTugas == null ? "-" : tgl(mulaiTugas));
       if (bp == 1) {
         $('#bp').prop('checked', true);
       } else {
