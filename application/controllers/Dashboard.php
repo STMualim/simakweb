@@ -14,6 +14,10 @@ class Dashboard extends CI_Controller {
 	public function index()
 	{
 		$data['judul'] = 'Dashboard';
+		$data['jml_siswa'] = $this->dashboard_m->jml_siswa()->num_rows();
+		$data['jml_guru'] = $this->dashboard_m->jml_guru()->num_rows();
+		$data['jml_rombel'] = $this->dashboard_m->jml_rombel()->num_rows();
+		$data['jml_ruangan'] = $this->dashboard_m->jml_ruangan()->num_rows();
 		$this->load->view('dashboard', $data);
 	}
 

@@ -37,7 +37,7 @@ $this->load->view('_part/header');
               <span class="info-box-icon"><i class="far fa-user-circle"></i></span>
               <div class="info-box-content">
                 <span class="info-box-text">Siswa</span>
-                <h3><span class="info-box-number">789</span></h3>
+                <h3><span class="info-box-number"><?= angka($jml_siswa) ?></span></h3>
               </div>
             </div>
           </div>
@@ -47,7 +47,7 @@ $this->load->view('_part/header');
               <span class="info-box-icon"><i class="far fa-address-card"></i></span>
               <div class="info-box-content">
                 <span class="info-box-text">Guru</span>
-                <h3><span class="info-box-number">9</span></h3>
+                <h3><span class="info-box-number"><?= angka($jml_guru) ?></span></h3>
               </div>
             </div>
           </div>
@@ -56,8 +56,8 @@ $this->load->view('_part/header');
             <div class="info-box mb-3 bg-teal">
               <span class="info-box-icon"><i class="fas fa-chair"></i></span>
               <div class="info-box-content">
-                <span class="info-box-text">Kelas</span>
-                <h3><span class="info-box-number">234</span></h3>
+                <span class="info-box-text">Rombel</span>
+                <h3><span class="info-box-number"><?= angka($jml_rombel) ?></span></h3>
               </div>
             </div>
           </div>
@@ -67,7 +67,7 @@ $this->load->view('_part/header');
               <span class="info-box-icon"><i class="fas fa-door-open"></i></span>
               <div class="info-box-content">
                 <span class="info-box-text">Ruangan</span>
-                <h3><span class="info-box-number">275</span></h3>
+                <h3><span class="info-box-number"><?= angka($jml_ruangan) ?></span></h3>
               </div>
             </div>
           </div>

@@ -413,21 +413,19 @@ $this->load->view('_part/header');
               <table class="table table-striped">
                 <tr>
                   <td class="text-right"><b>Nama</b></td>
-                  <td id="namaDetail"></td>
-                  <td class="text-right"><b>Kode</b></td>
-                  <td id="kodeDetail"></td>
+                  <td colspan="3" id="namaDetail"></td>
                 </tr>
                 <tr>
-                  <td class="text-right"><b>Jenis</b></td>
-                  <td id="jenisDetail"></td>
-                  <td class="text-right"><b>NIP</b></td>
-                  <td id="nipDetail"></td>
+                  <td class="text-right"><b>Jurusan</b></td>
+                  <td id="jurusanDetail"></td>
+                  <td class="text-right"><b>Rombel</b></td>
+                  <td id="rombelDetail"></td>
                 </tr>
                 <tr>
-                  <td class="text-right"><b>No. KTP</b></td>
-                  <td id="ktpDetail"></td>
-                  <td class="text-right"><b>NPWP</b></td>
-                  <td id="npwpDetail"></td>
+                  <td class="text-right"><b>NISN</b></td>
+                  <td id="nisnDetail"></td>
+                  <td class="text-right"><b>NIS</b></td>
+                  <td id="nisDetail"></td>
                 </tr>
                 <tr>
                   <td class="text-right"><b>Tempat Lahir</b></td>
@@ -436,38 +434,86 @@ $this->load->view('_part/header');
                   <td id="tglLahirDetail"></td>
                 </tr>
                 <tr>
-                  <td class="text-right"><b>Alamat</b></td>
-                  <td colspan="3" id="alamatDetail"></td>
-                </tr>
-                <tr>
                   <td class="text-right"><b>Jenis Kelamin</b></td>
                   <td id="jenkelDetail"></td>
                   <td class="text-right"><b>Agama</b></td>
                   <td id="agamaDetail"></td>
                 </tr>
                 <tr>
-                  <td class="text-right"><b>Status Perkawinan</b></td>
-                  <td id="statusKawinDetail"></td>
-                  <td class="text-right"><b>Pend. Terakhir</b></td>
-                  <td id="pendAkhirDetail"></td>
+                  <td class="text-right"><b>Alamat</b></td>
+                  <td colspan="3" id="alamatDetail"></td>
                 </tr>
                 <tr>
-                  <td class="text-right"><b>Jurusan Pend.</b></td>
-                  <td id="jurusanPendDetail"></td>
-                  <td class="text-right"><b>Mulai Tugas</b></td>
-                  <td id="mulaiTugasDetail"></td>
+                  <td class="text-right"><b>RT/RW</b></td>
+                  <td id="rtRwDetail"></td>
+                  <td class="text-right"><b>Kode Pos</b></td>
+                  <td id="kodePosDetail"></td>
                 </tr>
                 <tr>
-                  <td class="text-right"><b>Guru BP</b></td>
-                  <td id="bpDetail"></td>
-                  <td class="text-right"><b>Sebagai Admin</b></td>
-                  <td id="adminDetail"></td>
+                  <td class="text-right"><b>Kelurahan</b></td>
+                  <td id="kelDetail"></td>
+                  <td class="text-right"><b>Kecamatan</b></td>
+                  <td id="kecDetail"></td>
+                </tr>
+                <tr>
+                  <td class="text-right"><b>Kota/Kab.</b></td>
+                  <td id="kotaDetail"></td>
+                  <td class="text-right"><b>Provinsi</b></td>
+                  <td id="provinsiDetail"></td>
+                </tr>
+                <tr>
+                  <td class="text-right"><b>Asal Sekolah</b></td>
+                  <td id="asalSekolahDetail"></td>
+                  <td class="text-right"><b>Status Tempat Tinggal</b></td>
+                  <td id="tmpTinggalDetail"></td>
+                </tr>
+                <tr>
+                  <td class="text-right"><b>Jumlah Saudara</b></td>
+                  <td id="jmlSdrDetail"></td>
+                  <td class="text-right"><b>Anak Ke</b></td>
+                  <td id="anakKeDetail"></td>
+                </tr>
+                <tr>
+                  <td class="text-right"><b>Status Dalam Keluarga</b></td>
+                  <td colspan="3" id="statusKelDetail"></td>
+                </tr>
+                <tr>
+                  <td class="text-right"><b>Nama Ayah</b></td>
+                  <td id="namaAyahDetail"></td>
+                  <td class="text-right"><b>Pekerjaan Ayah</b></td>
+                  <td id="pekerjaanAyahDetail"></td>
+                </tr>
+                <tr>
+                  <td class="text-right"><b>Penghasilan Ayah</b></td>
+                  <td id="penghasilanAyahDetail"></td>
+                  <td class="text-right"><b>NIK Ayah</b></td>
+                  <td id="nikAyahDetail"></td>
+                </tr>
+                <tr>
+                  <td class="text-right"><b>Tlp. Ayah</b></td>
+                  <td colspan="3" id="tlpAyahDetail"></td>
+                </tr>
+                <tr>
+                  <td class="text-right"><b>Nama Ibu</b></td>
+                  <td id="namaIbuDetail"></td>
+                  <td class="text-right"><b>Pekerjaan Ibu</b></td>
+                  <td id="pekerjaanIbuDetail"></td>
+                </tr>
+                <tr>
+                  <td class="text-right"><b>Penghasilan Ibu</b></td>
+                  <td id="penghasilanIbuDetail"></td>
+                  <td class="text-right"><b>NIK Ibu</b></td>
+                  <td id="nikIbuDetail"></td>
+                </tr>
+                <tr>
+                  <td class="text-right"><b>Tlp. Ibu</b></td>
+                  <td colspan="3" id="tlpIbuDetail"></td>
                 </tr>
                 <tr>
                   <td class="text-right"><b>No. Tlp.</b></td>
-                  <td id="tlpDetail"></td>
+                  <td id="tlpSiswaDetail"></td>
                   <td class="text-right"><b>Email</b></td>
-                  <td id="emailDetail"></td>
+                  <td id="emailSiswaDetail"></td>
                 </tr>
                 <tr>
                   <td class="text-right"><b>PIN</b></td>
@@ -701,25 +747,39 @@ $this->load->view('_part/header');
       var email = $(this).data('email');
       var pin = $(this).data('pin');
 
-      $('#jenisDetail').html(jenis == 1 ? "Guru" : "Staf");
-      $('#kodeDetail').html(kode == null ? "-" : kode);
-      $('#namaDetail').html((gelarDepan == null ? "" : gelarDepan+" ") + nama + (gelarBelakang == null ? "" : ", "+gelarBelakang));
-      $('#nipDetail').html(nip == null ? "-" : nip);
-      $('#ktpDetail').html(ktp == null ? "-" : ktp);
-      $('#npwpDetail').html(npwp == null ? "-" : npwp);
+      $('#namaDetail').html(nama);
+      $('#jurusanDetail').html(jurusan);
+      $('#rombelDetail').html(rombel);
+      $('#nisnDetail').html(nisn == null ? "-" : nisn);
+      $('#nisDetail').html(nis == null ? "-" : nis);
       $('#tmpLahirDetail').html(tmpLahir == null ? "-" : tmpLahir);
       $('#tglLahirDetail').html(tglLahir == null ? "-" : tgl(tglLahir));
-      $('#alamatDetail').html(alamat == null ? "-" : alamat);
       $('#jenkelDetail').html(jenkel == 1 ? "Laki-Laki" : "Perempuan");
       $('#agamaDetail').html(agama == 1 ? "Islam" : agama == 2 ? "Kristen" : agama == 3 ? "Katholik" : agama == 4 ? "Budhha" : agama == 5 ? "Hindu" : "Konghucu");
-      $('#statusKawinDetail').html(statusKawin == 1 ? "Belum Kawin" : statusKawin == 2 ? "Kawin" : "Janda/Duda");
-      $('#pendAkhirDetail').html(pendAkhir == 1 ? "SMA/SMK" : pendAkhir == 2 ? "D3" : pendAkhir == 3 ? "S1/D4" : pendAkhir == 4 ? "S2" : "S3");
-      $('#jurusanPendDetail').html(jurusanPend == null ? "-" : jurusanPend);
-      $('#mulaiTugasDetail').html(mulaiTugas == null ? "-" : tgl(mulaiTugas));
-      $('#bpDetail').html(bp == null ? "Tidak" : "Iya");
-      $('#adminDetail').html(admin == null ? "Tidak" : "Iya");
-      $('#tlpDetail').html(tlp);
-      $('#emailDetail').html(email == null ? "-" : email);
+      $('#alamatDetail').html(alamat == null ? "-" : alamat);
+      $('#rtRwDetail').html((rt == null ? "-" : rt)+"/"+(rw == null ? "-" : rw));
+      $('#kodePosDetail').html(kodePos == null ? "-" : kodePos);
+      $('#kelDetail').html(kel == null ? "-" : kel);
+      $('#kecDetail').html(kec == null ? "-" : kec);
+      $('#kotaDetail').html(kota == null ? "-" : kota);
+      $('#provinsiDetail').html(provinsi == null ? "-" : provinsi);
+      $('#asalSekolahDetail').html(asalSekolah == null ? "-" : asalSekolah);
+      $('#tmpTinggalDetail').html(tmpTinggal == 1 ? "Milik Sendiri" : tmpTinggal == 2 ? "Sewa" : "Bersama Orang Tua");
+      $('#jmlSdrDetail').html(jmlSdr == null ? "-" : jmlSdr);
+      $('#anakKeDetail').html(anakKe == null ? "-" : anakKe);
+      $('#statusKelDetail').html(statusKel == 1 ? "Anak Kandung" : statusKel == 2 ? "Anak Tiri" : "Anak Angkat");
+      $('#namaAyahDetail').html(namaAyah);
+      $('#pekerjaanAyahDetail').html(pekerjaanAyah == null ? "-" : pekerjaanAyah);
+      $('#penghasilanAyahDetail').html(penghasilanAyah == null ? "Tidak Ada" : penghasilanAyah == 1 ? "&plusmn; 1 Juta" : penghasilanAyah == 2 ? "1-3 Juta" : penghasilanAyah == 3 ? "4-6 Juta" : "Lebih Dari 7 Juta");
+      $('#nikAyahDetail').html(nikAyah == null ? "-" : nikAyah);
+      $('#tlpAyahDetail').html(tlpAyah == null ? "-" : tlpAyah);
+      $('#namaIbuDetail').html(namaIbu);
+      $('#pekerjaanIbuDetail').html(pekerjaanIbu == null ? "-" : pekerjaanIbu);
+      $('#penghasilanIbuDetail').html(penghasilanIbu == null ? "Tidak Ada" : penghasilanIbu == 1 ? "&plusmn; 1 Juta" : penghasilanIbu == 2 ? "1-3 Juta" : penghasilanIbu == 3 ? "4-6 Juta" : "Lebih Dari 7 Juta");
+      $('#nikIbuDetail').html(nikIbu == null ? "-" : nikIbu);
+      $('#tlpIbuDetail').html(tlpIbu == null ? "-" : tlpIbu);
+      $('#tlpSiswaDetail').html(tlp);
+      $('#emailSiswaDetail').html(email == null ? "-" : email);
       $('#pinDetail').html(pin == null ? "-" : pin);
 
       $('.modal-title').text("Detail Data");
@@ -980,8 +1040,8 @@ $this->load->view('_part/header');
                       <i class="bx bx-edit"></i> Edit</a>
 
                       <a class="dropdown-item detail-data" href="javascript:void(0)"
-                      data-jurusan="`+row.id_jurusan_siswa+`"
-                      data-rombel="`+row.id_rombel_siswa+`"
+                      data-jurusan="`+row.nama_jurusan+`"
+                      data-rombel="`+row.nama_rombel+`"
                       data-nama="`+row.nama_siswa+`"
                       data-nisn="`+row.nisn_siswa+`"
                       data-nis="`+row.nis_siswa+`"
