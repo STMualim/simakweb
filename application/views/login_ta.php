@@ -179,8 +179,12 @@
                   <h1 class="text-soft-teal mb-0" style="font-size: 100px;" disabled>
                     <i class="bx bx-calendar-x"></i>
                   </h1>
-                  <p class="text-muted">Tahun ajaran belum dibuat</p>
-                  <button type="button" class="btn btn-teal btn-rounded" id="btnTambah"><i class="fas fa-plus"></i> Buat Tahun Ajaran</button>
+                  <?php if ($this->fungsi->level() == 0 || $this->fungsi->pegawai()->admin_pegawai == 1) { ?>
+                    <p class="text-muted">Tahun ajaran belum dibuat</p>
+                    <button type="button" class="btn btn-teal btn-rounded" id="btnTambah"><i class="fas fa-plus"></i> Buat Tahun Ajaran</button>
+                  <?php } else { ?>
+                    <p class="text-muted">Tidak ada tahun ajaran aktif</p>
+                  <?php } ?>
                 </div>`;
        $('#daftarTahun').html(html);
       }
