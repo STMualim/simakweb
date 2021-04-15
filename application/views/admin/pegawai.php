@@ -823,8 +823,8 @@ $this->load->view('_part/header');
         {data: 'nama_pegawai', render: function(data, type, row) {
           return (row.gelar_depan_pegawai == null ? "" : row.gelar_depan_pegawai+" ") + data + (row.gelar_belakang_pegawai == null ? "" : ", "+row.gelar_belakang_pegawai);
         }},
-        {data: 'jenis_pegawai', render: function(data) {
-          return data == 1 ? "Guru" : "Staf";
+        {data: 'jenis_pegawai', render: function(data, type, row) {
+          return (data == 1 ? "Guru" : "Staf") +` `+ (row.admin_pegawai == 1 ? "(Admin)" : "");
         }},
         {data: 'buat_pegawai', render: function(data) {
           return tglJam(data);
