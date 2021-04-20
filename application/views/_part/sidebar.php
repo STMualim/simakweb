@@ -100,6 +100,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </a>
           </li>
 
+          <!-- TUGAS AJAR -->
+          <li class="nav-item">
+            <a href="<?= site_url('admin/tugas_ajar') ?>" class="nav-link">
+              <i class="nav-icon bx bx-task"></i>
+              <p>Tugas Ajar</p>
+            </a>
+          </li>
+
           <!-- JADWAL PELAJARAN  -->
           <li class="nav-item">
             <a href="javascript:void(0)" class="nav-link">
@@ -135,6 +143,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <p>Data Siswa</p>
             </a>
           </li>
+        <?php } ?>
+
+        <?php if ($this->fungsi->level() != 0) { ?>
+          <?php if ($this->fungsi->level() == 2 || $this->fungsi->pegawai()->admin_pegawai == null) { ?>
+            <li class="nav-header">GURU</li>
+
+            <!-- KOPETENSI DASAR -->
+            <li class="nav-item">
+              <a href="<?= site_url('guru/kd') ?>" class="nav-link">
+                <i class="nav-icon bx bx-flag"></i>
+                <p>Kopetensi Dasar</p>
+              </a>
+            </li>
+          <?php } ?>
         <?php } ?>
 
       </ul>

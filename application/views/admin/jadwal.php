@@ -103,20 +103,8 @@ $this->load->view('_part/header');
                         <input type="text" class="form-control" id="waktu" readonly>
                       </div>
                     </div>
-                    <div class="form-group form-mapel">
-                      <select class="form-control select" name="mapel" id="mapel">
-                        <option value="">Pilih Mapel</option>
-                        <?php foreach ($mapel as $key => $row) { ?>
-                          <option value="<?= $row->id_mapel ?>"><?= "$row->kode_mapel-$row->nama_mapel" ?></option>
-                        <?php } ?>
-                      </select>
-                    </div>
-                    <div class="form-group form-pegawai">
-                      <select class="form-control select" name="pegawai" id="pegawai">
-                        <option value="">Pilih Guru</option>
-                        <?php foreach ($pegawai as $key => $row) { ?>
-                          <option value="<?= $row->id_pegawai ?>"><?= "$row->kode_pegawai-$row->nama_pegawai" ?></option>
-                        <?php } ?>
+                    <div class="form-group form-tugas_ajar" id="formTugasAjar">
+                      <select class="form-control select" name="tugas_ajar" id="tugasAjar">
                       </select>
                     </div>
                   </div>
@@ -193,13 +181,17 @@ $this->load->view('_part/header');
       var idWaktu = $(this).data('idwaktu');
       var namaRombel = $(this).data('namarombel');
       var namaWaktu = $(this).data('namawaktu');
+
+      loadTugasAjar(idRombel);
+
       $('#mdlData').on('shown.bs.modal', function(){
+        $('#id').val("");
         $('#idHari').val(idHari);
         $('#idRombel').val(idRombel);
         $('#idWaktu').val(idWaktu);
         $('#rombel').val(namaRombel);
         $('#waktu').val(namaWaktu);
-        $('#mapel, #pegawai').val("").trigger('change.select2');
+        $('#tugasAjar').val("").trigger('change.select2');
       });
 
       simpan = "tambah";
@@ -214,16 +206,18 @@ $this->load->view('_part/header');
     // Edit Data
     $('#loadJadwal').on('click', '.edit-jadwal', function(){
       var id = $(this).data('id');
-      var idMapel = $(this).data('idmapel');
-      var idPegawai = $(this).data('idpegawai');
+      var idTugasAjar = $(this).data('idtugasajar');
+      var idRombel = $(this).data('idrombel');
       var namaRombel = $(this).data('namarombel');
       var namaWaktu = $(this).data('namawaktu');
+
+      loadTugasAjar(idRombel);
+
       $('#mdlData').on('shown.bs.modal', function(){
         $('#id').val(id);
-        $('#mapel').val(idMapel).trigger('change.select2');
-        $('#pegawai').val(idPegawai).trigger('change.select2');
         $('#rombel').val(namaRombel);
         $('#waktu').val(namaWaktu);
+        $('#tugasAjar').val(idTugasAjar).trigger('change.select2');
       });
 
       simpan = "edit";
@@ -238,45 +232,47 @@ $this->load->view('_part/header');
     $('#formData').submit(function(e){
       e.preventDefault();
       var url;
+      var tugasAjar = $('#tugasAjar').val();
       if (simpan == "tambah") {
         url = "<?= site_url('admin/jadwal/tambah') ?>"
       } else {
         url = "<?= site_url('admin/jadwal/edit') ?>"
       }
-      $.ajax({
-        url: url,
-        type: 'post',
-        data: $('#formData').serialize(),
-        dataType: 'json',
-        beforeSend: function(){
-          loadingBtnOn();
-        },
-        success: function(data){
-          loadingBtnOff();
-          if(data.sukses == true){
-            alertSukses("Berhasil disimpan");
-            loadData();
-            $('#mdlData').modal('hide');
-            $('#formData').trigger('reset');
-            $('#mapel, #pegawai').val("").trigger('change.select2');
-            $('.form-control').removeClass('is-invalid');
-            $('.invalid-message').remove();
-          }else{
-            alertError("Gagal disimpan");
-            $.each(data.error,function(key, value){
-              var element = $('[name="'+key+'"]');
-              var form = $('.form-'+key+'');
-              element.closest('.form-control')
-              .removeClass('is-invalid')
-              .addClass(value.length > 0 ? 'is-invalid' : '');
-              element.closest('.form-group')
-              .find('.invalid-message')
-              .remove();
-              form.append(value);
-            });
+
+      $('.form-control').removeClass('is-invalid');
+      $('.invalid-message').remove();
+
+      if (tugasAjar == "") {
+        alertError("Gagal disimpan");
+        $('#tugasAjar').addClass('is-invalid');
+        $('#formTugasAjar').append('<span class="text-danger invalid-message">Tugas Ajar wajib diisi!</span>');
+      } else {
+        $.ajax({
+          url: url,
+          type: 'post',
+          data: $('#formData').serialize(),
+          dataType: 'json',
+          beforeSend: function(){
+            loadingBtnOn();
+          },
+          success: function(data){
+            loadingBtnOff();
+            if(data.sukses == true){
+              alertSukses("Berhasil disimpan");
+              loadData();
+              $('#mdlData').modal('hide');
+              $('#formData').trigger('reset');
+              $('#mapel, #pegawai').val("").trigger('change.select2');
+              $('.form-control').removeClass('is-invalid');
+              $('.invalid-message').remove();
+            }else{
+              alertError("Gagal disimpan");
+              $('#tugasAjar').addClass('is-invalid');
+              $('#formTugasAjar').append('<span class="text-danger invalid-message">Tugas Ajar sudah terdaftar di jam ini!</span>');
+            }
           }
-        }
-      });
+        });
+      }
     });
 
     // Hapus Data
@@ -361,7 +357,7 @@ $this->load->view('_part/header');
                         <p class="text-muted mt-0">Waktu atau rombel tidak tersedia</p>
                       </div>`;
             $('#loadJadwal').html(jadwal);
-            loadingElementOff('#loadJadwal')
+            loadingElementOff('#loadJadwal');
           }
         } else {
           jadwal = `<div class="text-center">
@@ -388,10 +384,32 @@ $this->load->view('_part/header');
       success: function(data){
         loadingElementOff('#loadJadwal');
         $.each(data, function(i, jdl) {
-          $('#jdl'+jdl.id_waktu_jadwal+jdl.id_rombel_jadwal+jdl.id_hari_jadwal).html(`<a href="javascript:void(0)" class="edit-jadwal" data-id="`+jdl.id_jadwal+`" data-idmapel="`+jdl.id_mapel_jadwal+`" data-idpegawai="`+jdl.id_pegawai_jadwal+`" data-namawaktu="`+jdl.nama_waktu+`" data-namarombel="`+jdl.nama_rombel+`" data-toggle="tooltip" data-placement="top" title="`+jdl.nama_mapel+`-`+jdl.nama_pegawai+`">`+jdl.kode_mapel+`-`+jdl.kode_pegawai+`</a>`);
+          $('#jdl'+jdl.id_waktu_jadwal+jdl.id_rombel_jadwal+jdl.id_hari_jadwal).html(`<a href="javascript:void(0)" class="edit-jadwal" data-id="`+jdl.id_jadwal+`" data-idtugasajar="`+jdl.id_tugas_ajar_jadwal+`" data-idrombel="`+jdl.id_rombel_jadwal+`" data-namawaktu="`+jdl.nama_waktu+`" data-namarombel="`+jdl.nama_rombel+`" data-toggle="tooltip" data-placement="top" title="`+jdl.nama_mapel+`-`+jdl.nama_pegawai+`">`+jdl.kode_mapel+`-`+jdl.kode_pegawai+`</a>`);
         });
         $('[data-toggle="tooltip"]').tooltip();
       }
+    });
+  }
+
+  function loadTugasAjar(idRombel)
+  {
+    $.ajax({
+        url : "<?= site_url('admin/jadwal/load_tugas_ajar') ?>",
+        method : "get",
+        data : {idRombel},
+        async : false,
+        dataType : 'json',
+        beforeSend: function(){
+          loadingElementOn('#mdlData');
+        },
+        success: function(data){
+          var tugasAjar = `<option value="">Pilih Tugas Ajar</option>`;
+          $.each(data, function(i, tgs) {
+            tugasAjar += `<option value="`+tgs.id_tugas_ajar+`">`+tgs.nama_mapel+` - `+tgs.nama_pegawai+`</option>`;
+          });
+          $('#tugasAjar').html(tugasAjar);
+          loadingElementOff('#mdlData');
+        }
     });
   }
 

@@ -10,8 +10,9 @@ class Jadwal_m extends CI_Model {
     $this->db->join('hari', 'hari.id_hari = jadwal.id_hari_jadwal', 'left');
     $this->db->join('rombel', 'rombel.id_rombel = jadwal.id_rombel_jadwal', 'left');
     $this->db->join('waktu', 'waktu.id_waktu = jadwal.id_waktu_jadwal', 'left');
-    $this->db->join('mapel', 'mapel.id_mapel = jadwal.id_mapel_jadwal', 'left');
-    $this->db->join('pegawai', 'pegawai.id_pegawai = jadwal.id_pegawai_jadwal', 'left');
+    $this->db->join('tugas_ajar', 'tugas_ajar.id_tugas_ajar = jadwal.id_tugas_ajar_jadwal', 'left');
+    $this->db->join('mapel', 'mapel.id_mapel = tugas_ajar.id_mapel_tugas_ajar', 'left');
+    $this->db->join('pegawai', 'pegawai.id_pegawai = tugas_ajar.id_pegawai_tugas_ajar', 'left');
     $this->db->where('id_ta_jadwal', $ta);
     if ($post['hari'] != null) {
       $this->db->where('id_hari_jadwal', $post['hari']);
@@ -46,16 +47,15 @@ class Jadwal_m extends CI_Model {
     return $this->db->get_where('kelas', ['id_ta_kelas' => $ta]);
   }
 
-  function load_mapel()
+  function load_tugas_ajar($rombel)
   {
     $ta = $this->fungsi->ta()->id_ta;
-    return $this->db->get_where('mapel', ['id_ta_mapel' => $ta]);
-  }
-
-  function load_pegawai()
-  {
-    $ta = $this->fungsi->ta()->id_ta;
-    return $this->db->get_where('pegawai', ['id_ta_pegawai' => $ta, 'level_pegawai' => 2]);
+    $this->db->from('tugas_ajar');
+    $this->db->join('mapel', 'mapel.id_mapel = tugas_ajar.id_mapel_tugas_ajar', 'left');
+    $this->db->join('rombel', 'rombel.id_rombel = tugas_ajar.id_rombel_tugas_ajar', 'left');
+    $this->db->join('pegawai', 'pegawai.id_pegawai = tugas_ajar.id_pegawai_tugas_ajar', 'left');
+    $this->db->where('id_ta_tugas_ajar', $ta)->where('id_rombel_tugas_ajar', $rombel);
+    return $this->db->get();
   }
 
   function tambah($post)
@@ -66,8 +66,7 @@ class Jadwal_m extends CI_Model {
       'id_hari_jadwal' => $post['hari'],
       'id_rombel_jadwal' => $post['rombel'],
       'id_waktu_jadwal' => $post['waktu'],
-      'id_mapel_jadwal' => $post['mapel'],
-      'id_pegawai_jadwal' => $post['pegawai'],
+      'id_tugas_ajar_jadwal' => $post['tugas_ajar'],
     ]);
   }
 
@@ -75,8 +74,7 @@ class Jadwal_m extends CI_Model {
   {
     $this->db->where('id_jadwal', $post['id']);
     $this->db->update('jadwal', [
-      'id_mapel_jadwal' => $post['mapel'],
-      'id_pegawai_jadwal' => $post['pegawai'],
+      'id_tugas_ajar_jadwal' => $post['tugas_ajar'],
     ]);
   }
 
@@ -86,15 +84,27 @@ class Jadwal_m extends CI_Model {
     $this->db->delete('jadwal');
   }
 
-  function cek_data($where, $limit)
+  function cek_data($post)
   {
-    $query = $this->db->get_where('jadwal', $where, $limit);
-    if($query->num_rows() > 0){
-      return $query->result();
-    }else{
-      return false;
-    }
+    $ta = $this->fungsi->ta()->id_ta;
+    $pgw = $this->db->get_where('tugas_ajar', ['id_tugas_ajar' => $post['tugas_ajar']])->row_array();
+
+    $this->db->from('jadwal');
+    $this->db->join('tugas_ajar', 'tugas_ajar.id_tugas_ajar = jadwal.id_tugas_ajar_jadwal', 'left');
+    $this->db->where('id_pegawai_tugas_ajar', $pgw['id_pegawai_tugas_ajar'])->where('id_hari_jadwal', $post['hari'])->where('id_waktu_jadwal', $post['waktu'])->where('id_ta_jadwal', $ta);
+    return $this->db->get();
   }
 
+  function cek_data_edit($post)
+  {
+    $ta = $this->fungsi->ta()->id_ta;
+    $pgw = $this->db->get_where('tugas_ajar', ['id_tugas_ajar' => $post['tugas_ajar']])->row_array();
+    $jdl = $this->db->get_where('jadwal', ['id_jadwal' => $post['id']])->row_array();
+
+    $this->db->from('jadwal');
+    $this->db->join('tugas_ajar', 'tugas_ajar.id_tugas_ajar = jadwal.id_tugas_ajar_jadwal', 'left');
+    $this->db->where('id_pegawai_tugas_ajar', $pgw['id_pegawai_tugas_ajar'])->where('id_hari_jadwal', $jdl['id_hari_jadwal'])->where('id_waktu_jadwal', $jdl['id_waktu_jadwal'])->where('id_jadwal !=', $post['id'])->where('id_ta_jadwal', $ta);
+    return $this->db->get();
+  }
 
 }

@@ -137,7 +137,7 @@ $this->load->view('_part/header');
         html = `<div class="alert bg-gray">
                   <h6><i class="icon fas fa-ban"></i>TA <b>`+data.tahun_ta+`</b> (Tidak Aktif)</h6>
                   <p>Mengaktifkan tahun ajaran akan merubah dan menyebarkan data untuk diakses pada semua user.</p>
-                  <button type="button" class="btn btn-outline-light btn-rounded btn-sm" id="btnAktif" data-id="`+data.id_ta+`">Aktifkan Tahun Ajaran</button>
+                  <button type="button" class="btn btn-outline-light btn-rounded btn-sm" id="btnAktif" data-id="`+data.id_ta+`">Aktifkan Tahun Ajaran ini</button>
                 </div>`;
         $('#tampilAlert').html(html);
       }
