@@ -46,9 +46,10 @@ class Login_m extends CI_Model {
 
     function cek_tlp_email($tlp, $email)
     {
+      $ta = $this->db->get_where('ta', ['status_ta'=>1])->row_array();
       $this->db->from('pegawai');
-      $this->db->where('tlp_pegawai', $tlp);
-      $this->db->or_where('email_pegawai', $email);
+      $this->db->where('tlp_pegawai', $tlp)->where('id_ta_pegawai', $ta['id_ta']);
+      $this->db->or_where('email_pegawai', $email)->where('id_ta_pegawai', $ta['id_ta']);
       $query = $this->db->get();
 
       if($query->num_rows() > 0){
@@ -58,11 +59,12 @@ class Login_m extends CI_Model {
       }
     }
 
-    function cek_data($tlp, $email, $pin)
+    function cek_data_pegawai($tlp, $email, $pin)
     {
+      $ta = $this->db->get_where('ta', ['status_ta'=>1])->row_array();
       $this->db->from('pegawai');
-      $this->db->where('tlp_pegawai', $tlp)->where('pin_pegawai', $pin);
-      $this->db->or_where('email_pegawai', $email)->where('pin_pegawai', $pin);
+      $this->db->where('tlp_pegawai', $tlp)->where('pin_pegawai', $pin)->where('id_ta_pegawai', $ta['id_ta']);
+      $this->db->or_where('email_pegawai', $email)->where('pin_pegawai', $pin)->where('id_ta_pegawai', $ta['id_ta']);
       $query = $this->db->get();
 
       if($query->num_rows() > 0){

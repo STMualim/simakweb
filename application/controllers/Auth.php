@@ -83,7 +83,7 @@ class Auth extends CI_Controller {
 		$email = $this->input->post('tlp_email');
 		$pin = $pin;
 		if ($pin != null) {
-			$cek = $this->login_m->cek_data($tlp, $email, $pin);
+			$cek = $this->login_m->cek_data_pegawai($tlp, $email, $pin);
 		  if ($cek){
 				return TRUE;
 		  }else{

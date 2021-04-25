@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 14, 2021 at 06:30 PM
+-- Generation Time: Apr 25, 2021 at 09:42 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -59,8 +59,7 @@ CREATE TABLE `jadwal` (
   `id_hari_jadwal` int(11) NOT NULL,
   `id_rombel_jadwal` int(11) NOT NULL,
   `id_waktu_jadwal` int(11) NOT NULL,
-  `id_mapel_jadwal` int(11) NOT NULL,
-  `id_pegawai_jadwal` int(11) NOT NULL,
+  `id_tugas_ajar_jadwal` int(11) NOT NULL,
   `buat_jadwal` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -68,15 +67,18 @@ CREATE TABLE `jadwal` (
 -- Dumping data for table `jadwal`
 --
 
-INSERT INTO `jadwal` (`id_jadwal`, `id_ta_jadwal`, `id_hari_jadwal`, `id_rombel_jadwal`, `id_waktu_jadwal`, `id_mapel_jadwal`, `id_pegawai_jadwal`, `buat_jadwal`) VALUES
-(1, 13, 2, 2, 3, 1, 31, '2021-03-07 09:27:45'),
-(2, 13, 2, 2, 5, 1, 31, '2021-03-09 06:13:18'),
-(3, 13, 2, 1, 6, 3, 46, '2021-03-09 08:01:45'),
-(4, 13, 2, 2, 4, 1, 31, '2021-03-09 11:59:17'),
-(5, 13, 1, 1, 1, 1, 45, '2021-03-09 13:35:18'),
-(6, 13, 1, 1, 2, 1, 45, '2021-03-09 13:35:23'),
-(8, 13, 1, 1, 4, 2, 31, '2021-03-09 13:35:36'),
-(10, 13, 1, 1, 3, 2, 31, '2021-03-09 13:44:29');
+INSERT INTO `jadwal` (`id_jadwal`, `id_ta_jadwal`, `id_hari_jadwal`, `id_rombel_jadwal`, `id_waktu_jadwal`, `id_tugas_ajar_jadwal`, `buat_jadwal`) VALUES
+(50, 13, 1, 1, 1, 1, '2021-04-17 14:45:23'),
+(51, 13, 1, 1, 2, 1, '2021-04-17 14:45:30'),
+(52, 13, 1, 1, 3, 1, '2021-04-17 14:45:40'),
+(53, 13, 1, 2, 1, 5, '2021-04-17 14:45:44'),
+(54, 13, 1, 2, 2, 5, '2021-04-17 14:45:48'),
+(55, 13, 1, 2, 3, 5, '2021-04-17 14:45:50'),
+(56, 13, 1, 3, 1, 7, '2021-04-17 14:46:02'),
+(57, 13, 1, 3, 2, 7, '2021-04-17 14:46:06'),
+(58, 13, 1, 3, 3, 7, '2021-04-17 14:53:02'),
+(59, 13, 1, 3, 4, 7, '2021-04-17 14:53:22'),
+(60, 13, 1, 1, 5, 2, '2021-04-17 15:41:37');
 
 -- --------------------------------------------------------
 
@@ -196,9 +198,10 @@ INSERT INTO `pegawai` (`id_pegawai`, `id_ta_pegawai`, `jenis_pegawai`, `kode_peg
 (31, 13, 1, '001', 'Mulyadi', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 2, 3, 'Teknik Informatika', NULL, 'S.Kom.', NULL, NULL, NULL, '083813154407', NULL, 536005, 2, NULL, '2021-03-02 14:07:03'),
 (44, 13, 2, NULL, 'Anton', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, '083813154408', NULL, NULL, NULL, NULL, '2021-03-03 00:01:50'),
 (45, 13, 1, '002', 'Koswara', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 3, 'Pendidikan Olahraga', NULL, 'S.Pd.', NULL, NULL, NULL, '083813154409', NULL, 568750, 2, NULL, '2021-03-03 12:32:24'),
-(46, 13, 1, '003', 'Ismail', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 3, 'Teknik Informatika', NULL, 'S.Kom.', NULL, NULL, NULL, '083813154401', 'ismail@gmail.com', 951383, 2, NULL, '2021-03-03 12:33:40'),
-(47, 13, 1, '004', 'Andre', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 3, 'Desain Komunikasi Visual', NULL, 'S.Sen.', NULL, NULL, NULL, '083813154402', NULL, 553697, 2, NULL, '2021-03-03 12:34:29'),
-(48, 13, 1, '005', 'Temon', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 2, 3, 'Teknik Informatika', NULL, 'S.Kom.', NULL, NULL, NULL, '083813154403', NULL, 173983, 2, NULL, '2021-03-06 14:42:34');
+(46, 13, 1, '003', 'Ismail', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 3, 'Teknik Informatika', NULL, 'S.Kom.', NULL, NULL, 1, '083813154401', 'ismail@gmail.com', 951383, 2, NULL, '2021-03-03 12:33:40'),
+(47, 13, 1, '004', 'Andre', NULL, NULL, NULL, NULL, '1997-01-14', NULL, 1, 1, 1, 3, 'Desain Komunikasi Visual', NULL, 'S.Sen.', NULL, NULL, NULL, '083813154402', NULL, 553697, 2, NULL, '2021-03-03 12:34:29'),
+(48, 13, 1, '005', 'Temon', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 2, 3, 'Teknik Informatika', NULL, 'S.Kom.', NULL, NULL, NULL, '083813154403', NULL, 173983, 2, NULL, '2021-03-06 14:42:34'),
+(49, 13, 2, '006', 'Riris Laraswati', NULL, NULL, NULL, NULL, NULL, NULL, 2, 1, 3, 3, 'Pendidikan Bahasa Inggris', NULL, 'S.Pd.', NULL, NULL, 1, '082144056787', 'riris09@gmail.com', 850155, 1, NULL, '2021-04-08 14:42:24');
 
 -- --------------------------------------------------------
 
@@ -330,6 +333,35 @@ INSERT INTO `ta` (`id_ta`, `tahun_ta`, `status_ta`, `buat_ta`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tugas_ajar`
+--
+
+CREATE TABLE `tugas_ajar` (
+  `id_tugas_ajar` bigint(20) UNSIGNED NOT NULL,
+  `id_ta_tugas_ajar` int(11) NOT NULL,
+  `id_mapel_tugas_ajar` int(11) NOT NULL,
+  `id_rombel_tugas_ajar` int(11) NOT NULL,
+  `id_pegawai_tugas_ajar` int(11) NOT NULL,
+  `buat_tugas_ajar` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tugas_ajar`
+--
+
+INSERT INTO `tugas_ajar` (`id_tugas_ajar`, `id_ta_tugas_ajar`, `id_mapel_tugas_ajar`, `id_rombel_tugas_ajar`, `id_pegawai_tugas_ajar`, `buat_tugas_ajar`) VALUES
+(1, 13, 2, 1, 31, '2021-04-16 13:49:35'),
+(2, 13, 1, 1, 47, '2021-04-16 13:58:18'),
+(3, 13, 3, 1, 46, '2021-04-16 13:58:57'),
+(4, 13, 4, 1, 45, '2021-04-16 13:59:04'),
+(5, 13, 1, 2, 45, '2021-04-16 13:59:28'),
+(6, 13, 2, 2, 31, '2021-04-16 15:29:17'),
+(7, 13, 1, 3, 47, '2021-04-16 23:50:04'),
+(8, 13, 1, 1, 31, '2021-04-16 23:58:22');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user`
 --
 
@@ -444,6 +476,12 @@ ALTER TABLE `ta`
   ADD PRIMARY KEY (`id_ta`);
 
 --
+-- Indexes for table `tugas_ajar`
+--
+ALTER TABLE `tugas_ajar`
+  ADD PRIMARY KEY (`id_tugas_ajar`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -469,7 +507,7 @@ ALTER TABLE `hari`
 -- AUTO_INCREMENT for table `jadwal`
 --
 ALTER TABLE `jadwal`
-  MODIFY `id_jadwal` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_jadwal` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `jurusan`
@@ -493,7 +531,7 @@ ALTER TABLE `mapel`
 -- AUTO_INCREMENT for table `pegawai`
 --
 ALTER TABLE `pegawai`
-  MODIFY `id_pegawai` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id_pegawai` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `rombel`
@@ -518,6 +556,12 @@ ALTER TABLE `siswa`
 --
 ALTER TABLE `ta`
   MODIFY `id_ta` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `tugas_ajar`
+--
+ALTER TABLE `tugas_ajar`
+  MODIFY `id_tugas_ajar` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `user`
